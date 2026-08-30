@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="googlebot" content="noindex, nofollow, noarchive">
+
+<title>Lost Opal Tarot™ — Draw</title>
+
+<meta property="og:title" content="Lost Opal Tarot™ — Tarot Draw" />
+<meta property="og:description" content="Draw 1 card, 3 cards, an ELM layout, or a Celtic Cross. Reversals optional." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://lostopal.com/assets/logo/lost-opal-logo-cabochons-transparent-v1.webp" />
+<meta property="og:url" content="https://lostopal.com/draw.html" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="description" content="Lost Opal Tarot™ — Tarot draw tool. Reversals optional." />
+
+<link rel="icon" type="image/png" href="/icons/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/icons/favicon.svg" />
+<link rel="shortcut icon" href="/icons/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+<link rel="manifest" href="/icons/site.webmanifest" />
+<meta name="theme-color" content="#0e3127" />
+
+<style>
+  :root{
+    --emerald:#0b2a22;
+    --emerald-2:#0e3127;
+    --ink:#f2ead7;
+    --muted:#c7c0ae;
+    --gold:#d6b55b;
+    --silver:#cfd6db;
+    --ox:#5b1c1b;
+
+    --btn:#00457c;
+    --btn2:#00c244;
+    --btn3:#3d95ce;
+    --btn4:#5b1c1b;
+
+    --ring:rgba(212,175,55,.35);
+
+    --glass: rgba(0,0,0,.55);
+    --panel: rgba(0,0,0,.28);
+    --stroke: rgba(214,181,91,.25);
+
+    --shadow: 0 12px 34px rgba(0,0,0,.38);
+    --shadow2: 0 10px 26px rgba(0,0,0,.32);
+  }
+
+  html,body{min-height:100%}
+  body{
+    margin:0;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    font-family: ui-serif, Georgia, "Times New Roman", serif;
+
+    background:
+      radial-gradient(1200px 700px at 15% -10%, rgba(214,181,91,.10), transparent 60%),
+      radial-gradient(900px 600px at 85% 110%, rgba(207,214,219,.07), transparent 60%),
+      repeating-linear-gradient(45deg, rgba(255,255,255,.04) 0 2px, rgba(0,0,0,0) 2px 6px),
+      linear-gradient(180deg, #081e19 0%, var(--emerald-2) 35%, var(--emerald) 100%);
+
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .wrap{max-width:1280px; margin:0 auto; padding:22px 18px 24px}
+
+  /* HERO */
+  .brand{
+    display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; margin-top:8px;
+  }
+  .brand img{
+    width:min(560px, 90vw); height:auto; display:block;
+    filter: drop-shadow(0 12px 40px rgba(0,0,0,.5));
+  }
+  .logotype{
+    font-family:"Old English Text MT","UnifrakturCook","UnifrakturMaguntia",ui-serif,Georgia,serif;
+    font-size: clamp(1.35rem, 2.4vw + .9rem, 2.2rem);
+    font-weight: 700;
+    letter-spacing:.5px;
+    color:var(--gold);
+    text-shadow:0 1px 0 rgba(0,0,0,.35), 0 10px 22px rgba(0,0,0,.35);
+    margin: 2px 0 6px;
+  }
+  .badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:999px;
+    font-size:.85rem;
+    color:#fff;
+    background:linear-gradient(90deg, var(--ox), #7a2a22);
+    border:1px solid rgba(0,0,0,.3);
+    margin-top:10px;
+  }
+  .micro{ margin-top:8px; font-size:.9rem; color:var(--muted); }
+
+  /* Layout */
+  .layout{
+    display:grid;
+    grid-template-columns: auto 1fr;
+    align-items:start;
+    margin-top: 16px;
+  }
+
+  /* Legend */
+  #legend{
+    position: sticky;
+    top: 18px;
+    z-index: 20;
+
+    display: inline-block;
+    width: fit-content;
+    max-width: 380px;
+    padding: 14px 14px;
+    border-radius: 16px;
+
+    background: var(--glass);
+    border: 1px solid rgba(214,181,91,.25);
+    box-shadow: var(--shadow2);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    font-size: 16px;
+    line-height: 1.35;
+  }
+  #legend h3{ margin:0 0 4px 0; font-size: 18px; color: var(--ink); }
+  #legend .note{ margin:0 0 10px 0; font-size: 13px; opacity: .9; color: rgba(242,234,215,.88); }
+  #legend ul{ margin:0; padding-left: 18px; }
+  #legend li{ margin: 7px 0; color: rgba(242,234,215,.92); }
+
+  /* Spread area */
+  #spreadArea{ min-height: 320px; }
+  #spreadArea.is-celtic{ min-height: 740px; }
+
+  /* 1 & 3 card rows (also used as small-screen fallback layouts) */
+  .row{
+    display:flex;
+    gap: 28px;
+    justify-content:center;
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+
+  /* Images */
+  .card-img{
+    width: 35%;
+    max-width: 220px;
+    height:auto;
+    display:block;
+    border-radius: 12px;
+    transform-origin:center;
+    box-shadow:
+      0 0 0 2px rgba(242,234,215,.78),
+      0 0 0 4px rgba(0,0,0,.62),
+      0 20px 50px rgba(0,0,0,.45);
+  }
+  .reversed{ transform: rotate(180deg); }
+
+  .img-fallback{
+    width: 220px;
+    height: 340px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px dashed rgba(242,234,215,.35);
+    color: rgba(242,234,215,.88);
+    background: rgba(0,0,0,.25);
+    box-sizing:border-box;
+    white-space:pre-wrap;
+  }
+
+  /* =========================
+     CELTIC CROSS
+     Center cross 1–6, pillar 7–10
+     Goal: center of cross aligns to center of pillar
+     ========================= */
+
+  .celtic-wrap{
+    display:grid;
+    grid-template-columns: auto auto;
+    gap: 44px;
+    justify-content:center;
+    align-items:start;
+
+    /* ALIGNMENT KNOB: adjusts ONLY the cross, not your spacing */
+    --crossShiftY: 0px;
+  }
+
+  .celtic-cross{
+    --cardW: 170px;
+    --cardH: calc(var(--cardW) * 1.54);
+
+    position: relative;
+    width: calc(var(--cardW) * 3.35);
+    height: calc(var(--cardH) * 2.70);
+
+    /* cross nudged to align with pillar center */
+    transform: translateY(var(--crossShiftY));
+  }
+
+  .slot{
+    position:absolute;
+    width: var(--cardW);
+    transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scale(var(--scale, 1));
+    transform-origin:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index: var(--z, 1);
+  }
+  .slot img.card-img{ width:100%; max-width:none; }
+  .slot .img-fallback{ width:100%; height: var(--cardH); }
+
+  /* Cross positions (your spacing kept exactly as you set it) */
+  .s1 { left: 50%; top: 50%; --z: 2; }                              /* 1 */
+  .s2 { left: 50%; top: 50%; --z: 5; --rot: 90deg; --scale: 0.88; }  /* 2 */
+  .s3 { left: 50%; top: 7%; }                                       /* 3 */
+  .s4 { left: 50%; top: 93%; }                                      /* 4 */
+  .s5 { left: 15%; top: 50%; }                                      /* 5 */
+  .s6 { left: 85%; top: 50%; }                                      /* 6 */
+
+  /* Pillar */
+  .celtic-staff{
+    --staffW: 170px;
+    --staffH: calc(var(--staffW) * 1.54);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;    /* evenly space cards */
+    align-items: center;
+
+    height: calc(var(--staffH) * 4.8); /* PERFECT pillar height */
+    padding-top: 0;
+  }
+  .celtic-staff img.card-img{ width: var(--staffW); max-width:none; }
+  .celtic-staff .img-fallback{ width: var(--staffW); height: var(--staffH); }
+
+  /* =========================
+     ELM (7-card) layout
+     Centered top pair + centered bottom pair
+
+         [1]     [2]
+       [5]  [6]  [7]
+         [4]     [3]
+     ========================= */
+
+  .elm-wrap{
+    display:grid;
+    grid-template-columns: repeat(5, auto);
+    grid-template-rows: repeat(3, auto);
+    gap: 2px;
+    justify-content:center;
+    align-items:center;
+    margin-top: 18px;
+  }
+
+  .elm-slot{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .elm-slot img.card-img{ width: 220px; max-width:none; }
+  .elm-slot .img-fallback{ width: 220px; height: 340px; }
+
+  /* Top pair centered */
+  .elm-1{ grid-column: 2; grid-row: 1; }
+  .elm-2{ grid-column: 4; grid-row: 1; }
+
+  /* Middle trio */
+  .elm-5{ grid-column: 1; grid-row: 2; }
+  .elm-6{ grid-column: 3; grid-row: 2; }
+  .elm-7{ grid-column: 5; grid-row: 2; }
+
+  /* Bottom pair centered */
+  .elm-4{ grid-column: 2; grid-row: 3; }
+  .elm-3{ grid-column: 4; grid-row: 3; }
+
+  /* Controls */
+  .controls{
+    display:flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 18px;
+  }
+  .btn{
+    padding: 14px 18px;
+    font-size: 15px;
+    font-weight: 800;
+    border-radius: 999px;
+    border: 1px solid rgba(214,181,91,.25);
+    color: var(--ink);
+    cursor: pointer;
+    user-select:none;
+
+    background:
+      radial-gradient(240px 90px at 30% 20%, rgba(214,181,91,.14), transparent 60%),
+      radial-gradient(180px 80px at 70% 120%, rgba(207,214,219,.08), transparent 55%),
+      linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+
+    box-shadow: 0 10px 24px rgba(0,0,0,.28);
+    transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease, filter 120ms ease;
+  }
+  .btn:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 14px 32px rgba(0,0,0,.32);
+    border-color: rgba(214,181,91,.55);
+    filter: saturate(1.05);
+  }
+  .btn.active{
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--ring), 0 14px 34px rgba(0,0,0,.34);
+  }
+  .btn-toggle[data-on="false"]{ opacity:.75; filter:saturate(.9); }
+
+  #status{
+    margin-top: 12px;
+    text-align:center;
+    font-size: 14px;
+    opacity: .85;
+    white-space: pre-wrap;
+    color: var(--muted);
+  }
+
+  /* Donation footer separated */
+  .donate-wrap{ max-width:1280px; margin: 18px auto 0; padding: 0 18px 28px; }
+  .donate-card{
+    background: linear-gradient(180deg, rgba(0,0,0,.22), rgba(0,0,0,.12));
+    border: 1px solid rgba(214,181,91,.25);
+    border-radius: 20px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+    text-align:center;
+  }
+  .buttons{
+    display:flex; flex-wrap:wrap; justify-content:center; gap: 12px; margin: 12px 0 0;
+  }
+  .donbtn{
+    display:inline-flex; align-items:center; justify-content:center; gap: .5rem;
+    padding: 14px 18px; min-width: 180px;
+    border-radius: 14px; text-decoration:none; font-weight: 700; letter-spacing: .3px;
+    color:#fff; box-shadow:0 6px 18px rgba(0,0,0,.35);
+    transition:transform .12s ease, box-shadow .2s ease, filter .2s ease;
+    border:1px solid rgba(0,0,0,.25);
+  }
+  .donbtn:hover{ transform:translateY(-2px); filter:saturate(1.1); box-shadow:0 10px 26px rgba(0,0,0,.45) }
+  .kofi{ background: var(--btn4); }
+  .cash{ background: var(--btn2); }
+  .payp{ background: var(--btn); }
+  .venm{ background: var(--btn3); }
+
+  .foot{ margin-top: 14px; color: var(--muted); font-size:.95rem; text-align:center; }
+
+  /* Responsive */
+  @media (max-width: 980px){
+    .card-img{ width: 55%; max-width: 240px; }
+    .celtic-cross{ --cardW: 150px; }
+    .celtic-staff{ --staffW: 150px; }
+    .s5{ left: 16%; } .s6{ left: 84%; }
+    #spreadArea.is-celtic{ min-height: 680px; }
+
+    .elm-slot img.card-img{ width: 200px; }
+    .elm-slot .img-fallback{ width: 200px; height: 308px; }
+  }
+
+  /* Mobile: legend becomes normal block */
+  @media (max-width: 760px){
+    .layout{ grid-template-columns: 1fr; }
+    #legend{ position: static; width: auto; max-width: none; }
+  }
+
+  /* Small screens: fall back to list rendering for Celtic; ELM also falls back to row */
+  @media (max-width: 620px){
+    .celtic-wrap{ display:block; }
+    .celtic-cross, .celtic-staff{ display:none; }
+    .card-img{ width: 82%; max-width: 340px; }
+    #spreadArea.is-celtic{ min-height: 320px; }
+
+    .elm-wrap{ display:none; }
+  }
+
+  @media (max-width: 680px){
+    .donbtn{ width:100%; min-width:unset }
+  }
+</style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- HERO -->
+    <header class="brand" aria-label="Lost Opal Tarot">
+      <img class="logo" src="/assets/logo/lost-opal-logo-cabochons-transparent-v1.webp" alt="Lost Opal Tarot Crest" loading="lazy" width="560" />
+      <div class="logotype">Lost Opal Tarot</div>
+      <div class="badge">Tarot Draw — 1 Card • 3 Cards • ELM • Celtic Cross</div>
+      <div class="micro">Readings and services are for adults. By using this tool, you confirm you are 18 or older.</div>
+    </header>
+
+    <!-- MAIN LAYOUT -->
+    <div class="layout">
+      <!-- Legend -->
+      <aside id="legend" aria-label="Cards Drawn">
+        <h3>Cards Drawn</h3>
+        <div class="note">⟲ = Reversal</div>
+        <ul id="legendList"></ul>
+      </aside>
+
+      <!-- Spread -->
+      <main>
+        <div id="spreadArea"></div>
+
+        <div class="controls">
+          <button class="btn" id="btn1" type="button">1 Card</button>
+          <button class="btn active" id="btn3" type="button">3 Cards</button>
+          <button class="btn" id="btnElm" type="button">ELM</button>
+          <button class="btn" id="btnCeltic" type="button">Celtic Cross</button>
+
+          <button class="btn btn-toggle" id="toggleReversals" type="button" data-on="true">
+            Reversals: On
+          </button>
+
+          <button class="btn" id="btnRedraw" type="button">Redraw</button>
+        </div>
+
+        <div id="status"></div>
+      </main>
+    </div>
+  </div>
+
+  <!-- DONATIONS (separate, bottom) -->
+  <div class="donate-wrap">
+    <section class="donate-card" aria-label="Donation options">
+      <div style="font-weight:800; color:var(--gold); font-size:1.1rem;">Donations — Thank you for your kindness</div>
+      <div class="buttons">
+        <a class="donbtn kofi" href="https://ko-fi.com/lostopaltarot" target="_blank" rel="noopener">💳 Secure Donation Site (Stripe/Ko-Fi)</a>
+      </div>
+      <div class="buttons">
+        <a class="donbtn cash" href="https://cash.app/$lostopaltarot" target="_blank" rel="noopener">💸 Cash App</a>
+        <a class="donbtn payp" href="https://www.paypal.com/donate/?hosted_button_id=KLKR6MTXZQ2Z6" target="_blank" rel="noopener">🅿️ PayPal</a>
+        <a class="donbtn venm" href="https://venmo.com/u/lostopaltarot" target="_blank" rel="noopener">📱 Venmo</a>
+      </div>
+      <div class="foot">
+        Lost Opal™ &amp; Lost Opal Tarot™ 2026
+      </div>
+    </section>
+  </div>
+
+<script>
+(() => {
+  const IMAGE_BASE_PATH = "/assets/tarot/1909-rws";
+
+  const CARD_NAMES = [
+    "The Fool","The Magician","The High Priestess","The Empress","The Emperor",
+    "The Hierophant","The Lovers","The Chariot","Strength","The Hermit",
+    "Wheel of Fortune","Justice","The Hanged Man","Death","Temperance",
+    "The Devil","The Tower","The Star","The Moon","The Sun",
+    "Judgement","The World",
+    "Ace of Wands","Two of Wands","Three of Wands","Four of Wands","Five of Wands",
+    "Six of Wands","Seven of Wands","Eight of Wands","Nine of Wands","Ten of Wands",
+    "Page of Wands","Knight of Wands","Queen of Wands","King of Wands",
+    "Ace of Cups","Two of Cups","Three of Cups","Four of Cups","Five of Cups",
+    "Six of Cups","Seven of Cups","Eight of Cups","Nine of Cups","Ten of Cups",
+    "Page of Cups","Knight of Cups","Queen of Cups","King of Cups",
+    "Ace of Swords","Two of Swords","Three of Swords","Four of Swords","Five of Swords",
+    "Six of Swords","Seven of Swords","Eight of Swords","Nine of Swords","Ten of Swords",
+    "Page of Swords","Knight of Swords","Queen of Swords","King of Swords",
+    "Ace of Pentacles","Two of Pentacles","Three of Pentacles","Four of Pentacles","Five of Pentacles",
+    "Six of Pentacles","Seven of Pentacles","Eight of Pentacles","Nine of Pentacles","Ten of Pentacles",
+    "Page of Pentacles","Knight of Pentacles","Queen of Pentacles","King of Pentacles"
+  ];
+
+  const CELTIC_TITLES = [
+    "1. Situation",
+    "2. Challenge",
+    "3. Focus",
+    "4. Recent Past",
+    "5. Possibilities",
+    "6. Near Future",
+    "7. Self",
+    "8. Environment",
+    "9. Hopes/Fears",
+    "10. Outcome"
+  ];
+
+  let currentSpread = "three";
+  let reversalsEnabled = true;
+  let lastDraw = null;
+
+  const spreadArea = document.getElementById("spreadArea");
+  const statusEl = document.getElementById("status");
+  const legendList = document.getElementById("legendList");
+
+  const pad2 = (n) => String(n).padStart(2, "0");
+  const imgUrl = (idx) => `${IMAGE_BASE_PATH}/${pad2(idx)}.webp`;
+
+  function setStatus(msg=""){ statusEl.textContent = msg; }
+
+  function setActiveButton(spread){
+    document.getElementById("btn1").classList.toggle("active", spread === "one");
+    document.getElementById("btn3").classList.toggle("active", spread === "three");
+    document.getElementById("btnElm").classList.toggle("active", spread === "elm");
+    document.getElementById("btnCeltic").classList.toggle("active", spread === "celtic");
+  }
+
+  function drawUniqueIntegers(n, maxInclusive){
+    const arr = Array.from({length:maxInclusive+1}, (_,i)=>i);
+    for(let i=arr.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr.slice(0,n);
+  }
+
+  function isReversed(){
+    return reversalsEnabled ? (Math.random() < 0.5) : false;
+  }
+
+  function drawCards(count){
+    return drawUniqueIntegers(count,77).map(idx => ({
+      idx,
+      reversed: isReversed(),
+      name: CARD_NAMES[idx] ?? `Unknown (${idx})`
+    }));
+  }
+
+  function updateLegend(cards){
+    legendList.innerHTML = "";
+    const isCeltic = (currentSpread === "celtic");
+
+    cards.forEach((c,i)=>{
+      const li = document.createElement("li");
+      const rev = c.reversed ? " ⟲" : "";
+      li.textContent = isCeltic
+        ? `${CELTIC_TITLES[i]} — ${c.name}${rev}`
+        : `${i+1}. ${c.name}${rev}`;
+      legendList.appendChild(li);
+    });
+  }
+
+  function makeImgOrFallback(card){
+    const { idx, reversed, name } = card;
+
+    const img = document.createElement("img");
+    img.src = imgUrl(idx);
+    img.alt = name;
+    img.title = `${name}${reversed ? " (Reversed)" : " (Upright)"}`;
+    img.className = `card-img${reversed ? " reversed" : ""}`;
+    img.loading = "eager";
+
+    img.onerror = () => {
+      const fb = document.createElement("div");
+      fb.className = "img-fallback";
+      fb.textContent = `Missing image:\n${pad2(idx)}.webp`;
+      img.replaceWith(fb);
+    };
+
+    return img;
+  }
+
+  function isMobileCeltic(){
+    return window.matchMedia("(max-width: 620px)").matches;
+  }
+
+  function renderRow(count, existingCards=null){
+    spreadArea.innerHTML = "";
+    spreadArea.classList.toggle("is-celtic", false);
+
+    const row = document.createElement("div");
+    row.className = "row";
+
+    const cards = existingCards ?? drawCards(count);
+    lastDraw = { spread: currentSpread, cards };
+
+    updateLegend(cards);
+    cards.forEach(c => row.appendChild(makeImgOrFallback(c)));
+    spreadArea.appendChild(row);
+  }
+
+  function alignCrossToPillarCenter(wrap, cross, staff){
+    const crossRect = cross.getBoundingClientRect();
+    const staffRect = staff.getBoundingClientRect();
+
+    const crossCenter = crossRect.top + crossRect.height / 2;
+    const staffCenter = staffRect.top + staffRect.height / 2;
+
+    const delta = staffCenter - crossCenter;
+    const clamped = Math.max(-120, Math.min(120, delta));
+
+    wrap.style.setProperty("--crossShiftY", `${clamped}px`);
+  }
+
+  function renderCelticCrossDesktop(cards){
+    const wrap = document.createElement("div");
+    wrap.className = "celtic-wrap";
+
+    const cross = document.createElement("div");
+    cross.className = "celtic-cross";
+
+    const s1 = document.createElement("div"); s1.className = "slot s1";
+    const s2 = document.createElement("div"); s2.className = "slot s2";
+    const s3 = document.createElement("div"); s3.className = "slot s3";
+    const s4 = document.createElement("div"); s4.className = "slot s4";
+    const s5 = document.createElement("div"); s5.className = "slot s5";
+    const s6 = document.createElement("div"); s6.className = "slot s6";
+
+    s1.appendChild(makeImgOrFallback(cards[0]));
+    s2.appendChild(makeImgOrFallback(cards[1]));
+    s3.appendChild(makeImgOrFallback(cards[2]));
+    s4.appendChild(makeImgOrFallback(cards[3]));
+    s5.appendChild(makeImgOrFallback(cards[4]));
+    s6.appendChild(makeImgOrFallback(cards[5]));
+
+    cross.append(s1,s2,s3,s4,s5,s6);
+
+    const staff = document.createElement("div");
+    staff.className = "celtic-staff";
+    staff.appendChild(makeImgOrFallback(cards[9])); // 10
+    staff.appendChild(makeImgOrFallback(cards[8])); // 9
+    staff.appendChild(makeImgOrFallback(cards[7])); // 8
+    staff.appendChild(makeImgOrFallback(cards[6])); // 7
+
+    wrap.append(cross, staff);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        alignCrossToPillarCenter(wrap, cross, staff);
+      });
+    });
+
+    return wrap;
+  }
+
+  function renderCelticCrossMobile(cards){
+    const row = document.createElement("div");
+    row.className = "row";
+    cards.forEach(c => row.appendChild(makeImgOrFallback(c)));
+    return row;
+  }
+
+  function renderCelticCross(existingCards=null){
+    spreadArea.innerHTML = "";
+    spreadArea.classList.toggle("is-celtic", true);
+
+    const cards = existingCards ?? drawCards(10);
+    lastDraw = { spread: "celtic", cards };
+
+    updateLegend(cards);
+
+    const view = isMobileCeltic()
+      ? renderCelticCrossMobile(cards)
+      : renderCelticCrossDesktop(cards);
+
+    spreadArea.appendChild(view);
+  }
+
+  // ELM: 7 cards, layout only, no extra text.
+  function renderElm(existingCards=null){
+    spreadArea.innerHTML = "";
+    spreadArea.classList.toggle("is-celtic", false);
+
+    const cards = existingCards ?? drawCards(7);
+    lastDraw = { spread: "elm", cards };
+
+    updateLegend(cards);
+
+    // On tiny screens, show as a simple row/list (same as other spreads)
+    if (window.matchMedia("(max-width: 620px)").matches){
+      const row = document.createElement("div");
+      row.className = "row";
+      cards.forEach(c => row.appendChild(makeImgOrFallback(c)));
+      spreadArea.appendChild(row);
+      return;
+    }
+
+    const wrap = document.createElement("div");
+    wrap.className = "elm-wrap";
+
+    // Layout mapping:
+    // Top: 1,2 | Middle: 5,6,7 | Bottom: 4,3
+    const placements = [
+      { cls: "elm-1", card: cards[0] },
+      { cls: "elm-2", card: cards[1] },
+      { cls: "elm-5", card: cards[4] },
+      { cls: "elm-6", card: cards[5] },
+      { cls: "elm-7", card: cards[6] },
+      { cls: "elm-4", card: cards[3] },
+      { cls: "elm-3", card: cards[2] },
+    ];
+
+    placements.forEach(p => {
+      const slot = document.createElement("div");
+      slot.className = `elm-slot ${p.cls}`;
+      slot.appendChild(makeImgOrFallback(p.card));
+      wrap.appendChild(slot);
+    });
+
+    spreadArea.appendChild(wrap);
+  }
+
+  function render(useCached=false){
+    setStatus("");
+    try{
+      let cachedCards = null;
+      if(useCached && lastDraw && lastDraw.spread === currentSpread){
+        cachedCards = lastDraw.cards;
+      }
+
+      if(currentSpread === "one") renderRow(1, cachedCards);
+      else if(currentSpread === "three") renderRow(3, cachedCards);
+      else if(currentSpread === "elm") renderElm(cachedCards);
+      else renderCelticCross(cachedCards);
+    }catch(err){
+      console.error(err);
+      spreadArea.innerHTML = "";
+      setStatus("Error:\n" + (err?.stack || err));
+    }
+  }
+
+  function setSpread(spread){
+    currentSpread = spread;
+    setActiveButton(spread);
+    render(false);
+  }
+
+  document.getElementById("btn1").addEventListener("click", () => setSpread("one"));
+  document.getElementById("btn3").addEventListener("click", () => setSpread("three"));
+  document.getElementById("btnElm").addEventListener("click", () => setSpread("elm"));
+  document.getElementById("btnCeltic").addEventListener("click", () => setSpread("celtic"));
+  document.getElementById("btnRedraw").addEventListener("click", () => render(false));
+
+  document.getElementById("toggleReversals").addEventListener("click", (e) => {
+    reversalsEnabled = !reversalsEnabled;
+    const btn = e.currentTarget;
+    btn.dataset.on = String(reversalsEnabled);
+    btn.textContent = reversalsEnabled ? "Reversals: On" : "Reversals: Off";
+    render(false);
+  });
+
+  // If Celtic switches between desktop/mobile, re-render using cached cards.
+  let lastMobileState = isMobileCeltic();
+  window.addEventListener("resize", () => {
+    const nowMobile = isMobileCeltic();
+    if(currentSpread === "celtic" && nowMobile !== lastMobileState){
+      lastMobileState = nowMobile;
+      render(true);
+    }
+    // If ELM is active, keep layout consistent across breakpoint changes
+    if(currentSpread === "elm"){
+      render(true);
+    }
+  });
+
+  setActiveButton(currentSpread);
+  render(false);
+})();
+</script>
+</body>
+</html>

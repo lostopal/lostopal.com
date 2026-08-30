@@ -2,6 +2,14 @@
 # to the hosting provider's generic error page.
 ErrorDocument 404 /not_found.html
 
+# The memorable Nuncastra subdomain is a doorway into the tool while the
+# application remains part of the main Lost Opal site and source tree.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^nuncastra\.lostopal\.com$ [NC]
+  RewriteRule ^ https://lostopal.com/nuncastra/ [R=302,L]
+</IfModule>
+
 # Keep optimized artwork and application assets in the visitor's cache. The
 # release uses cache-busted CSS/JS URLs, while a seven-day window prevents
 # unversioned visual assets from becoming difficult to replace.

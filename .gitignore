@@ -8,6 +8,45 @@ verification/
 backups/
 working-site/
 phase-1-prototype/
+REDESIGN_NOTES.md
+
+# Local design history and superseded source experiments. These remain on the
+# owner's machine but are not part of the working public-site repository.
+phase-1-luminous-prototype/ASTROLOGY_CONTENT_MAP.md
+phase-1-luminous-prototype/BRAND_ARCHITECTURE.md
+phase-1-luminous-prototype/DESIGN_NOTES.md
+phase-1-luminous-prototype/IMAGE_PROMPTS.md
+phase-1-luminous-prototype/SITE_AUDIT.md
+phase-1-luminous-prototype/astrology/coming-soon.html
+phase-1-luminous-prototype/astrology/astrology.css
+phase-1-luminous-prototype/astrology/coming-soon.css
+phase-1-luminous-prototype/astrology/draft-learning-hub.html
+phase-1-luminous-prototype/astrology/PUBLISHING_GUARD.md
+phase-1-luminous-prototype/crystals/crystals.css
+phase-1-luminous-prototype/crystals/draft-learning-hub.html
+phase-1-luminous-prototype/learn/reading-styles/reading-styles.css
+phase-1-luminous-prototype/learn/reading-styles/draft-learning-page.html
+phase-1-luminous-prototype/logo-lab/
+
+# Superseded standalone runtime files are retained locally for history. Their
+# behavior now ships through prototype.js.
+phase-1-luminous-prototype/coming-soon.js
+phase-1-luminous-prototype/cosmic-journey.js
+phase-1-luminous-prototype/footer-year.js
+
+# Non-production asset and generator experiments retained only in the local
+# design archive.
+phase-1-luminous-prototype/assets/home-black-opal-medallion-v1.webp
+phase-1-luminous-prototype/assets/logo/lost-opal-nav-mark-transparent-v1.webp
+phase-1-luminous-prototype/assets/lost-opal-mark.webp
+phase-1-luminous-prototype/assets/lost-opal-public-reading-primary.webp
+phase-1-luminous-prototype/assets/lost-opal-talisman-seal-v8.svg
+phase-1-luminous-prototype/assets/lost-opal-talisman-seal-v9.svg
+phase-1-luminous-prototype/assets/payment-logos/cash-app.svg
+phase-1-luminous-prototype/assets/ui-materials/black-opal-button-material-v1.webp
+phase-1-luminous-prototype/assets/ui-materials/black-opal-donation-material-v1.webp
+phase-1-luminous-prototype/assets/**/build_*.py
+phase-1-luminous-prototype/assets/**/README.md
 
 # Unpublished raw raster experiments. Optimized WebP assets remain tracked.
 phase-1-luminous-prototype/assets/**/*.png
@@ -30,6 +69,7 @@ node_modules/
 .env.*
 *.local
 *.log
+.deployment-manifest.json
 *.pem
 *.key
 *.pfx

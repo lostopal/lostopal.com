@@ -41,7 +41,9 @@ Run:
 
 The build must finish without a missing-file error. For JavaScript changes, run syntax checks on changed scripts when Node.js is available. For route or crawler changes, verify `robots.txt`, `sitemap.xml`, `llms.txt`, and the affected HTML metadata in the generated package.
 
-Publishing is an external action. Do not run `publish_ftp.ps1 -Publish`, create releases, or push to a remote unless the owner asked for it in the current task. Never add secrets to source control.
+Publishing is an external action. Do not run `publish_ftp.ps1 -Publish`, use its
+`-Mirror` pruning mode, create releases, or push to a remote unless the owner
+asked for it in the current task. Never add secrets to source control.
 
 ## Asset policy
 

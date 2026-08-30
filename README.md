@@ -10,7 +10,7 @@ Lost Opal is a human-led Tarot and astrology practice created by Bryan C. Tucker
 - `phase-1-luminous-prototype/nuncastra/` contains the current Nuncastra application, its data, vendor components, licenses, and method page.
 - `prepare_production.ps1` builds the deployable public package.
 - `start_preview.ps1` serves the active source locally.
-- `publish_ftp.ps1` uploads a prepared package and is a dry run unless `-Publish` is supplied.
+- `publish_ftp.ps1` compares a prepared package with the last deployed manifest and is a dry run unless `-Publish` is supplied.
 - `AGENTS.md` gives coding agents project-specific working instructions.
 
 Generated releases, private backups, former site trees, verification artifacts, raw image experiments, and local credentials are intentionally excluded from version control.
@@ -29,7 +29,9 @@ Open the local URL printed by the script. The site is static, but Nuncastra must
 .\prepare_production.ps1
 ```
 
-The command recreates `production-site/` from an explicit public-file allowlist. Do not edit `production-site/` directly; it is generated and ignored by Git.
+The command recreates `production-site/` from an explicit public-file allowlist
+and writes a SHA-256 deployment manifest. Do not edit `production-site/`
+directly; it is generated and ignored by Git.
 
 ## Publish
 
@@ -44,6 +46,17 @@ The owner publishes only after reviewing the generated package and taking an app
 ```powershell
 .\publish_ftp.ps1 -SourceDirectory production-site -Publish
 ```
+
+That command uploads only files whose content changed and preserves remote-only
+files. To make hosting exactly match the generated public package—including
+removing retired routes and old duplicate assets—use the explicit mirror mode:
+
+```powershell
+.\publish_ftp.ps1 -SourceDirectory production-site -Publish -Mirror
+```
+
+Mirror mode is guarded to the configured `lostopal.com/htdocs` root and prints
+its upload/delete plan during a dry run before any live change is requested.
 
 Never commit passwords, tokens, FTP credentials, private visitor information, or local backup archives.
 

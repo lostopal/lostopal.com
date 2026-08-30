@@ -1,8 +1,8 @@
 # Lost Opal local design prototype
 
-This directory is the isolated Phase 1 prototype for the redesigned Lost Opal
-site. It does not replace or modify `../working-site/`, and nothing in this
-directory is published automatically.
+This directory is the source of truth for the working Lost Opal site. The root
+build script copies its public allowlist into `../production-site/`; publishing
+then compares that package with the remote deployment manifest.
 
 The active direction is a celestial black-opal theme with a compact shared
 header, restrained gold accents, readable dark surfaces, the official Lost Opal
@@ -17,6 +17,7 @@ the Contact page should not require initiation into a secret order.
 - `/astrology/` &mdash; Coming Soon holding page
 - `/crystals/` &mdash; Coming Soon holding page
 - `/learn/reading-styles/` &mdash; Coming Soon holding page
+- `/nuncastra/` &mdash; private-by-link astronomical Tarot tool
 
 Card Meanings, Tree of Life, and the future Library currently use the shared
 Coming Soon dialog. The Ko-fi Shop link is external and remains available.
@@ -30,22 +31,18 @@ closed:
 - `crystals/draft-learning-hub.html`
 - `learn/reading-styles/draft-learning-page.html`
 
-The `/logo-lab/` route is an internal design workshop, not a public site page.
-
 ## Shared files
 
 - `styles.css` contains the original structural foundation.
 - `luminous.css` contains the evolved component system and responsive header.
 - `black-opal-theme.css` contains the celestial black-opal theme.
 - `site-audit.css` is the final shared presentation layer for the current public shell.
-- `prototype.js` handles navigation, the mobile drawer, contact forms, tabs, and donation-dock state.
+- `prototype.js` handles navigation, the mobile drawer, contact forms, tabs,
+  donation-dock state, the shared atmosphere, planned-route dialog, and footer years.
 - `black-opal-sky.js` draws the motion-aware celestial background.
-- `coming-soon.js` provides the shared planned-route dialog.
-- `footer-year.js` keeps copyright ranges current.
 
-The CSS is layered intentionally for this prototype. A later build-system pass
-can compile and minify it once the design stops changing every time Gemini has
-an excellent new idea.
+The CSS remains layered intentionally so the site's established design system
+can evolve without a framework migration.
 
 ## Contact form
 

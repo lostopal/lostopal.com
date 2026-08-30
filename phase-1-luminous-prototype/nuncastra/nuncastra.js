@@ -1563,6 +1563,7 @@ function showEntry(force = false) {
   if (!entry || (!force && introWasSeen())) return;
   window.clearTimeout(entryTimer);
   document.body.classList.add("has-seeker-entry");
+  document.documentElement.classList.add("has-seeker-entry");
   entry.hidden = false;
   entry.classList.remove("is-opening", "is-question");
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -1646,6 +1647,7 @@ function closeEntry(path = "moment") {
   window.clearTimeout(entryTimer);
   rememberIntro();
   document.body.classList.remove("has-seeker-entry");
+  document.documentElement.classList.remove("has-seeker-entry");
   entry.hidden = true;
   entry.classList.remove("is-opening", "is-question");
   if (path === "personal" && birthDialog) {

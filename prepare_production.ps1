@@ -59,6 +59,7 @@ function Copy-PublicDirectory([string]$RelativePath) {
 $publicFiles = @(
     '.htaccess',
     'index.html',
+    'draw.html',
     'not_found.html',
     'llms.txt',
     'llms-full.txt',
@@ -70,12 +71,9 @@ $publicFiles = @(
     'site-audit.css',
     'site-future.css',
     'prototype.js',
-    'cosmic-journey.js',
     'black-opal-sky.js',
     'planetary-overlays.js',
     'planetary-vortex.js',
-    'coming-soon.js',
-    'footer-year.js',
     'contact/index.html',
     'contact/contact.css',
     'donate/index.html',
@@ -136,6 +134,29 @@ foreach ($relativePath in $publicDirectories) {
 
 # Browsers still request this at the domain root even when the HTML is quiet.
 Copy-Item -LiteralPath (Join-Path $sourceRoot 'icons\favicon.ico') -Destination (Join-Path $destinationRoot 'favicon.ico') -Force
+
+# This content-addressed manifest lets the publisher upload only files whose
+# bytes changed while still safely identifying remote files that no longer
+# belong to the public site. The manifest intentionally does not hash itself.
+$manifestEntries = Get-ChildItem -LiteralPath $destinationRoot -File -Recurse |
+    Sort-Object FullName |
+    ForEach-Object {
+        [ordered]@{
+            path = $_.FullName.Substring($destinationRoot.Length).TrimStart('\').Replace('\', '/')
+            bytes = $_.Length
+            sha256 = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+        }
+    }
+
+$deploymentManifest = [ordered]@{
+    version = 1
+    generatedAtUtc = [DateTime]::UtcNow.ToString('o')
+    files = @($manifestEntries)
+}
+
+$deploymentManifest |
+    ConvertTo-Json -Depth 5 |
+    Set-Content -LiteralPath (Join-Path $destinationRoot '.deployment-manifest.json') -Encoding utf8
 
 $outputFiles = Get-ChildItem -LiteralPath $destinationRoot -File -Recurse
 $outputBytes = ($outputFiles | Measure-Object -Property Length -Sum).Sum
