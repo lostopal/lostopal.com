@@ -782,7 +782,7 @@ a {
 
 .nuncastra-form {
   display: grid;
-  grid-template-columns: minmax(145px, 0.7fr) minmax(125px, 0.6fr) minmax(230px, 1.35fr) minmax(190px, 0.9fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 13px;
   margin-top: 32px;
 }
@@ -823,7 +823,18 @@ a {
 .nuncastra-temporal {
   min-width: 0;
   display: grid;
-  gap: 6px;
+  gap: 0;
+  min-height: 49px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(237, 195, 111, 0.25);
+  border-radius: 11px;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.nuncastra-temporal:focus-within {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(237, 195, 111, 0.08), 0 0 18px rgba(70, 194, 196, 0.08);
 }
 
 .nuncastra-temporal--date {
@@ -855,6 +866,33 @@ a {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.nuncastra-form .nuncastra-temporal > input:not([type="hidden"]),
+.nuncastra-form .nuncastra-temporal > select,
+.birth-dialog__field .nuncastra-temporal > input:not([type="hidden"]),
+.birth-dialog__field .nuncastra-temporal > select {
+  min-height: 47px;
+  height: 47px;
+  background-color: transparent;
+  border: 0;
+  border-left: 1px solid rgba(237, 195, 111, 0.13);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.nuncastra-form .nuncastra-temporal > :first-child,
+.birth-dialog__field .nuncastra-temporal > :first-child {
+  border-left: 0;
+}
+
+.nuncastra-form .nuncastra-temporal > input:focus,
+.nuncastra-form .nuncastra-temporal > select:focus,
+.birth-dialog__field .nuncastra-temporal > input:focus,
+.birth-dialog__field .nuncastra-temporal > select:focus {
+  border-color: rgba(237, 195, 111, 0.13);
+  box-shadow: none;
+  outline: none;
 }
 
 .nuncastra-form input,
@@ -893,11 +931,11 @@ a {
 }
 
 .nuncastra-form [data-use-location] {
-  grid-column: 1 / span 2;
+  grid-column: 1;
 }
 
 .nuncastra-form [data-calculate] {
-  grid-column: 3 / span 2;
+  grid-column: 2;
 }
 
 .nuncastra-form__location {
@@ -2746,7 +2784,7 @@ a {
   100% { opacity: 0; transform: translate3d(0, -8px, 0) scale(1.012); }
 }
 
-@media (max-width: 1120px) {
+@media (max-width: 1280px) {
   .nuncastra-header-reset {
     padding-inline: 13px;
     font-size: 0.72rem;
@@ -2759,10 +2797,6 @@ a {
 
   .nuncastra-name {
     max-width: 720px;
-  }
-
-  .nuncastra-form {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .nuncastra-form__temporal,

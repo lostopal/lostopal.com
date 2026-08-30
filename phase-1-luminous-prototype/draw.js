@@ -287,11 +287,15 @@
   const spreadTitle = document.querySelector("[data-spread-title]");
   const status = document.querySelector("[data-draw-status]");
   const dialog = document.querySelector("[data-card-dialog]");
+  const spreadNav = document.querySelector("[data-spread-nav]");
+  const spreadStatus = document.querySelector("[data-spread-status]");
   if (!spreadArea || !readingCards || !cardLegend || !spreadTitle || !dialog) return;
 
   let currentSpread = "three";
   let reversalsEnabled = true;
   let currentCards = [];
+  let dialogIndex = 0;
+  let spreadScrollFrame = 0;
 
   function roman(value) {
     if (value === 0) return "0";
@@ -468,7 +472,7 @@
     button.setAttribute("aria-label", `Open ${meta.name}${card.reversed ? ", reversed" : ""}, ${position.name}`);
     const pointLabel = currentSpread === "elm" || currentSpread === "celtic" ? `<small class="draw-card__point">${position.name}</small>` : "";
     button.innerHTML = `<span class="draw-card__frame"><img src="${imagePath(card.index)}" alt="${meta.name}${card.reversed ? ", reversed" : ""}" width="240" height="400" loading="eager" decoding="async" class="${card.reversed ? "is-reversed" : ""}"><span class="draw-card__number">${order + 1}</span></span><span class="draw-card__label">${pointLabel}<b>${meta.name}</b><small>${card.reversed ? "Reversed" : "Upright"}</small></span>`;
-    button.addEventListener("click", () => openDialog(card, position));
+    button.addEventListener("click", () => openDialog(card, position, order));
     return button;
   }
 
@@ -484,7 +488,7 @@
     artButton.type = "button";
     artButton.setAttribute("aria-label", `Enlarge ${meta.name}${card.reversed ? ", reversed" : ""}`);
     artButton.innerHTML = `<img src="${imagePath(card.index)}" alt="${meta.name}${card.reversed ? ", reversed" : ""}" width="300" height="500" loading="lazy" decoding="async" class="${card.reversed ? "is-reversed" : ""}">`;
-    artButton.addEventListener("click", () => openDialog(card, position));
+    artButton.addEventListener("click", () => openDialog(card, position, order));
     art.append(artButton);
 
     const copy = document.createElement("div");
@@ -511,8 +515,9 @@
     return article;
   }
 
-  function openDialog(card, position) {
+  function openDialog(card, position, order) {
     const meta = cardMeta(card.index);
+    dialogIndex = order;
     const image = dialog.querySelector("[data-dialog-image]");
     image.src = imagePath(card.index);
     image.alt = `${meta.name}${card.reversed ? ", reversed" : ""}`;
@@ -525,7 +530,47 @@
     dialog.querySelector("[data-dialog-ground]").textContent = `Ground it: ${meta.ground}`;
     const corr = dialog.querySelector("[data-dialog-correspondences]");
     corr.replaceChildren(...correspondenceNodes(meta));
-    dialog.showModal();
+    const dialogStatus = dialog.querySelector("[data-dialog-status]");
+    if (dialogStatus) dialogStatus.textContent = `Card ${order + 1} of ${currentCards.length}`;
+    const dialogPrev = dialog.querySelector("[data-dialog-prev]");
+    const dialogNext = dialog.querySelector("[data-dialog-next]");
+    if (dialogPrev) dialogPrev.disabled = currentCards.length < 2;
+    if (dialogNext) dialogNext.disabled = currentCards.length < 2;
+    if (!dialog.open) dialog.showModal();
+    dialog.scrollTop = 0;
+  }
+
+  function updateSpreadNavigation() {
+    spreadScrollFrame = 0;
+    if (!spreadNav || !spreadStatus) return;
+    const cards = [...spreadArea.querySelectorAll(".draw-card")];
+    const maxScroll = Math.max(0, spreadArea.scrollWidth - spreadArea.clientWidth);
+    const canScroll = maxScroll > 4;
+    spreadNav.hidden = !canScroll;
+    if (!canScroll || !cards.length) return;
+
+    const gap = parseFloat(getComputedStyle(spreadArea).columnGap) || 0;
+    const step = cards[0].getBoundingClientRect().width + gap;
+    const visibleCount = Math.max(1, Math.floor((spreadArea.clientWidth + gap) / step));
+    const first = Math.min(cards.length - 1, Math.max(0, Math.round(spreadArea.scrollLeft / step)));
+    const last = Math.min(cards.length - 1, first + visibleCount - 1);
+    spreadStatus.textContent = first === last
+      ? `Card ${first + 1} of ${cards.length}`
+      : `Cards ${first + 1}–${last + 1} of ${cards.length}`;
+    const previous = spreadNav.querySelector("[data-spread-prev]");
+    const next = spreadNav.querySelector("[data-spread-next]");
+    if (previous) previous.disabled = spreadArea.scrollLeft <= 2;
+    if (next) next.disabled = spreadArea.scrollLeft >= maxScroll - 2;
+  }
+
+  function moveSpread(direction) {
+    const card = spreadArea.querySelector(".draw-card");
+    if (!card) return;
+    const gap = parseFloat(getComputedStyle(spreadArea).columnGap) || 0;
+    spreadArea.scrollBy({
+      left: direction * (card.getBoundingClientRect().width + gap),
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    });
   }
 
   function render() {
@@ -548,6 +593,8 @@
       readingCards.append(readingArticle(card, position, index));
       if (!meta) return;
     });
+    spreadArea.scrollLeft = 0;
+    requestAnimationFrame(updateSpreadNavigation);
   }
 
   function redraw(announce = true) {
@@ -574,6 +621,22 @@
   document.querySelector("[data-redraw]")?.addEventListener("click", () => redraw());
   document.querySelector("[data-print]")?.addEventListener("click", () => window.print());
   document.querySelector("[data-dialog-close]")?.addEventListener("click", () => dialog.close());
+  document.querySelector("[data-spread-prev]")?.addEventListener("click", () => moveSpread(-1));
+  document.querySelector("[data-spread-next]")?.addEventListener("click", () => moveSpread(1));
+  dialog.querySelector("[data-dialog-prev]")?.addEventListener("click", () => {
+    const nextIndex = (dialogIndex - 1 + currentCards.length) % currentCards.length;
+    openDialog(currentCards[nextIndex], SPREADS[currentSpread].positions[nextIndex], nextIndex);
+  });
+  dialog.querySelector("[data-dialog-next]")?.addEventListener("click", () => {
+    const nextIndex = (dialogIndex + 1) % currentCards.length;
+    openDialog(currentCards[nextIndex], SPREADS[currentSpread].positions[nextIndex], nextIndex);
+  });
+  spreadArea.addEventListener("scroll", () => {
+    if (!spreadScrollFrame) spreadScrollFrame = requestAnimationFrame(updateSpreadNavigation);
+  }, { passive: true });
+  window.addEventListener("resize", () => {
+    if (!spreadScrollFrame) spreadScrollFrame = requestAnimationFrame(updateSpreadNavigation);
+  }, { passive: true });
   dialog.addEventListener("click", (event) => {
     const bounds = dialog.getBoundingClientRect();
     const outside = event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom;

@@ -589,6 +589,16 @@ function houseFor(longitude, cusps, system) {
   };
 }
 
+function naturalHouseForSign(signIndex) {
+  const number = signIndex + 1;
+  return {
+    ...HOUSE_DATA[signIndex],
+    number,
+    label: ordinalHouse(number),
+    system: "Natural zodiac",
+  };
+}
+
 function motionFromSpeed(speed, definition = {}) {
   if (definition.motionLabel) return { label: definition.motionLabel, className: "", explanation: "This row uses a defined symbolic motion state." };
   if (definition.isAngle) {
@@ -1519,18 +1529,15 @@ function calculateLines(engine, utcDate, latitude, longitude, zodiacSystem = "tr
   }, northNode.longitude + 180, northNode.speed, { nodeGlyph: "☋", reversed: true }));
 
   let houses;
-  let houseSystemLabel = "Placidus";
   try {
     houses = engine.calculateHouses(julianDay, latitude, longitude, HouseSystem.Placidus);
     if (!houseCuspsAreUsable(houses.cusps)) throw new Error("Invalid Placidus cusps");
   } catch {
     houses = engine.calculateHouses(julianDay, latitude, longitude, HouseSystem.Equal);
-    houseSystemLabel = "Equal (fallback)";
   }
 
   const ayanamsa = isSidereal ? engine.getAyanamsa(julianDay) : 0;
   const adjustedAngle = (value) => normalizeLongitude(value - ayanamsa);
-  const adjustedCusps = houses.cusps.map((value, index) => index === 0 ? value : adjustedAngle(value));
   const ascendant = adjustedAngle(houses.ascendant);
   const mc = adjustedAngle(houses.mc);
   const vertex = adjustedAngle(houses.vertex);
@@ -1549,7 +1556,7 @@ function calculateLines(engine, utcDate, latitude, longitude, zodiacSystem = "tr
   lines.push(buildLine({ ...ANGLE_DATA.vertex, majorIndices: [] }, vertex, 0));
   return lines.map((line) => ({
     ...line,
-    house: houseFor(line.longitude, adjustedCusps, houseSystemLabel),
+    house: naturalHouseForSign(line.signIndex),
   }));
 }
 
@@ -2216,6 +2223,7 @@ export {
   calculateLines,
   formatZodiacPosition,
   houseNumberFor,
+  naturalHouseForSign,
   minorCardIndex,
   numerologyFor,
   reduceNumber,
