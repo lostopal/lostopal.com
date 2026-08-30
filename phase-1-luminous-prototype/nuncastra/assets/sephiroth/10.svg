@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title">
+  <title id="title">10 · Malkuth</title>
+  <defs><radialGradient id="opal" cx="31%" cy="24%" r="82%"><stop offset="0" stop-color="#eaffd3"/><stop offset=".18" stop-color="#9a9c45"/><stop offset=".44" stop-color="#345a3a"/><stop offset=".7" stop-color="#4b2028"/><stop offset="1" stop-color="#05090b"/></radialGradient></defs>
+  <circle cx="48" cy="48" r="45" fill="#070b0d" stroke="#d8a54c" stroke-width="2"/><circle cx="48" cy="48" r="40" fill="url(#opal)" stroke="#85b66a" stroke-opacity=".46"/><circle cx="48" cy="48" r="32" fill="none" stroke="#f2cb78" stroke-opacity=".34"/>
+  <text x="48" y="53" fill="#fff1c7" font-family="Georgia,serif" font-size="27" text-anchor="middle">10</text><text x="48" y="72" fill="#efd18c" font-family="Arial,sans-serif" font-size="6.5" font-weight="700" letter-spacing=".85" text-anchor="middle">MALKUTH</text>
+</svg>

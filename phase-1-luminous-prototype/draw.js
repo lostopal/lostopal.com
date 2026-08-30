@@ -2,7 +2,7 @@
   "use strict";
 
   const CARD_BASE = "./assets/tarot/1909-rws-draw";
-  const REVERSAL_NOTE = "Reversed, this current may be blocked, internalized, delayed, exaggerated, or asking for repair. Read it as a change in access—not an automatic opposite.";
+  const DRAW_STORAGE_KEY = "lost-opal-draw-spreads-v1";
 
   const MAJORS = [
     "The Fool", "The Magician", "The High Priestess", "The Empress", "The Emperor", "The Hierophant",
@@ -91,6 +91,98 @@
     "Let the revelation clear what cannot honestly remain.", "Follow the quiet signal that survives the storm.",
     "Check the facts that protect you while mystery is still moving.", "Participate openly in the life that is here.",
     "Answer the call with a life that can support it.", "Complete the circle before crossing its threshold.",
+  ];
+
+  /* Card-specific ill-dignified/reversed currents, written for Lost Opal from
+     the Golden Dawn / Book T interpretive field used by the Hermetic Tarot. */
+  const REVERSED_MEANINGS = [
+    // Major Arcana
+    "A leap is being taken without presence, preparation, or regard for consequence; freedom has become drift, folly, or refusal to begin consciously.",
+    "Will is scattered, misdirected, or used to manipulate; real skill is present, but it is being withheld, performed, or turned against its own purpose.",
+    "Inner knowing is obscured by secrecy, passivity, or untested projection; what is hidden needs patient discernment rather than a forced revelation.",
+    "Nourishment has become smothering, depletion, stagnation, or dependence; creation cannot flourish while the body and its limits are being ignored.",
+    "Structure has hardened into domination, rigidity, or brittle control; authority is being overused, avoided, or defended after it has stopped serving life.",
+    "Teaching has become dogma, empty conformity, or counsel without lived integrity; the tradition must be questioned without discarding the wisdom it may still hold.",
+    "Attraction and choice are out of alignment; avoidance, division, or an entanglement without shared values is keeping the heart from making an honest decision.",
+    "Direction is stalled by divided will, aggression, or loss of control; forcing movement now would scatter the very powers that need to be brought into accord.",
+    "Courage has turned into coercion, suppressed anger, or self-doubt; instinct must be met without either crushing it or surrendering authority to it.",
+    "Solitude has become isolation, concealment, or refusal of wise counsel; the lamp is dimmed when withdrawal no longer leads to honest self-knowledge.",
+    "A cycle is being resisted or repeated without learning; unstable timing, reversals of fortune, or a refusal to adapt keeps the wheel turning in place.",
+    "Balance is distorted by bias, evaded accountability, or consequences deferred; integrity returns only when the unequal measure is named plainly.",
+    "Suspension has become paralysis, martyrdom, or sacrifice without purpose; the changed perspective cannot arrive while release is being performed instead of lived.",
+    "An ending is being resisted, prolonged, or repeatedly reopened; transformation cannot complete while the former shape is treated as recoverable.",
+    "The mixture has lost proportion through excess, haste, or incompatible forces; healing asks for patient correction before further blending.",
+    "Bondage is being denied, deepened, or used for control; appetite, fear, or material power has narrowed the visible field of choice.",
+    "A necessary revelation is delayed, internalized, or fought until disruption becomes harsher; the unstable structure is still asking to be released.",
+    "Hope is dimmed by discouragement, exposure, or disconnection from the guiding thread; renewal begins by protecting the smallest honest light that remains.",
+    "Uncertainty has thickened into fear, deception, fantasy, or projection; hidden facts and inherited anxieties must be separated before intuition can be trusted.",
+    "Vitality is obscured by burnout, overexposure, pride, or joy that cannot be received; the light is present but its warmth is not reaching the life beneath it.",
+    "The call is being avoided through self-condemnation, denial, or fear of reckoning; awakening remains possible once the past is answered without becoming a prison.",
+    "Completion is delayed by fragmentation, loose ends, or refusal to cross the threshold; the world cannot close cleanly until its final responsibility is met.",
+
+    // Wands
+    "The first fire is blocked, misdirected, or spent before it can take form; a false start, creative drought, or burnout asks the will to find a truer source.",
+    "Dominion has become restlessness, obstinacy, or fear of expansion; the chosen direction lacks either a real decision or the courage to act upon it.",
+    "Foresight is compromised by delay, poor coordination, or confidence without preparation; the horizon cannot answer a plan that has not been made workable.",
+    "The structure of celebration is unstable; conflict at home, interrupted completion, or belonging made conditional weakens the ground that should support joy.",
+    "Strife has lost its clarifying purpose and become bullying, chaos, or suppressed resentment; competition is consuming more fire than it develops.",
+    "Victory is hollowed by pride, failed recognition, or reputation pursued instead of earned; applause cannot repair a center that no longer trusts its own work.",
+    "Valour has become exhaustion, defensiveness, or surrender under pressure; the position must be tested for meaning before more energy is spent defending it.",
+    "Swiftness is interrupted by delay, crossed messages, or scattered movement; haste without alignment sends the fire in too many directions at once.",
+    "Great strength has tightened into fatigue, suspicion, or permanent readiness for attack; endurance now requires recovery and a more accurate reading of danger.",
+    "Oppression has reached overload, collapse, or responsibility carried for the wrong reasons; the burden must be redistributed before purpose is crushed beneath it.",
+    "The young fire is volatile, unreliable, or hungry for spectacle; enthusiasm needs discipline before it can carry a message or begin a trustworthy work.",
+    "Flame has become reckless speed, aggression, or departure without accountability; boldness is outrunning judgment and leaving avoidable damage behind it.",
+    "Passion has become jealousy, domination, or theatrical confidence masking depletion; warmth returns when power no longer needs to control the room.",
+    "Command has hardened into intolerance, impulsive rule, or ambition without stewardship; the fire needs vision broad enough to include consequence.",
+
+    // Cups
+    "The well of feeling is blocked, emptied, or refused; love and intuition cannot circulate while grief, numbness, or self-protection seals the vessel.",
+    "Mutual recognition is distorted by imbalance, rupture, false intimacy, or unequal exchange; relationship must return to consent and honest reciprocity.",
+    "Abundance has tipped into excess, gossip, exclusion, or celebration without depth; the circle needs truth more than another performance of togetherness.",
+    "Pleasure has gone stale through apathy, withdrawal, or restless dissatisfaction; the missed invitation cannot be seen while attention remains fixed on what fails to move it.",
+    "Loss has become fixation, regret, or refusal to turn toward what remains; grief needs witness, but it cannot be allowed to erase every surviving cup.",
+    "Memory has become idealization, childishness, or retreat into a past that cannot hold the present; the gift must be carried forward rather than used as a hiding place.",
+    "Images and desires have thickened into escapism, projection, or choice paralysis; discernment begins by naming the consequence attached to each cup.",
+    "Departure is delayed, reversed, or undertaken without a true destination; what has been outgrown keeps reclaiming attention because the deeper reason for leaving is unfinished.",
+    "Satisfaction has become indulgence, vanity, or the discovery that a granted wish cannot feed the whole self; pleasure needs gratitude and proportion.",
+    "Perfected happiness is fractured by family conflict, broken belonging, or an ideal that leaves real people unseen; harmony must be rebuilt through truthful participation.",
+    "The young heart is caught in fantasy, emotional immaturity, or a message it cannot yet deliver honestly; sensitivity needs boundaries and grounded language.",
+    "The offered cup conceals moodiness, seduction, or a promise untethered from action; beauty is not proof of sincerity.",
+    "Receptivity has become porousness, martyrdom, emotional manipulation, or loss of self in another's weather; compassion needs a vessel strong enough to contain it.",
+    "Emotional command has turned into suppression, volatility, or control through feeling; maturity requires honest affect rather than a perfectly managed surface.",
+
+    // Swords
+    "The blade of truth is clouded, weaponized, or severed from clear purpose; a new idea cannot serve while confusion or harmful speech controls its edge.",
+    "Peace is maintained through denial, hardened indecision, or a choice postponed until it becomes coercive; the blindfold must come off before balance can return.",
+    "Sorrow is being avoided, prolonged, or converted into resentment; pain needs accurate language so it can move instead of governing from concealment.",
+    "Rest is refused or has failed to restore; agitation, burnout, or premature return to conflict keeps the mind from receiving the silence it needs.",
+    "Defeat has become revenge, humiliation, or a hollow victory no one can inhabit; the cost of continuing the contest now exceeds anything it could win.",
+    "The crossing is resisted by fear, unresolved baggage, or return to familiar turbulence; understanding the lesson is necessary before a calmer shore can be reached.",
+    "Strategy has collapsed into deception, self-deception, exposure, or escape without responsibility; what was taken or concealed is asking to be named.",
+    "Shortened force has tightened into panic, helplessness, or a mental rule mistaken for fact; the first freedom is testing the boundary that appears absolute.",
+    "Despair is amplified by secrecy, shame, or thought circling without evidence; the fear must be spoken, checked, and brought back into the scale of the present.",
+    "Ruin is being repeated, resisted, or treated as proof that recovery is impossible; the ending has already happened, but its meaning is still being allowed to wound.",
+    "The young mind is scattered into gossip, suspicion, dishonesty, or constant vigilance; curiosity needs evidence and a responsibility for the words it releases.",
+    "Thought has become aggression, cruelty, or speed without reflection; a sharp conclusion is charging ahead of the truth it claims to defend.",
+    "Discernment has hardened into bitterness, isolation, or merciless judgment; clarity loses authority when it cannot distinguish boundary from punishment.",
+    "Reason is being used to dominate, deceive, or impose a cold private law; intellectual power must answer to ethics before it can lead.",
+
+    // Pentacles
+    "Material potential is missed, withheld, or planted in unstable ground; the opportunity needs a real body, budget, and commitment before it can become substance.",
+    "Harmonious change has become imbalance, dropped obligations, or frantic adjustment; the rhythm must simplify before another demand is added.",
+    "Work is compromised by poor craft, refusal of collaboration, or standards no one is willing to uphold; the structure cannot exceed the care placed into its making.",
+    "Earthly power has contracted into avarice, possession, or fear-driven control; holding tighter is preventing the security that circulation could create.",
+    "Material trouble is prolonged by shame, isolation, or help that cannot be recognized or accepted; scarcity must be separated from the belief that one is unworthy of support.",
+    "Exchange is distorted by debt, strings-attached generosity, exploitation, or unequal power; giving and receiving need dignity, consent, and a fair measure.",
+    "Unfulfilled success has become impatience, wasted labor, or abandonment just before the roots can be honestly assessed; effort needs evaluation rather than contempt.",
+    "Prudence has become drudgery, careless repetition, or perfectionism that prevents learning; skill grows through attentive practice, not punishment.",
+    "Material gain is precarious, dependent, or displayed without inner sufficiency; comfort cannot become autonomy while its support remains denied or unseen.",
+    "Wealth is destabilized by family conflict, inherited burden, broken systems, or security built on exclusion; stewardship must include the future it claims to protect.",
+    "The young earth current lacks follow-through, practical study, or respect for limits; the plan needs a smaller promise that can actually be kept.",
+    "Steadiness has become stagnation, negligence, or stubborn repetition; reliability is not the same as refusing every necessary change.",
+    "Care has turned into depletion, smothering, overwork, or dependence on material proof of worth; the body and its resources need tending without self-erasure.",
+    "Stewardship has corrupted into greed, possessiveness, or control through resources; material authority must return to responsibility and fair use.",
   ];
 
   const ELEMENTS = {
@@ -260,7 +352,7 @@
         { name: "Fire" },
         { name: "Air" },
         { name: "Earth" },
-        { name: "Action in the Now" },
+        { name: "Action to Take Now" },
         { name: "Potential Outcome to Test" },
       ],
     },
@@ -290,21 +382,45 @@
   const spreadCue = document.querySelector("[data-spread-cue]");
   if (!spreadArea || !readingCards || !cardLegend || !spreadTitle || !dialog) return;
 
-  let currentSpread = "three";
-  let reversalsEnabled = true;
-  let currentCards = [];
-  let spreadScrollFrame = 0;
-
-  function roman(value) {
-    if (value === 0) return "0";
-    const pairs = [[10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"]];
-    let result = "";
-    let remaining = value;
-    pairs.forEach(([number, glyph]) => {
-      while (remaining >= number) { result += glyph; remaining -= number; }
-    });
-    return result;
+  function loadDrawState() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(DRAW_STORAGE_KEY) || "null");
+      return parsed && typeof parsed === "object" ? parsed : { spreads: {} };
+    } catch {
+      return { spreads: {} };
+    }
   }
+
+  function saveDrawState() {
+    try {
+      localStorage.setItem(DRAW_STORAGE_KEY, JSON.stringify({
+        activeSpread: currentSpread,
+        reversalsEnabled,
+        spreads: rememberedSpreads,
+      }));
+    } catch {
+      // The Draw remains fully usable when storage is unavailable.
+    }
+  }
+
+  function validRememberedSpread(key, cards) {
+    return Array.isArray(cards)
+      && cards.length === SPREADS[key]?.positions.length
+      && cards.every((card) => Number.isInteger(card?.index)
+        && card.index >= 0
+        && card.index < CARD_NAMES.length
+        && typeof card.reversed === "boolean");
+  }
+
+  const storedState = loadDrawState();
+  const rememberedSpreads = Object.fromEntries(Object.entries(storedState.spreads || {})
+    .filter(([key, cards]) => validRememberedSpread(key, cards)));
+  let currentSpread = SPREADS[storedState.activeSpread] ? storedState.activeSpread : "three";
+  let reversalsEnabled = typeof storedState.reversalsEnabled === "boolean" ? storedState.reversalsEnabled : true;
+  let currentCards = validRememberedSpread(currentSpread, rememberedSpreads[currentSpread])
+    ? rememberedSpreads[currentSpread].map((card) => ({ ...card }))
+    : [];
+  let spreadScrollFrame = 0;
 
   function imagePath(index) { return `${CARD_BASE}/${String(index).padStart(2, "0")}.webp`; }
 
@@ -314,9 +430,10 @@
         index,
         name: CARD_NAMES[index],
         kind: "Major Arcana",
-        key: roman(index),
+        key: String(index),
         hermetic: HERMETIC_MAJOR_TITLES[index],
         meaning: MAJOR_MEANINGS[index],
+        reversedMeaning: REVERSED_MEANINGS[index],
         ground: MAJOR_GROUND[index],
         major: true,
       };
@@ -337,6 +454,7 @@
       rankIndex,
       hermetic: HERMETIC_MINOR_TITLES[suit][rankIndex],
       meaning: decan ? `${name} ${decan[3]}.` : `${name} ${rankCopy[0]} within the field of ${ELEMENTS[suit].meaning}.`,
+      reversedMeaning: REVERSED_MEANINGS[index],
       ground: decan ? decan[4] : rankCopy[1],
       decan,
       major: false,
@@ -402,14 +520,14 @@
     const numbers = houses.map((house) => house.number);
     const consecutive = numbers.every((number, index) => index === 0 || number === numbers[index - 1] + 1);
     const value = houses.length === 1
-      ? `${ordinalHouse(numbers[0])} House`
+      ? ordinalHouse(numbers[0])
       : consecutive
-        ? `${ordinalHouse(numbers[0])}–${ordinalHouse(numbers.at(-1))} Houses`
-        : `${numbers.map(ordinalHouse).join(" & ")} Houses`;
+        ? `${ordinalHouse(numbers[0])}–${ordinalHouse(numbers.at(-1))}`
+        : numbers.map(ordinalHouse).join(" & ");
     const meanings = houses
       .map((house) => `${ordinalHouse(house.number)} House (${house.sign}): ${house.meaning}`)
       .join("; ");
-    const tooltip = `${placement.decanDescription} On the simple Aries-first natural wheel used for this un-timed Draw, that places it in the ${value}: ${meanings}.`;
+    const tooltip = `${placement.decanDescription} On the simple Aries-first natural wheel used for this un-timed Draw, that places it in ${houses.length === 1 ? "the" : "these"} ${value} ${houses.length === 1 ? "House" : "Houses"}: ${meanings}.`;
     return tile("House", value, "⌂", tooltip);
   }
 
@@ -425,11 +543,11 @@
       }
       if (corr.sign) {
         nodes.push(tile("Zodiac", corr.sign, GLYPHS[corr.sign], SIGN_MEANINGS[corr.sign]));
-        nodes.push(tile("Decanic Field", `All 3 · ${corr.sign}`, GLYPHS[corr.sign], `${meta.name} carries the full zodiacal field of ${corr.sign}, including all three of its decans.`));
+        nodes.push(tile("Decan", "1–3", GLYPHS[corr.sign], `${meta.name} carries all three decans of ${corr.sign}.`));
       } else {
         const planetName = corr.planet?.split(" · ")[0];
         const signs = ruledSigns(corr.planet);
-        nodes.push(tile("Decanic Reach", `1st–3rd · ${signs.join(" + ")}`, GLYPHS[planetName] || "✦", `${meta.name} carries all three decans of ${signs.join(" and ")} through ${corr.planet}.`));
+        nodes.push(tile("Decan", "1–3", GLYPHS[planetName] || "✦", `${meta.name} carries all three decans of ${signs.join(" and ")} through ${corr.planet}.`));
       }
     } else {
       const element = ELEMENTS[meta.suit];
@@ -438,14 +556,14 @@
         const [sign, planet, decan] = meta.decan;
         nodes.push(tile("Planet", planet, GLYPHS[planet], PLANET_MEANINGS[planet]));
         nodes.push(tile("Zodiac", sign, GLYPHS[sign], SIGN_MEANINGS[sign]));
-        nodes.push(tile("Default Decan", `${decan} · ${sign}`, decan.replace(" Decan", ""), `${meta.name} is the fixed Golden Dawn card of the ${decan.toLowerCase()} of ${sign}; this ten-degree face is ruled by ${planet}.`));
+        nodes.push(tile("Decan", decan.replace(" Decan", ""), decan.replace(" Decan", ""), `${meta.name} is the fixed Golden Dawn card of the ${decan.toLowerCase()} of ${sign}; this ten-degree face is ruled by ${planet}.`));
       } else {
         nodes.push(tile("Court / Root", meta.rank, meta.rank === "Ace" ? "I" : "♙", `${meta.rank} expresses the ${meta.suit} current through its own stage of embodiment.`));
         if (COURT_DECAN_SPANS[meta.name]) {
           const [fromSign, toSign, span] = COURT_DECAN_SPANS[meta.name];
-          nodes.push(tile("Decanic Span", "Three Decans", "↔", `${meta.name} spans ${span}: the final decan of ${fromSign} and the first two decans of ${toSign}.`));
+          nodes.push(tile("Decan", "1–3", "↔", `${meta.name} spans three consecutive decans across ${span}: the final decan of ${fromSign} and the first two decans of ${toSign}.`));
         } else {
-          nodes.push(tile("Decanic Field", "Elemental Quarter", element.glyph, `${meta.name} belongs to the ${meta.suit} elemental quarter touching ${ELEMENTAL_QUARTERS[meta.suit]}, rather than to one numbered-minor decan.`));
+          nodes.push(tile("Decan", "1–3", element.glyph, `${meta.name} belongs to the ${meta.suit} elemental quarter touching ${ELEMENTAL_QUARTERS[meta.suit]}, rather than to one numbered-minor decan.`));
         }
       }
     }
@@ -469,7 +587,7 @@
     button.className = "draw-card";
     button.setAttribute("aria-label", `Open ${meta.name}${card.reversed ? ", reversed" : ""}, ${position.name}`);
     const pointLabel = currentSpread === "elm" || currentSpread === "celtic" ? `<small class="draw-card__point">${position.name}</small>` : "";
-    button.innerHTML = `<span class="draw-card__frame"><img src="${imagePath(card.index)}" alt="${meta.name}${card.reversed ? ", reversed" : ""}" width="180" height="300" loading="eager" decoding="async" class="${card.reversed ? "is-reversed" : ""}"><span class="draw-card__number">${order + 1}</span></span><span class="draw-card__label">${pointLabel}<b>${meta.name}</b><small>${card.reversed ? "Reversed" : "Upright"}</small></span>`;
+    button.innerHTML = `<span class="draw-card__frame"><img src="${imagePath(card.index)}" alt="${meta.name}${card.reversed ? ", reversed" : ""}" width="180" height="300" loading="eager" decoding="sync" class="${card.reversed ? "is-reversed" : ""}"><span class="draw-card__number">${order + 1}</span></span><span class="draw-card__label">${pointLabel}<b>${meta.name}</b><small>${card.reversed ? "Reversed" : "Upright"}</small></span>`;
     button.addEventListener("click", () => openDialog(card, position));
     return button;
   }
@@ -485,25 +603,29 @@
     const artButton = document.createElement("button");
     artButton.type = "button";
     artButton.setAttribute("aria-label", `Enlarge ${meta.name}${card.reversed ? ", reversed" : ""}`);
-    artButton.innerHTML = `<img src="${imagePath(card.index)}" alt="${meta.name}${card.reversed ? ", reversed" : ""}" width="180" height="300" loading="eager" decoding="async" class="${card.reversed ? "is-reversed" : ""}">`;
+    artButton.innerHTML = `<img src="${imagePath(card.index)}" alt="${meta.name}${card.reversed ? ", reversed" : ""}" width="180" height="300" loading="eager" decoding="sync" class="${card.reversed ? "is-reversed" : ""}">`;
     artButton.addEventListener("click", () => openDialog(card, position));
     art.append(artButton);
 
     const copy = document.createElement("div");
     copy.className = "draw-reading-card__copy";
     const positionLens = position.lens ? `<p class="draw-reading-card__lens"><strong>In this position:</strong> ${position.lens}</p>` : "";
+    const activeMeaning = card.reversed ? meta.reversedMeaning : meta.meaning;
     copy.innerHTML = `
       <p class="draw-reading-card__position"><b>${order + 1}</b><span>${position.name} · ${card.reversed ? "Reversed" : "Upright"}</span></p>
       <h3>${meta.name}</h3>
       <p class="draw-reading-card__hermetic">${meta.hermetic}</p>
       ${positionLens}
-      <p class="draw-reading-card__meaning">${meta.meaning}</p>
-      ${card.reversed ? `<p class="draw-reading-card__reversal"><strong>Reversal:</strong> ${REVERSAL_NOTE}</p>` : ""}
+      <p class="draw-reading-card__meaning"><strong>${card.reversed ? "Reversed meaning" : "Meaning"}:</strong> ${activeMeaning}</p>
     `;
     const correspondences = document.createElement("div");
     correspondences.className = "draw-correspondences";
     correspondenceNodes(meta).forEach((node) => correspondences.append(node));
     copy.append(correspondences);
+    const correspondenceHint = document.createElement("p");
+    correspondenceHint.className = "draw-correspondences__hint";
+    correspondenceHint.textContent = "Tap a tile to learn more.";
+    copy.append(correspondenceHint);
     const ground = document.createElement("p");
     ground.className = "draw-reading-card__ground";
     ground.innerHTML = `<strong>Ground it:</strong> ${meta.ground}`;
@@ -522,8 +644,7 @@
     dialog.querySelector("[data-dialog-position]").textContent = `${position.name} · ${card.reversed ? "Reversed" : "Upright"}`;
     dialog.querySelector("[data-dialog-name]").textContent = meta.name;
     dialog.querySelector("[data-dialog-hermetic]").textContent = meta.hermetic;
-    dialog.querySelector("[data-dialog-meaning]").textContent = meta.meaning;
-    dialog.querySelector("[data-dialog-orientation]").textContent = card.reversed ? REVERSAL_NOTE : "Upright, this current is available in its direct or recognizable expression.";
+    dialog.querySelector("[data-dialog-meaning]").textContent = `${card.reversed ? "Reversed meaning" : "Meaning"}: ${card.reversed ? meta.reversedMeaning : meta.meaning}`;
     dialog.querySelector("[data-dialog-ground]").textContent = `Ground it: ${meta.ground}`;
     const corr = dialog.querySelector("[data-dialog-correspondences]");
     corr.replaceChildren(...correspondenceNodes(meta));
@@ -564,6 +685,8 @@
   function redraw(announce = true) {
     const spread = SPREADS[currentSpread];
     currentCards = drawUnique(spread.positions.length);
+    rememberedSpreads[currentSpread] = currentCards.map((card) => ({ ...card }));
+    saveDrawState();
     render();
     if (announce) status.textContent = `${spread.title} drawn. ${spread.positions.length} card${spread.positions.length === 1 ? "" : "s"} are ready below.`;
   }
@@ -572,7 +695,14 @@
     button.addEventListener("click", () => {
       currentSpread = button.dataset.spread;
       document.querySelectorAll("[data-spread]").forEach((choice) => choice.setAttribute("aria-pressed", String(choice === button)));
-      redraw();
+      if (validRememberedSpread(currentSpread, rememberedSpreads[currentSpread])) {
+        currentCards = rememberedSpreads[currentSpread].map((card) => ({ ...card }));
+        saveDrawState();
+        render();
+        status.textContent = `${SPREADS[currentSpread].title} restored. Draw again only when you want a new spread.`;
+      } else {
+        redraw();
+      }
     });
   });
 
@@ -580,6 +710,7 @@
     reversalsEnabled = !reversalsEnabled;
     event.currentTarget.setAttribute("aria-pressed", String(reversalsEnabled));
     event.currentTarget.innerHTML = `<span>↕</span> Reversals ${reversalsEnabled ? "On" : "Off"}`;
+    saveDrawState();
     status.textContent = `Reversals are ${reversalsEnabled ? "on" : "off"}. Draw again when you are ready.`;
   });
   document.querySelector("[data-redraw]")?.addEventListener("click", () => redraw());
@@ -594,6 +725,19 @@
     if (outside) dialog.close();
   });
 
-  redraw(false);
-  status.textContent = "A three-card reading is ready. Select a card or begin walking the story below.";
+  const reversalControl = document.querySelector("[data-reversals]");
+  if (reversalControl) {
+    reversalControl.setAttribute("aria-pressed", String(reversalsEnabled));
+    reversalControl.innerHTML = `<span>↕</span> Reversals ${reversalsEnabled ? "On" : "Off"}`;
+  }
+  document.querySelectorAll("[data-spread]").forEach((choice) => {
+    choice.setAttribute("aria-pressed", String(choice.dataset.spread === currentSpread));
+  });
+  if (currentCards.length) {
+    render();
+    status.textContent = `${SPREADS[currentSpread].title} restored. Draw again only when you want a new spread.`;
+  } else {
+    redraw(false);
+    status.textContent = `${SPREADS[currentSpread].title} drawn for your first visit. It will remain here until you draw again.`;
+  }
 })();

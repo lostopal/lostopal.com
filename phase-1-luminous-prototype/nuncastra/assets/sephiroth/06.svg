@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title">
+  <title id="title">6 · Tiphareth</title>
+  <defs><radialGradient id="opal" cx="32%" cy="24%" r="80%"><stop offset="0" stop-color="#fff8c9"/><stop offset=".2" stop-color="#e2a63d"/><stop offset=".48" stop-color="#6f4320"/><stop offset=".73" stop-color="#15443e"/><stop offset="1" stop-color="#05090b"/></radialGradient></defs>
+  <circle cx="48" cy="48" r="45" fill="#070b0d" stroke="#e8ba5d" stroke-width="2"/><circle cx="48" cy="48" r="40" fill="url(#opal)" stroke="#f3d37f" stroke-opacity=".5"/><circle cx="48" cy="48" r="32" fill="none" stroke="#fff0ae" stroke-opacity=".4"/>
+  <text x="48" y="53" fill="#fff7dc" font-family="Georgia,serif" font-size="30" text-anchor="middle">6</text><text x="48" y="72" fill="#fff0bd" font-family="Arial,sans-serif" font-size="6" font-weight="700" letter-spacing=".65" text-anchor="middle">TIPHARETH</text>
+</svg>

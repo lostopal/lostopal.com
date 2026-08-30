@@ -18,6 +18,7 @@ import SwissEphemeris, {
 import { lookup as lookupTimezone } from "./vendor/timezone-lookup.js";
 
 const CARD_BASE = "../assets/tarot/1909-rws";
+const CARD_PREVIEW_BASE = "../assets/tarot/1909-rws-draw";
 const PLACEHOLDER_BASE = "./assets/placeholders";
 const EPHEMERIS_FILES = ["sepl_18.se1", "semo_18.se1", "seas_18.se1"];
 const SIGN_DEGREES = 30;
@@ -124,27 +125,8 @@ const MAJOR_KEY_MEANINGS = [
   "Completion, integration, wholeness, and the threshold where one finished world becomes passage into another.",
 ];
 
-function romanNumeral(value) {
-  if (value === 0) return "0";
-  if (!Number.isInteger(value) || value < 0) return String(value);
-  const numerals = [
-    [1000, "M"], [900, "CM"], [500, "D"], [400, "CD"],
-    [100, "C"], [90, "XC"], [50, "L"], [40, "XL"],
-    [10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"],
-  ];
-  let remaining = value;
-  let result = "";
-  numerals.forEach(([amount, numeral]) => {
-    while (remaining >= amount) {
-      result += numeral;
-      remaining -= amount;
-    }
-  });
-  return result;
-}
-
 function majorKeyLabel(value) {
-  return value >= 0 && value < MAJORS.length ? romanNumeral(value) : String(value);
+  return String(value);
 }
 
 const RULER_DATA = {
@@ -392,7 +374,18 @@ const NUMBER_MEANINGS = {
   7: ["Discernment", "Experience turns inward for testing, contemplation, strategy, and knowledge that cannot be borrowed from the crowd."],
   8: ["Power", "The current concerns embodiment, consequence, reciprocity, endurance, and the ethical handling of material force."],
   9: ["Completion", "The line gathers wisdom, compassion, culmination, and the release required before another cycle can begin."],
+  10: ["Renewal", "Completion turns into a new cycle: experience asks to be carried forward without repeating the former pattern unconsciously."],
   11: ["Illumination", "A master-number tension heightens intuition and asks inspiration to pass through a balanced, conscious channel."],
+  12: ["Creative Service", "Individual will and relationship combine into expression that serves a purpose larger than either force alone."],
+  13: ["Transformation", "A former structure must be changed through disciplined work so its essential value can enter a more enduring form."],
+  14: ["Measured Freedom", "Movement and experimentation ask for restraint, rhythm, and enough structure to keep freedom from becoming dispersion."],
+  15: ["Magnetic Responsibility", "Desire, relationship, and material attraction ask to be handled consciously rather than allowed to choose by compulsion."],
+  16: ["Reorientation", "A false or outgrown structure breaks open so inner truth, humility, and a more accurate foundation can emerge."],
+  17: ["Guiding Faith", "Independent purpose is refined through contemplation, hope, and the testing that turns private insight into trustworthy direction."],
+  18: ["Compassionate Power", "Material force meets collective feeling; influence must be handled without confusing projection, sacrifice, and genuine care."],
+  19: ["Self-Sovereignty", "A completed cycle returns to the individual, asking confidence, visibility, and leadership to remain answerable to the whole."],
+  20: ["Awakening Partnership", "Sensitivity and relationship become a call to conscious participation, shared responsibility, and renewed choice."],
+  21: ["Creative Fulfillment", "Expression reaches completion and asks its wisdom to be shared before the next beginning takes form."],
   22: ["Embodied Vision", "A master-number current asks a large vision to become useful, durable, and fully present in material form."],
 };
 
@@ -494,6 +487,14 @@ const donateFloatClose = hasDocument ? document.querySelector("[data-donate-floa
 
 function cardFile(index) {
   return `${CARD_BASE}/${String(index).padStart(2, "0")}.webp`;
+}
+
+function cardPreviewFile(index) {
+  return `${CARD_PREVIEW_BASE}/${String(index).padStart(2, "0")}.webp`;
+}
+
+function sephirahSealFile(number) {
+  return `./assets/sephiroth/${String(number).padStart(2, "0")}.svg`;
 }
 
 function minorCardIndex(suit, number) {
@@ -748,7 +749,7 @@ function signCardsHtml(line) {
     category: `Traditional Ruler · ${line.ruler.glyph} ${line.ruler.name}`,
     name: rulerCardName,
     cardIndex: line.ruler.majorIndex,
-    description: `${line.sign.name} is traditionally ruled by ${line.ruler.name}. ${rulerCardName} carries ${line.ruler.influence} into the way this zodiacal field conducts the line.`,
+    description: `${line.sign.name} is traditionally ruled by ${line.ruler.name}. For this reading, that planet is translated into its Tarot card, ${rulerCardName}; the card carries ${line.ruler.influence} into the way this zodiacal field conducts the line.`,
   });
   const cards = [
     { label: "Sign Key", html: signCard },
@@ -789,7 +790,7 @@ function treePreviewHtml(line) {
   const world = WORLD_DATA[line.decan.suit];
   return `
     <div class="snapshot-tree-preview">
-      <span class="snapshot-tree-preview__seal" aria-hidden="true">${escapeHtml(String(sephirah.number))}</span>
+      <img class="snapshot-tree-preview__seal" src="${sephirahSealFile(sephirah.number)}" alt="${escapeHtml(`${sephirah.number} · ${sephirah.name}`)}" width="72" height="72" loading="lazy" decoding="async">
       <div>
         <p><strong>${escapeHtml(sephirah.name)} · ${escapeHtml(sephirah.title)}</strong> The ${escapeHtml(line.decan.cardName)} places this row in ${escapeHtml(sephirah.name)}, expressed through ${escapeHtml(world.name)} (${escapeHtml(world.element)}).</p>
         <p>This is only the threshold. The complete diagram appears in a separate study chamber so the ordinary reading remains clear.</p>
@@ -824,6 +825,7 @@ function rowHtml(line) {
               ${identityTileHtml({ id: `${rowId}-house-tip`, glyph: line.house.label, name: "House", kind: "House", description: `The ${line.house.label} House shows where the line operates through ${line.house.meaning}.`, modifier: "snapshot-identity-tile--house" })}
               ${identityTileHtml({ id: `${rowId}-ruler-tip`, glyph: line.ruler.glyph, name: line.ruler.name, kind: "Traditional Ruler", description: `${line.sign.name} is ruled by ${line.ruler.name}, bringing ${line.ruler.influence} to its field.`, modifier: "snapshot-identity-tile--ruler" })}
             </div>
+            <p class="snapshot-identity-hint">Tap a tile to learn more.</p>
             <p class="snapshot-reading__plain-line">${escapeHtml(plainLine)}</p>
           </div>
           <button class="snapshot-motion ${line.motion.className}" type="button" data-motion-explainer aria-expanded="false" aria-describedby="${rowId}-motion-explanation">
@@ -833,7 +835,7 @@ function rowHtml(line) {
         </div>
         <div class="snapshot-reading__context">
           <p><strong>${escapeHtml(line.house.label)} House &middot; ${escapeHtml(line.house.title)}:</strong> This house concerns ${escapeHtml(line.house.meaning)}. <span class="snapshot-reading__context-system">${escapeHtml(line.house.system)} houses.</span></p>
-          <p><strong>${escapeHtml(line.ruler.glyph)} ${escapeHtml(line.ruler.name)} &middot; Traditional Ruler of ${escapeHtml(line.sign.name)}:</strong> ${escapeHtml(MAJORS[line.ruler.majorIndex])} carries ${escapeHtml(line.ruler.influence)} into this zodiacal field.${modernRulerNote ? `<span class="snapshot-reading__modern-ruler">${escapeHtml(modernRulerNote)}</span>` : ""}</p>
+          <p><strong>${escapeHtml(line.ruler.glyph)} ${escapeHtml(line.ruler.name)} &middot; Traditional Ruler of ${escapeHtml(line.sign.name)}:</strong> In this Nuncast, ${escapeHtml(line.ruler.name)} is translated into its Tarot card, ${escapeHtml(MAJORS[line.ruler.majorIndex])}. That card carries ${escapeHtml(line.ruler.influence)} into this zodiacal field.${modernRulerNote ? `<span class="snapshot-reading__modern-ruler">${escapeHtml(modernRulerNote)}</span>` : ""}</p>
         </div>
         <div class="snapshot-reading__tabs" role="tablist" aria-label="Perspectives for ${escapeHtml(line.name)}">
           <button type="button" role="tab" aria-selected="true" aria-controls="${rowId}-reading" id="${rowId}-reading-tab" data-row-view="reading" tabindex="0">Reading</button>
@@ -849,8 +851,12 @@ function rowHtml(line) {
           <p><strong>Card Equation:</strong> ${escapeHtml(numerology.equation)}</p>
           <p><strong>${escapeHtml(numerology.heading)}:</strong> ${escapeHtml(numerology.meaning)}</p>
           ${numerology.cards.length ? `<div class="snapshot-numerology-sequence">
-            <strong>Cards in Sequence</strong>
-            <ol>${numerology.cards.map((card) => `<li><strong><span>${escapeHtml(card.key)}</span> &middot; ${escapeHtml(card.name)}</strong><p>${escapeHtml(card.meaning)}</p></li>`).join("")}</ol>
+            <strong>Numerology Reduction</strong>
+            <p class="snapshot-numerology-sequence__intro">Each number is read first through numerology. The Tarot key encountered at that step follows beneath it.</p>
+            <ol>${numerology.cards.map((card) => `<li>
+              <div class="snapshot-numerology-number"><strong><span>${escapeHtml(card.key)}</span>${escapeHtml(card.numberTitle)}</strong><p>${escapeHtml(card.numberMeaning)}</p></div>
+              <div class="snapshot-numerology-tarot"><small>Tarot Key ${escapeHtml(card.key)}</small><strong><span class="snapshot-numerology-card" tabindex="0">${escapeHtml(card.name)}<img src="${cardPreviewFile(card.value)}" alt="${escapeHtml(card.name)} tarot card preview" width="72" height="120" loading="lazy" decoding="async"></span></strong><p>${escapeHtml(card.meaning)}</p></div>
+            </li>`).join("")}</ol>
           </div>` : ""}
         </div>
         <div class="snapshot-reading__panel" id="${rowId}-tree" role="tabpanel" aria-labelledby="${rowId}-tree-tab" data-row-panel="tree" hidden>
@@ -887,7 +893,10 @@ function numerologyFor(line) {
     : "";
   const cards = reduction.path
     .filter((value) => value >= 0 && value < MAJORS.length)
-    .map((value) => ({ key: majorKeyLabel(value), name: MAJORS[value], meaning: MAJOR_KEY_MEANINGS[value] }));
+    .map((value) => {
+      const [numberTitle, numberMeaning] = NUMBER_MEANINGS[value] || ["Compound Current", "This number is encountered as a distinct step before the line reduces again."];
+      return { key: majorKeyLabel(value), value, numberTitle, numberMeaning, name: MAJORS[value], meaning: MAJOR_KEY_MEANINGS[value] };
+    });
 
   return {
     equation: `${equationTerms} = ${majorKeyLabel(total)}${reductionText}`,
@@ -1665,7 +1674,7 @@ function createTreeNodes() {
   const nodes = [...SEPHIROTH, DAATH];
   treeNodes.innerHTML = nodes.map((node) => `
     <button type="button" class="tree-node${node.name === "Daath" ? " tree-node--daath" : ""}" data-tree-node="${escapeHtml(node.name)}" style="--x:${node.x}%;--y:${node.y}%" title="${escapeHtml(node.current)}">
-      <span><strong>${escapeHtml(node.name)}</strong><small>${node.number ? `${node.number} · ` : ""}${escapeHtml(node.title)}</small></span>
+      ${node.number ? `<img src="${sephirahSealFile(node.number)}" alt="" width="72" height="72" loading="lazy" decoding="async"><span class="tree-node__accessible"><strong>${escapeHtml(node.name)}</strong><small>${node.number} · ${escapeHtml(node.title)}</small></span>` : `<span><strong>${escapeHtml(node.name)}</strong><small>${escapeHtml(node.title)}</small></span>`}
     </button>`).join("");
 }
 

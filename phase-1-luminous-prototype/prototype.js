@@ -775,11 +775,12 @@ if (practiceTablist) {
   const journey = document.querySelector("[data-cosmic-journey]");
   if (journey) {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const forceStaticJourney = document.body.classList.contains("draw-page");
     let frame = 0;
 
     function updateJourney() {
       frame = 0;
-      if (reduceMotion.matches) {
+      if (reduceMotion.matches || forceStaticJourney) {
         journey.dataset.motion = "static";
         journey.style.removeProperty("--cosmic-position-y");
         journey.style.removeProperty("--cosmic-opacity");
@@ -799,9 +800,11 @@ if (practiceTablist) {
       if (!frame) frame = window.requestAnimationFrame(updateJourney);
     }
 
-    window.addEventListener("scroll", requestJourneyUpdate, { passive: true });
-    window.addEventListener("resize", requestJourneyUpdate, { passive: true });
-    reduceMotion.addEventListener?.("change", requestJourneyUpdate);
+    if (!forceStaticJourney) {
+      window.addEventListener("scroll", requestJourneyUpdate, { passive: true });
+      window.addEventListener("resize", requestJourneyUpdate, { passive: true });
+      reduceMotion.addEventListener?.("change", requestJourneyUpdate);
+    }
     updateJourney();
     journey.dataset.journeyReady = "true";
   }

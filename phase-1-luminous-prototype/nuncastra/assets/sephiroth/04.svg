@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title">
+  <title id="title">4 · Chesed</title>
+  <defs><radialGradient id="opal" cx="30%" cy="25%" r="82%"><stop offset="0" stop-color="#e6f0ff"/><stop offset=".2" stop-color="#456da7"/><stop offset=".48" stop-color="#123e3b"/><stop offset=".74" stop-color="#271522"/><stop offset="1" stop-color="#05090b"/></radialGradient></defs>
+  <circle cx="48" cy="48" r="45" fill="#070b0d" stroke="#d8a54c" stroke-width="2"/><circle cx="48" cy="48" r="40" fill="url(#opal)" stroke="#66a8d9" stroke-opacity=".45"/><circle cx="48" cy="48" r="32" fill="none" stroke="#f2cb78" stroke-opacity=".34"/>
+  <text x="48" y="53" fill="#fff1c7" font-family="Georgia,serif" font-size="30" text-anchor="middle">4</text><text x="48" y="72" fill="#efd18c" font-family="Arial,sans-serif" font-size="7" font-weight="700" letter-spacing="1.1" text-anchor="middle">CHESED</text>
+</svg>
