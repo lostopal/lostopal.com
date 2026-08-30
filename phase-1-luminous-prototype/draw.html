@@ -23,9 +23,9 @@
   <link rel="stylesheet" href="./black-opal-theme.css?v=20260804-hero-atmosphere-1">
   <link rel="stylesheet" href="./site-audit.css?v=20260804-mobile-footer-gap-1">
   <link rel="stylesheet" href="./site-future.css?v=20260813-uniform-public-shell-2">
-  <link rel="stylesheet" href="./draw.css?v=20260830-mobile-cards-1">
+  <link rel="stylesheet" href="./draw.css?v=20260830-real-thumbnails-2">
   <script src="./prototype.js?v=20260829-shared-runtime-1" defer></script>
-  <script src="./draw.js?v=20260830-mobile-cards-1" defer></script>
+  <script src="./draw.js?v=20260830-real-thumbnails-2" defer></script>
 </head>
 
 <body class="theme-black-opal site-future-page draw-page" id="top">
@@ -117,11 +117,7 @@
         <ol class="draw-legend" data-card-legend aria-label="Cards drawn"></ol>
       </div>
       <div class="draw-spread" data-spread-area></div>
-      <div class="draw-spread-nav" data-spread-nav hidden aria-label="Browse the cards in this spread">
-        <button type="button" data-spread-prev aria-label="Show previous cards">&lsaquo;</button>
-        <p><strong data-spread-status>Cards 1–2</strong><small>Swipe or use the arrows</small></p>
-        <button type="button" data-spread-next aria-label="Show more cards">&rsaquo;</button>
-      </div>
+      <p class="draw-spread__swipe-cue" data-spread-cue hidden>Swipe sideways to explore the complete spread <span aria-hidden="true">&rarr;</span></p>
       <p class="draw-spread__hint">Select any card to enlarge it and read its correspondences.</p>
     </section>
 
@@ -135,19 +131,14 @@
 
     <section class="draw-boundary" aria-label="Reading boundary">
       <p><strong>This is a reflective tool, not a verdict.</strong> Meanings are authored and bundled with Lost Opal—not generated live by AI. Keep what opens an honest conversation; leave what does not.</p>
-      <a href="./contact/#contact-form">Request a Human Reading</a>
+      <a href="./contact/#contact-form">Request a Reading</a>
     </section>
   </main>
 
   <dialog class="draw-card-dialog" data-card-dialog aria-labelledby="draw-card-dialog-title">
     <button class="draw-card-dialog__close" type="button" data-dialog-close aria-label="Close card details"></button>
     <div class="draw-card-dialog__visual">
-      <div class="draw-card-dialog__art"><img src="" alt="" width="320" height="533" decoding="async" data-dialog-image></div>
-      <nav class="draw-card-dialog__navigation" aria-label="Browse the cards in this reading">
-        <button type="button" data-dialog-prev aria-label="Show previous card">&lsaquo; Previous</button>
-        <span data-dialog-status aria-live="polite">Card 1 of 3</span>
-        <button type="button" data-dialog-next aria-label="Show next card">Next &rsaquo;</button>
-      </nav>
+      <div class="draw-card-dialog__art"><img src="" alt="" width="180" height="300" decoding="async" data-dialog-image></div>
       <p class="draw-card-dialog__scroll-cue">Scroll for the meaning and correspondences <span aria-hidden="true">&darr;</span></p>
     </div>
     <div class="draw-card-dialog__copy">

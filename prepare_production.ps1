@@ -132,7 +132,8 @@ foreach ($relativePath in $publicFiles) {
 
 $publicDirectories = @(
     'nuncastra',
-    'assets/tarot/1909-rws'
+    'assets/tarot/1909-rws',
+    'assets/tarot/1909-rws-draw'
 )
 
 foreach ($relativePath in $publicDirectories) {
