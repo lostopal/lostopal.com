@@ -60,6 +60,8 @@ $publicFiles = @(
     '.htaccess',
     'index.html',
     'draw.html',
+    'draw.css',
+    'draw.js',
     'not_found.html',
     'llms.txt',
     'llms-full.txt',
