@@ -14,8 +14,9 @@ phase-1-luminous-prototype/assets/**/*.png
 phase-1-luminous-prototype/assets/**/*.jpg
 phase-1-luminous-prototype/assets/**/*.jpeg
 
-# Superseded copies of the Nuncastra application; keep the redirect route only.
-phase-1-luminous-prototype/astrology/daily-snapshot/
+# Superseded copies of the Nuncastra application; keep the redirect routes only.
+phase-1-luminous-prototype/astrology/daily-snapshot/**
+!phase-1-luminous-prototype/astrology/daily-snapshot/index.html
 phase-1-luminous-prototype/astrology/nuncastra/**
 !phase-1-luminous-prototype/astrology/nuncastra/index.html
 
