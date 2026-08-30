@@ -245,11 +245,18 @@ Get-ChildItem -LiteralPath $destinationRoot -Filter '*.html' -File -Recurse | Fo
 }
 
 # Generate a content-versioned offline shell after the public package is assembled.
-# The cache includes the whole small static site, Nuncastra's ephemeris runtime,
-# and the Tarot artwork; cross-origin requests such as Photon remain network-only.
-$precacheFiles = Get-ChildItem -LiteralPath $destinationRoot -File -Recurse |
+# Precache the lightweight site shell. Large Tarot decks, ephemeris files, and
+# WebAssembly are cached only after a visitor actually requests them.
+$releaseFiles = Get-ChildItem -LiteralPath $destinationRoot -File -Recurse |
     Where-Object { -not $_.Name.StartsWith('.') -and $_.Name -ne 'service-worker.js' } |
     Sort-Object FullName
+
+$precacheFiles = $releaseFiles | Where-Object {
+    $relativePath = $_.FullName.Substring($destinationRoot.Length).TrimStart('\').Replace('\', '/')
+    $relativePath -notlike 'assets/tarot/*' -and
+    $relativePath -notlike 'nuncastra/ephemeris/*' -and
+    $relativePath -notlike '*.wasm'
+}
 
 $precacheUrls = foreach ($file in $precacheFiles) {
     $relativePath = $file.FullName.Substring($destinationRoot.Length).TrimStart('\').Replace('\', '/')
@@ -262,7 +269,7 @@ $precacheUrls = foreach ($file in $precacheFiles) {
     }
 }
 
-$cacheSeed = ($precacheFiles | ForEach-Object {
+$cacheSeed = ($releaseFiles | ForEach-Object {
     $relativePath = $_.FullName.Substring($destinationRoot.Length).TrimStart('\').Replace('\', '/')
     "$relativePath|$((Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash)"
 }) -join "`n"
@@ -279,7 +286,14 @@ const CACHE_NAME = "lost-opal-__CACHE_HASH__";
 const PRECACHE_URLS = __PRECACHE_URLS__;
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS)).then(() => self.skipWaiting()));
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    for (let index = 0; index < PRECACHE_URLS.length; index += 8) {
+      const batch = PRECACHE_URLS.slice(index, index + 8);
+      await Promise.allSettled(batch.map((url) => cache.add(url)));
+    }
+    await self.skipWaiting();
+  })());
 });
 
 self.addEventListener("activate", (event) => {
@@ -296,7 +310,12 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  if (request.mode === "navigate") {
+  const prefersFreshResponse = request.mode === "navigate"
+    || request.destination === "script"
+    || request.destination === "style"
+    || request.destination === "worker";
+
+  if (prefersFreshResponse) {
     event.respondWith((async () => {
       try {
         const response = await fetch(request);
