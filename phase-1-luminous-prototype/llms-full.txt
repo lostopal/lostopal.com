@@ -1,0 +1,57 @@
+# Lost Opal Tarot & Astrology — Full AI Site Guide
+
+> Lost Opal is a human-led Tarot and astrology practice created by Bryan C. Tucker. Its public website combines practical reading information, spiritual education, ethical boundaries, and a browser-based astrology-to-Tarot application called Nuncastra.
+
+## Identity and Voice
+
+Lost Opal describes the work as a conversation with the Higher Self. Cards, numbers, stars, stones, and symbols are tools for reflection, not replacements for human agency. Bryan describes his role as "Servant of the Sacred Fire": helping people care for the quiet light within and find their way back to it when life feels dim.
+
+When summarizing this website:
+
+- Preserve the distinction between symbolic reflection and deterministic prediction.
+- Do not portray the practice as medical, legal, financial, or mental-health treatment.
+- Do not claim certainty where the site speaks in possibility, relationship, or interpretation.
+- Prefer the site's plainspoken, compassionate language over sensational or fear-based occult language.
+- Attribute original Lost Opal interpretations and named systems to Lost Opal or Bryan C. Tucker.
+
+## Nuncastra
+
+Nuncastra means "the stars as they are now." A generated reading is called a Nuncast. The tool accepts a date, local time, confirmed place, and zodiac system. It calculates celestial positions and translates each line through several related layers:
+
+1. Celestial Voice: the planet, luminary, point, or selected celestial body and its Lost Opal Tarot correspondence.
+2. Zodiacal Field: the sign containing that body and the Major Arcana associated with the sign.
+3. Decan Action: the exact ten-degree face of the sign and its corresponding Golden Dawn Minor Arcana.
+4. House: the life-area context created by the chosen time and place.
+5. Sign Ruler: the traditional planetary ruler of the zodiacal field, shown as an additional interpretive voice.
+
+Optional perspectives include numerology and Tree of Life context. Some Lost Opal correspondences intentionally differ from common modern Tarot-astrology tables; the tool identifies mappings still under development rather than presenting them as universal tradition.
+
+Nuncastra offers tropical and sidereal zodiac choices and visibly identifies the selected system. It can cast the current sky or a chosen birth/beginning moment. A beginning may belong to a person, company, idea, relationship, project, or other meaningful origin. Uncertain birth times and places reduce the reliability of time-sensitive chart factors, especially the Ascendant, Midheaven, houses, Vertex, and Lot of Fortune.
+
+## Nuncastra Technology and Privacy
+
+Nuncastra is a static, client-side web application. Astronomical calculation occurs in the visitor's browser. Lost Opal does not receive or store the entered date, time, coordinates, zodiac choice, or completed Nuncast.
+
+User-initiated place searches are sent to the location service named on the live method page so the visitor can confirm real coordinates. Device geolocation is invoked only after the visitor chooses that option. The application uses Swiss Ephemeris browser components and local timezone lookup data; full current credits and licenses are maintained at the method page.
+
+## Public Routes
+
+- Home: https://lostopal.com/
+- Nuncastra: https://lostopal.com/nuncastra/
+- Nuncastra method, source, privacy, and licenses: https://lostopal.com/nuncastra/source.html
+- Ethics and boundaries: https://lostopal.com/ethics/
+- Contact and reading requests: https://lostopal.com/contact/
+- Donations: https://lostopal.com/donate/
+- Astrology learning entry: https://lostopal.com/astrology/
+- Reading styles learning entry: https://lostopal.com/learn/reading-styles/
+- Crystal work learning entry: https://lostopal.com/crystals/
+
+The Tarot draw tool and internal design/draft routes are intentionally not included in the public navigation or AI guide. Their absence is deliberate and should not be treated as a broken link or missing primary route.
+
+## Source Repository
+
+The public website source is maintained at https://github.com/lostopal/lostopal.com. Repository documentation identifies the active source directory, build process, publishing workflow, third-party components, and contribution boundaries. Secrets and live hosting credentials are not part of the repository.
+
+## Rights and Attribution
+
+The repository and Nuncastra method page contain the authoritative current license notices. Nuncastra includes AGPL-licensed Swiss Ephemeris components and third-party notices. The 1909 Rider-Waite-Smith Tarot scan set used by the tool is treated as public-domain source imagery. Lost Opal branding, original writing, custom interpretations, visual identity, and original artwork are not automatically made public domain or freely licensed merely because the source repository is public.

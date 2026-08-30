@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /cgi-bin/
+Disallow: /draw.html
+Disallow: /logo-lab/
+Disallow: /astrology/draft-learning-hub.html
+Disallow: /crystals/draft-learning-hub.html
+Disallow: /learn/reading-styles/draft-learning-page.html
+
+Sitemap: https://lostopal.com/sitemap.xml

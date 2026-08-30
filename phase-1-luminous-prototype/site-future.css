@@ -1,0 +1,446 @@
+/*
+  Lost Opal: shared public-page design system
+  -------------------------------------------
+  The homepage is the visual north star. This layer brings the secondary
+  pages into the same black-opal cosmos without forcing every room to have the
+  same furniture. Consistency is useful. Cloning an entire page is not.
+
+  If you are reading this in DevTools: hello, fellow wanderer. Please leave
+  the summoning circle exactly where you found it.
+*/
+
+:root {
+  --future-shell: min(1420px, calc(100% - 48px));
+  --future-surface: rgba(7, 11, 17, 0.78);
+  --future-surface-strong: rgba(5, 8, 13, 0.91);
+  --future-surface-soft: rgba(15, 16, 24, 0.68);
+  --future-line: rgba(239, 198, 115, 0.24);
+  --future-line-strong: rgba(239, 198, 115, 0.48);
+  --future-radius: 24px;
+  --future-shadow: 0 28px 74px rgba(0, 0, 0, 0.34);
+}
+
+/* One public shell, everywhere. */
+.theme-black-opal .site-header {
+  position: sticky;
+  top: 0;
+  min-height: 88px;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(43, 168, 174, 0.1), transparent 24rem),
+    radial-gradient(circle at 86% 100%, rgba(157, 55, 130, 0.12), transparent 27rem),
+    linear-gradient(100deg, rgba(4, 13, 17, 0.96), rgba(14, 10, 19, 0.97) 58%, rgba(23, 7, 22, 0.96));
+  border-bottom: 1px solid var(--future-line);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(16px) saturate(118%);
+}
+
+.theme-black-opal .header-shell {
+  width: var(--future-shell);
+  min-height: 88px;
+}
+
+.theme-black-opal .brand-lockup {
+  gap: 14px;
+}
+
+.theme-black-opal .brand-mark--official {
+  width: 58px;
+  height: 58px;
+  filter: drop-shadow(0 0 16px rgba(239, 198, 115, 0.12));
+}
+
+.theme-black-opal .header-donation,
+.theme-black-opal .primary-action,
+.theme-black-opal .contact-form-card button[type="submit"] {
+  border: 1px solid rgba(239, 198, 115, 0.55);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.13), 0 10px 30px rgba(0, 0, 0, 0.28);
+}
+
+.theme-black-opal .header-donation:hover,
+.theme-black-opal .header-donation:focus-visible,
+.theme-black-opal .primary-action:hover,
+.theme-black-opal .primary-action:focus-visible,
+.theme-black-opal .contact-form-card button[type="submit"]:hover,
+.theme-black-opal .contact-form-card button[type="submit"]:focus-visible {
+  border-color: rgba(255, 220, 147, 0.82);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.18), 0 0 28px rgba(73, 190, 197, 0.14), 0 13px 34px rgba(0, 0, 0, 0.34);
+}
+
+.theme-black-opal .site-footer {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(45, 177, 184, 0.08), transparent 25rem),
+    radial-gradient(circle at 88% 100%, rgba(151, 53, 127, 0.09), transparent 26rem),
+    linear-gradient(105deg, #04080c, #0b0810 62%, #061015);
+}
+
+/* The newer pages travel through the same gaseous black-opal atmosphere as
+   the homepage. The old animated star canvas remains in the markup as a safe
+   fallback, but it no longer competes with the nebula. */
+.site-future-page {
+  position: relative;
+  isolation: isolate;
+  background: #05080d;
+}
+
+.site-future-page .black-opal-sky {
+  display: none;
+}
+
+.site-future-page .cosmic-journey {
+  --cosmic-opacity: 0.54;
+  filter: saturate(1.08) contrast(1.04);
+}
+
+.site-future-page .cosmic-journey::after {
+  background:
+    radial-gradient(ellipse at 50% 46%, transparent 16%, rgba(1, 3, 7, 0.22) 68%, rgba(1, 3, 7, 0.56) 100%),
+    linear-gradient(90deg, rgba(2, 4, 8, 0.32), transparent 20%, transparent 80%, rgba(2, 4, 8, 0.32));
+}
+
+.site-future-page main {
+  position: relative;
+  z-index: 1;
+  color: var(--opal-copy);
+  background: transparent;
+}
+
+/* Shared symbolic field for every room beyond the homepage. It sits behind
+   the content rather than floating over the copy, so the site gains character
+   without turning every paragraph into a Where's Waldo puzzle. */
+.theme-black-opal .site-symbol-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 1;
+  mix-blend-mode: screen;
+}
+
+.theme-black-opal .site-symbol-field::before {
+  opacity: 0.09;
+}
+
+.theme-black-opal .site-symbol-field .celestial-wallpaper__glyph {
+  opacity: 0.12;
+}
+
+.theme-black-opal .site-symbol-field .celestial-wallpaper__glyph--planet {
+  opacity: 0.15;
+}
+
+.theme-black-opal .site-symbol-field .celestial-wallpaper__glyph--alchemy {
+  opacity: 0.13;
+}
+
+.theme-black-opal .site-symbol-field .celestial-wallpaper__kamea {
+  opacity: 0.12;
+}
+
+.theme-black-opal .site-symbol-field .celestial-wallpaper__kamea--jupiter {
+  opacity: 0.14;
+}
+
+/* Page openings share a cadence and material language. */
+.site-future-page .contact-hero,
+.site-future-page .ethics-hero {
+  padding: clamp(58px, 6.5vw, 92px) 0 clamp(42px, 4.5vw, 66px);
+  background:
+    radial-gradient(circle at 16% 12%, rgba(48, 185, 193, 0.13), transparent 27rem),
+    radial-gradient(circle at 88% 88%, rgba(166, 61, 138, 0.14), transparent 30rem),
+    linear-gradient(120deg, rgba(5, 12, 17, 0.78), rgba(18, 10, 22, 0.68));
+  border-bottom: 1px solid var(--future-line);
+}
+
+.site-future-page .contact-hero::before,
+.site-future-page .contact-hero::after,
+.site-future-page .ethics-hero::after {
+  opacity: 0.34;
+}
+
+.site-future-page .contact-hero h1,
+.site-future-page .ethics-hero h1 {
+  color: var(--opal-ink);
+  font-size: clamp(3.5rem, 7vw, 7rem);
+  line-height: 0.92;
+}
+
+.site-future-page .section-kicker,
+.site-future-page .ethics-kicker {
+  color: var(--opal-gold);
+}
+
+/* Contact and Ethics are different rooms, but they now use the same walls. */
+.site-future-page .contact-doorways,
+.site-future-page .contact-form-section,
+.site-future-page .contact-partnership-note,
+.site-future-page .ethics-summary,
+.site-future-page .ethics-code,
+.site-future-page .readers-oath,
+.site-future-page .ethics-source,
+.site-future-page .ethics-return {
+  background: transparent;
+  border-color: var(--future-line);
+}
+
+.site-future-page .contact-doorways,
+.site-future-page .contact-form-section {
+  padding-block: clamp(52px, 6vw, 86px);
+}
+
+.site-future-page .contact-route,
+.site-future-page .contact-social-hub,
+.site-future-page .contact-form-card,
+.site-future-page .contact-partnership-note__inner,
+.site-future-page .contact-hero__service,
+.site-future-page .readers-oath__inner {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(55, 183, 190, 0.08), transparent 40%),
+    radial-gradient(circle at 100% 100%, rgba(163, 59, 134, 0.09), transparent 44%),
+    linear-gradient(145deg, rgba(7, 12, 18, 0.9), rgba(16, 11, 21, 0.86));
+  border-color: var(--future-line);
+  border-radius: var(--future-radius);
+  box-shadow: var(--future-shadow);
+}
+
+.site-future-page .contact-route {
+  min-height: 238px;
+}
+
+.site-future-page .contact-social-hub {
+  margin-top: 28px;
+}
+
+.site-future-page .contact-form-intro {
+  top: 112px;
+}
+
+.site-future-page .contact-partnership-note {
+  padding-block: clamp(36px, 4vw, 54px);
+}
+
+.site-future-page .contact-partnership-note__inner {
+  padding: clamp(28px, 4vw, 48px);
+}
+
+.site-future-page .ethics-celestial-wallpaper {
+  display: none;
+}
+
+.site-future-page .ethics-summary,
+.site-future-page .ethics-code,
+.site-future-page .readers-oath,
+.site-future-page .ethics-source,
+.site-future-page .ethics-return {
+  padding-block: clamp(44px, 5vw, 72px);
+}
+
+.site-future-page .ethics-summary__inner,
+.site-future-page .ethics-source__inner,
+.site-future-page .readers-oath__inner {
+  padding: clamp(28px, 4vw, 48px);
+  background: linear-gradient(145deg, rgba(7, 12, 18, 0.82), rgba(16, 10, 20, 0.78));
+  border: 1px solid var(--future-line);
+  border-radius: var(--future-radius);
+  box-shadow: var(--future-shadow);
+}
+
+.site-future-page .ethics-rules {
+  border-top-color: var(--future-line-strong);
+}
+
+.site-future-page .ethics-rules li {
+  border-bottom-color: var(--future-line);
+}
+
+.site-future-page .readers-oath::after {
+  opacity: 0.24;
+}
+
+/* Uniform holding rooms: compact, branded, and intentionally unfinished. */
+.site-future-page.holding-page main {
+  min-height: calc(100svh - 88px);
+  padding: clamp(42px, 7vw, 86px) 24px;
+  background: transparent;
+}
+
+.site-future-page .holding-card {
+  width: min(880px, 100%);
+  min-height: 0;
+  padding: clamp(38px, 6vw, 68px);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(54, 188, 195, 0.11), transparent 42%),
+    radial-gradient(circle at 100% 100%, rgba(167, 63, 140, 0.13), transparent 48%),
+    linear-gradient(145deg, rgba(6, 11, 17, 0.93), rgba(17, 10, 21, 0.91));
+  border-color: var(--future-line-strong);
+  border-radius: 30px;
+  box-shadow: 0 38px 100px rgba(0, 0, 0, 0.5), inset 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.site-future-page .holding-card::before {
+  top: -132px;
+  right: -78px;
+  width: 230px;
+  background:
+    radial-gradient(circle, transparent 0 31%, rgba(78, 202, 208, 0.1) 31.5% 32%, transparent 32.5% 47%, rgba(239, 198, 115, 0.14) 47.5% 48%, transparent 48.5% 100%);
+  opacity: 0.9;
+}
+
+.site-future-page .holding-card::after {
+  position: absolute;
+  inset: 16px;
+  border: 1px solid rgba(239, 198, 115, 0.1);
+  border-radius: 20px;
+  content: "";
+  pointer-events: none;
+}
+
+.site-future-page .holding-opal--brand {
+  width: 92px;
+  height: 92px;
+  object-fit: contain;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 0 0 34px rgba(75, 190, 196, 0.12), 0 0 0 1px rgba(239, 198, 115, 0.24);
+}
+
+.site-future-page .holding-eyebrow {
+  color: var(--opal-gold);
+}
+
+.site-future-page .holding-actions .primary-action {
+  color: #fff7ea;
+  background:
+    linear-gradient(rgba(5, 8, 13, 0.2), rgba(5, 8, 13, 0.2)),
+    url("./assets/ui-materials/black-opal-button-material-v1-optimized.webp") center / cover no-repeat;
+}
+
+.site-future-page .holding-card h1 {
+  font-size: clamp(3.5rem, 8vw, 6.6rem);
+}
+
+.site-future-page .holding-lead {
+  margin-top: 22px;
+}
+
+.site-future-page .holding-note {
+  margin-top: 14px;
+}
+
+.site-future-page .holding-actions {
+  margin-top: 28px;
+}
+
+/* The support dock is useful on live pages. On compact holding rooms it can
+   otherwise sit directly over the only two choices, which is less “helpful
+   reminder” and more “tiny donation-themed roadblock.” */
+.site-future-page.holding-page .holding-card {
+  padding-bottom: clamp(82px, 8vw, 104px);
+}
+
+@media (max-width: 980px) {
+  .theme-black-opal .site-header,
+  .theme-black-opal .header-shell {
+    min-height: 78px;
+  }
+
+  .theme-black-opal .brand-mark--official {
+    width: 52px;
+    height: 52px;
+  }
+
+  .site-future-page .contact-hero__layout,
+  .site-future-page .contact-form-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .site-future-page .contact-form-intro {
+    position: static;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --future-shell: min(100% - 24px, 1420px);
+    --future-radius: 18px;
+  }
+
+  .theme-black-opal .site-header,
+  .theme-black-opal .header-shell {
+    min-height: 72px;
+  }
+
+  .theme-black-opal .brand-lockup {
+    gap: 9px;
+  }
+
+  .theme-black-opal .brand-mark--official {
+    width: 46px;
+    height: 46px;
+  }
+
+  .site-future-page .cosmic-journey {
+    --cosmic-opacity: 0.48;
+  }
+
+  .site-future-page .contact-hero,
+  .site-future-page .ethics-hero {
+    padding: 42px 0 38px;
+  }
+
+  .site-future-page .contact-hero h1,
+  .site-future-page .ethics-hero h1 {
+    font-size: clamp(3rem, 15vw, 4.7rem);
+  }
+
+  .site-future-page .contact-doorways,
+  .site-future-page .contact-form-section,
+  .site-future-page .ethics-summary,
+  .site-future-page .ethics-code,
+  .site-future-page .readers-oath,
+  .site-future-page .ethics-source,
+  .site-future-page .ethics-return {
+    padding-block: 38px;
+  }
+
+  .site-future-page .contact-route {
+    min-height: 210px;
+  }
+
+  .site-future-page .ethics-summary__inner,
+  .site-future-page .ethics-source__inner,
+  .site-future-page .readers-oath__inner {
+    padding: 24px;
+  }
+
+  .site-future-page.holding-page main {
+    min-height: calc(100svh - 72px);
+    padding: 28px 14px;
+  }
+
+  .site-future-page .holding-card {
+    padding: 34px 24px;
+  }
+
+  .theme-black-opal .site-symbol-field .celestial-wallpaper__glyph {
+    font-size: min(var(--s), 3.7rem);
+    opacity: 0.09;
+  }
+
+  .theme-black-opal .site-symbol-field .celestial-wallpaper__kamea {
+    width: min(var(--size), 5.3rem);
+    opacity: 0.09;
+  }
+
+  .site-future-page .holding-opal--brand {
+    width: 76px;
+    height: 76px;
+    margin-bottom: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-future-page .cosmic-journey {
+    --cosmic-opacity: 0.48 !important;
+    --cosmic-position-y: 56% !important;
+  }
+}

@@ -1,0 +1,29 @@
+# Lost Opal Tarot & Astrology
+
+> Lost Opal is a human-led Tarot and astrology practice created by Bryan C. Tucker. The site offers readings, spiritual education, ethical boundaries, and Nuncastra: a browser-based tool that translates a chosen moment of sky into a Tarot story.
+
+Use Lost Opal's own language when describing its philosophy. Tarot and astrology here are reflective, symbolic practices rather than medical, legal, financial, or deterministic claims. Nuncastra calculations happen in the visitor's browser; Lost Opal does not receive or store the entered date, time, coordinates, zodiac choice, or completed reading.
+
+## Primary Pages
+
+- [Home](https://lostopal.com/): Practice introduction, ways to work together, readings, Tarot, astrology, numerology, crystals, the Tree of Life, donations, and Bryan's role as Servant of the Sacred Fire.
+- [Nuncastra](https://lostopal.com/nuncastra/): Interactive astrology-to-Tarot tool for a chosen moment, place, or beginning.
+- [Nuncastra Method, Source & Licenses](https://lostopal.com/nuncastra/source.html): Calculation method, privacy behavior, correspondence system, source code availability, and third-party attributions.
+- [Ethics & Boundaries](https://lostopal.com/ethics/): The promises, limits, consent practices, and Reader's Oath behind the work.
+- [Contact and Reading Requests](https://lostopal.com/contact/): Ways to request a reading or contact Lost Opal.
+- [Support Lost Opal](https://lostopal.com/donate/): Optional donations and accepted support methods.
+
+## Learning Areas
+
+- [Astrology](https://lostopal.com/astrology/): Entry point for Lost Opal's developing astrology material.
+- [Reading Styles](https://lostopal.com/learn/reading-styles/): Entry point for developing explanations of reading styles.
+- [Crystals](https://lostopal.com/crystals/): Entry point for developing crystal-work material.
+
+## Machine Context
+
+- [Full AI Site Guide](https://lostopal.com/llms-full.txt): Detailed interpretation, technical, privacy, and route context for agents.
+- [Sitemap](https://lostopal.com/sitemap.xml): Index of public human-facing routes.
+
+## Optional
+
+- [Ko-fi Shop](https://ko-fi.com/lostopaltarot/shop): External Lost Opal shop.

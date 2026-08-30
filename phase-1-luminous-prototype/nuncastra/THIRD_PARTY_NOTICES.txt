@@ -1,0 +1,40 @@
+Nuncastra by Lost Opal Tarot & Astrology — Third-Party Notices
+================================================================
+
+Swiss Ephemeris
+---------------
+Astronomical calculations and data use Swiss Ephemeris. Swiss Ephemeris is
+copyright Astrodienst AG and is available under a dual-license model: GNU
+Affero General Public License version 3 or a professional license.
+
+Project information: https://www.astro.com/swisseph/
+License information: https://www.astro.com/swisseph/swephinfo_e.htm
+
+@swisseph/browser 1.3.1
+-------------------------
+The browser WebAssembly integration is distributed under GNU AGPL-3.0.
+Source: https://github.com/swisseph-js/swisseph
+The complete GNU AGPL-3.0 license text is included as LICENSE.txt.
+
+tz-lookup 6.1.25
+----------------
+The offline coordinate-to-IANA-time-zone lookup is dedicated under CC0-1.0.
+Source: https://github.com/darkskyapp/tz-lookup
+Its license text is included as vendor/tz-lookup-LICENSE.txt.
+
+OpenStreetMap / Nominatim
+------------------------
+User-initiated city and postal-code searches use the public Nominatim service.
+OpenStreetMap data is copyright OpenStreetMap contributors and available under
+the Open Database License. Direct coordinates and browser geolocation do not
+use Nominatim.
+
+Attribution: https://www.openstreetmap.org/copyright
+Nominatim: https://nominatim.org/
+
+Tarot imagery
+-------------
+The calculator displays the Lost Opal site's supplied scan set of the 1909
+Rider-Waite-Smith deck. Lost Opal's logos, typography, interpretations, and
+original visual presentation are not third-party components of the astronomy
+engine.

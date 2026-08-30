@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1260" role="img" aria-labelledby="title desc">
+  <title id="title">Lost Opal Tarot and Astrology orbital seal</title>
+  <desc id="desc">A circular golden seal based directly on the hand-drawn composition: twelve zodiac signs in the outer collar, six black-opal planetary cabochons surrounding a central black-opal Sun, the original Lost Opal wordmark, and an infinity crest.</desc>
+
+  <defs>
+    <style>
+      .zodiac {
+        fill: #f7dc99;
+        font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", serif;
+        font-size: 48px;
+        text-anchor: middle;
+        dominant-baseline: middle;
+        paint-order: stroke fill;
+        stroke: #3c1d08;
+        stroke-width: 2px;
+      }
+      .subtitle {
+        fill: #f5d689;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 25px;
+        font-weight: 700;
+        letter-spacing: 7px;
+        paint-order: stroke fill;
+        stroke: #321609;
+        stroke-width: 1.4px;
+      }
+    </style>
+
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5b2808"/>
+      <stop offset="0.12" stop-color="#c57b24"/>
+      <stop offset="0.27" stop-color="#ffe8a0"/>
+      <stop offset="0.42" stop-color="#8c4310"/>
+      <stop offset="0.58" stop-color="#f4c86d"/>
+      <stop offset="0.74" stop-color="#fff0b4"/>
+      <stop offset="0.88" stop-color="#a55316"/>
+      <stop offset="1" stop-color="#e2a84a"/>
+    </linearGradient>
+
+    <radialGradient id="blackField" cx="45%" cy="34%" r="74%">
+      <stop offset="0" stop-color="#18262b"/>
+      <stop offset="0.36" stop-color="#0b1319"/>
+      <stop offset="0.68" stop-color="#100815"/>
+      <stop offset="1" stop-color="#020305"/>
+    </radialGradient>
+
+    <radialGradient id="collar" cx="43%" cy="34%" r="78%">
+      <stop offset="0" stop-color="#1a3133"/>
+      <stop offset="0.38" stop-color="#071116"/>
+      <stop offset="0.7" stop-color="#18091a"/>
+      <stop offset="1" stop-color="#030205"/>
+    </radialGradient>
+
+    <filter id="sealShadow" x="-30%" y="-30%" width="160%" height="170%">
+      <feDropShadow dx="0" dy="20" stdDeviation="24" flood-color="#000" flood-opacity="0.68"/>
+    </filter>
+
+    <filter id="metalTexture" x="-12%" y="-12%" width="124%" height="124%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="2" seed="31" result="grain"/>
+      <feColorMatrix in="grain" type="saturate" values="0" result="mono"/>
+      <feComponentTransfer in="mono" result="softGrain">
+        <feFuncA type="table" tableValues="0 0.11"/>
+      </feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="softGrain" mode="soft-light"/>
+    </filter>
+
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="wordmarkKnockout" x="-8%" y="-12%" width="116%" height="124%" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="
+        1 0 0 0 0
+        0 1 0 0 0
+        0 0 1 0 0
+        .34 .48 .18 0 -.12"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="1.45" intercept="-.04"/>
+      </feComponentTransfer>
+    </filter>
+
+    <path id="subtitleArc" d="M430 680 A190 190 0 0 0 770 680"/>
+  </defs>
+
+  <g filter="url(#sealShadow)">
+    <circle cx="600" cy="630" r="528" fill="#020306" stroke="#170905" stroke-width="22"/>
+    <circle cx="600" cy="630" r="518" fill="url(#collar)" stroke="url(#gold)" stroke-width="13" filter="url(#metalTexture)"/>
+    <circle cx="600" cy="630" r="494" fill="none" stroke="#f6d889" stroke-width="2.5" opacity="0.8"/>
+    <circle cx="600" cy="630" r="446" fill="none" stroke="#8f531f" stroke-width="2" opacity="0.78"/>
+    <circle cx="600" cy="630" r="396" fill="url(#blackField)" stroke="url(#gold)" stroke-width="10"/>
+    <circle cx="600" cy="630" r="376" fill="none" stroke="#e9bd65" stroke-width="2" opacity="0.5"/>
+
+    <g aria-label="Zodiac collar beginning with Aries at nine o'clock and proceeding counterclockwise">
+      <text class="zodiac" x="132" y="630">&#x2648;</text>
+      <text class="zodiac" x="195" y="864">&#x2649;</text>
+      <text class="zodiac" x="366" y="1035">&#x264A;</text>
+      <text class="zodiac" x="600" y="1098">&#x264B;</text>
+      <text class="zodiac" x="834" y="1035">&#x264C;</text>
+      <text class="zodiac" x="1005" y="864">&#x264D;</text>
+      <text class="zodiac" x="1068" y="630">&#x264E;</text>
+      <text class="zodiac" x="1005" y="396">&#x264F;</text>
+      <text class="zodiac" x="834" y="225">&#x2650;</text>
+      <text class="zodiac" x="600" y="162">&#x2651;</text>
+      <text class="zodiac" x="366" y="225">&#x2652;</text>
+      <text class="zodiac" x="195" y="396">&#x2653;</text>
+    </g>
+
+    <g fill="#d69c46" opacity="0.72" aria-hidden="true">
+      <circle cx="148" cy="509" r="3.5"/><circle cx="148" cy="751" r="3.5"/>
+      <circle cx="268" cy="300" r="3.5"/><circle cx="268" cy="960" r="3.5"/>
+      <circle cx="480" cy="177" r="3.5"/><circle cx="480" cy="1083" r="3.5"/>
+      <circle cx="720" cy="177" r="3.5"/><circle cx="720" cy="1083" r="3.5"/>
+      <circle cx="932" cy="300" r="3.5"/><circle cx="932" cy="960" r="3.5"/>
+      <circle cx="1052" cy="509" r="3.5"/><circle cx="1052" cy="751" r="3.5"/>
+    </g>
+
+    <g aria-label="Seven planetary black-opal cabochons from the original uniform V1 family">
+      <image href="planetary-cabochons/v1/black-opal/saturn.png" x="525" y="235" width="150" height="150"/>
+      <image href="planetary-cabochons/v1/black-opal/jupiter.png" x="785" y="385" width="150" height="150"/>
+      <image href="planetary-cabochons/v1/black-opal/venus.png" x="785" y="685" width="150" height="150"/>
+      <image href="planetary-cabochons/v1/black-opal/moon.png" x="525" y="835" width="150" height="150"/>
+      <image href="planetary-cabochons/v1/black-opal/mercury.png" x="265" y="685" width="150" height="150"/>
+      <image href="planetary-cabochons/v1/black-opal/mars.png" x="265" y="385" width="150" height="150"/>
+    </g>
+
+    <g filter="url(#wordmarkKnockout)" aria-label="Lost Opal">
+      <svg x="350" y="506" width="230" height="106" viewBox="548 640 276 127" overflow="hidden" transform="rotate(-4 580 620)">
+        <image href="lost-opal-logo-render-v7.png" x="0" y="0" width="1681" height="935"/>
+      </svg>
+      <svg x="620" y="506" width="230" height="106" viewBox="836 640 294 127" overflow="hidden" transform="rotate(4 620 620)">
+        <image href="lost-opal-logo-render-v7.png" x="0" y="0" width="1681" height="935"/>
+      </svg>
+    </g>
+
+    <image href="planetary-cabochons/v1/black-opal/sun.png" x="515" y="545" width="170" height="170" aria-label="Sun"/>
+
+    <text class="subtitle">
+      <textPath href="#subtitleArc" startOffset="50%" text-anchor="middle">TAROT &amp; ASTROLOGY</textPath>
+    </text>
+
+    <g transform="translate(600 78)" filter="url(#softGlow)" aria-label="Infinity">
+      <path d="M0 20 C-38 -20 -88 -17 -88 20 C-88 57 -37 60 0 20 C37 -20 88 -17 88 20 C88 57 38 60 0 20 Z"
+            fill="none" stroke="#351707" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M0 20 C-38 -20 -88 -17 -88 20 C-88 57 -37 60 0 20 C37 -20 88 -17 88 20 C88 57 38 60 0 20 Z"
+            fill="none" stroke="url(#gold)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+</svg>

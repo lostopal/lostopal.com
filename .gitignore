@@ -1,0 +1,41 @@
+# Generated releases and validation output
+production-site/
+output/
+tmp/
+verification/
+
+# Private/local history and previous site trees
+backups/
+working-site/
+phase-1-prototype/
+
+# Unpublished raw raster experiments. Optimized WebP assets remain tracked.
+phase-1-luminous-prototype/assets/**/*.png
+phase-1-luminous-prototype/assets/**/*.jpg
+phase-1-luminous-prototype/assets/**/*.jpeg
+
+# Superseded copies of the Nuncastra application; keep the redirect route only.
+phase-1-luminous-prototype/astrology/daily-snapshot/
+phase-1-luminous-prototype/astrology/nuncastra/**
+!phase-1-luminous-prototype/astrology/nuncastra/index.html
+
+# Local editor, OS, dependency, and credential files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+node_modules/
+.env
+.env.*
+*.local
+*.log
+*.pem
+*.key
+*.pfx
+*.p12
+*credentials*
+*secret*
+
+# Python caches
+__pycache__/
+*.py[cod]

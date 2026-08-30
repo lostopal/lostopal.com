@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07090d">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <title>Nuncastra | The Stars as They Are Now</title>
+  <meta name="description" content="Choose a moment and place, then translate the living sky into Tarot through Lost Opal correspondences.">
+  <link rel="canonical" href="https://lostopal.com/nuncastra/">
+  <link rel="describedby" href="/llms.txt" type="text/plain">
+  <link rel="stylesheet" href="../styles.css?v=20260813-study-map-1">
+  <link rel="stylesheet" href="../luminous.css?v=20260804-site-audit-1">
+  <link rel="stylesheet" href="../black-opal-theme.css?v=20260804-hero-atmosphere-1">
+  <link rel="stylesheet" href="../site-audit.css?v=20260804-mobile-footer-gap-1">
+  <link rel="stylesheet" href="../site-future.css?v=20260813-uniform-public-shell-2">
+  <link rel="stylesheet" href="./nuncastra.css?v=20260829-nuncastra-32">
+  <script src="../prototype.js?v=20260813-uniform-public-shell-2" defer></script>
+  <script src="../cosmic-journey.js?v=20260813-uniform-public-shell-1" defer></script>
+  <script src="../coming-soon.js?v=20260812-public-copy-1" defer></script>
+  <script src="../planetary-vortex.js?v=20260829-nuncastra-intro-4" defer></script>
+  <script type="module" src="./nuncastra.js?v=20260829-nuncastra-20"></script>
+</head>
+
+<body class="theme-black-opal site-future-page nuncastra-page" data-print-mode="ink" data-art-mode="color">
+  <a class="skip-link" href="#nuncastra-workspace">Skip to Nuncastra</a>
+  <div class="cosmic-journey" data-cosmic-journey aria-hidden="true"></div>
+
+  <section class="seeker-entry" data-seeker-entry hidden aria-labelledby="seeker-greeting">
+    <div class="seeker-entry__cosmos" aria-hidden="true">
+      <canvas class="seeker-entry__vortex" data-planetary-vortex data-vortex-quality="intro"></canvas>
+      <div class="seeker-entry__planets">
+        <img src="../assets/planetary-cabochons/v2/black-opal/saturn.webp" alt="" width="256" height="256" decoding="async" style="--planet-x:50%;--planet-y:19.7%;--planet-delay:-4s">
+        <img src="../assets/planetary-cabochons/v2/black-opal/jupiter.webp" alt="" width="256" height="256" decoding="async" style="--planet-x:76.9%;--planet-y:38.2%;--planet-delay:-9s">
+        <img src="../assets/planetary-cabochons/v2/black-opal/mars.webp" alt="" width="256" height="256" decoding="async" style="--planet-x:76.9%;--planet-y:67.8%;--planet-delay:-2s">
+        <img src="../assets/planetary-cabochons/v2/black-opal/sun.webp" alt="" width="256" height="256" decoding="async" style="--planet-x:50%;--planet-y:50%;--planet-delay:-6s">
+        <img src="../assets/planetary-cabochons/v2/black-opal/venus.webp" alt="" width="256" height="256" decoding="async" style="--planet-x:23.1%;--planet-y:67.8%;--planet-delay:-11s">
+        <img src="../assets/planetary-cabochons/v2/black-opal/mercury.webp" alt="" width="256" height="256" decoding="async" style="--planet-x:23.1%;--planet-y:38.2%;--planet-delay:-7s">
+        <img src="../assets/planetary-cabochons/v2/black-opal/moon.webp" alt="" width="256" height="256" decoding="async" style="--planet-x:50%;--planet-y:81.3%;--planet-delay:-1s">
+      </div>
+    </div>
+    <button class="seeker-entry__skip" type="button" data-entry-skip>Skip Intro</button>
+    <div class="seeker-entry__field" aria-live="polite">
+      <p class="seeker-entry__hello" id="seeker-greeting">Hello, Seeker&hellip;</p>
+      <div class="seeker-entry__invitation" data-entry-invitation>
+        <p>Would you like to meet the sky as it is&mdash;or let it meet you?</p>
+        <div>
+          <button type="button" data-entry-path="moment">Show Me This Moment</button>
+          <button type="button" data-entry-path="personal">Provide Your Birthday</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shared site header. Nuncastra intentionally remains absent from the public navigation. -->
+  <header class="site-header" data-site-header>
+    <div class="header-shell">
+      <a class="brand-lockup" href="../#top" aria-label="Lost Opal Tarot and Astrology home">
+        <img class="brand-mark brand-mark--official" src="../assets/logo/lost-opal-ornate-yin-yang-nav.webp?v=20260829-webp-1" alt="" width="54" height="54" decoding="async" aria-hidden="true">
+        <span class="brand-name"><strong>Lost Opal</strong><span>Tarot &amp; Astrology</span></span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a class="nav-link nav-home" href="../#top" aria-label="Home" title="Home"><span class="home-medallion" aria-hidden="true"><i class="home-icon"></i></span></a>
+        <div class="nav-group">
+          <button class="nav-trigger" type="button" aria-expanded="false" aria-controls="readings-menu">Readings <span class="nav-trigger__mark" aria-hidden="true"></span></button>
+          <div class="nav-menu" id="readings-menu" hidden><p class="nav-menu__label">Readings</p><a href="../#readings">Ways to Work With Me</a><a href="../#what-to-expect">How I Read</a><a href="../contact/#contact-form">Booking &amp; Inquiries</a></div>
+        </div>
+        <a class="nav-link" href="../ethics/">Ethics</a>
+        <div class="nav-group">
+          <button class="nav-trigger" type="button" aria-expanded="false" aria-controls="learn-menu">Learn <span class="nav-trigger__mark" aria-hidden="true"></span></button>
+          <div class="nav-menu" id="learn-menu" hidden><p class="nav-menu__label">Learn</p><a href="../#tools">Practices &amp; Tools</a><a href="../learn/reading-styles/">Reading Styles</a><a href="../#symbolic-cosmos">Planets &amp; Symbols</a><a href="../crystals/">Stones &amp; Crystal Work</a><a class="prototype-route" href="#coming-soon" data-coming-soon-title="Card Meanings">Card Meanings</a><a class="prototype-route" href="#coming-soon" data-coming-soon-title="Tree of Life">Tree of Life</a><a href="../astrology/">Astrology</a></div>
+        </div>
+        <a class="nav-link prototype-route" href="#coming-soon" data-coming-soon-title="The Library">Library</a>
+        <a class="nav-link" href="https://ko-fi.com/lostopaltarot/shop" target="_blank" rel="noopener noreferrer">Shop</a>
+        <a class="nav-link" href="../#about">About</a>
+        <a class="nav-link" href="../contact/">Contact</a>
+      </nav>
+
+      <button class="nuncastra-header-reset" type="button" data-start-over>Start Over</button>
+      <a class="header-donation" href="../contact/#contact-form">Request a Reading</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-drawer" aria-label="Open menu"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+    </div>
+  </header>
+
+  <div class="drawer-backdrop" data-drawer-backdrop hidden></div>
+  <aside class="mobile-drawer" id="mobile-drawer" aria-label="Mobile navigation" hidden>
+    <div class="mobile-drawer__header"><p>Explore Lost Opal</p><button class="drawer-close" type="button" aria-label="Close menu"><span aria-hidden="true"></span><span aria-hidden="true"></span></button></div>
+    <nav class="mobile-nav" aria-label="Mobile primary navigation">
+      <a class="mobile-home" href="../#top" aria-label="Home" title="Home"><span class="home-medallion" aria-hidden="true"><i class="home-icon"></i></span></a>
+      <details><summary>Readings <span aria-hidden="true">+</span></summary><div class="mobile-nav__subnav"><a href="../#readings">Ways to Work With Me</a><a href="../#what-to-expect">How I Read</a><a href="../contact/#contact-form">Booking &amp; Inquiries</a></div></details>
+      <a href="../ethics/">Ethics</a>
+      <details><summary>Learn <span aria-hidden="true">+</span></summary><div class="mobile-nav__subnav"><a href="../#tools">Practices &amp; Tools</a><a href="../learn/reading-styles/">Reading Styles</a><a href="../#symbolic-cosmos">Planets &amp; Symbols</a><a href="../crystals/">Stones &amp; Crystal Work</a><a class="prototype-route" href="#coming-soon" data-coming-soon-title="Card Meanings">Card Meanings</a><a class="prototype-route" href="#coming-soon" data-coming-soon-title="Tree of Life">Tree of Life</a><a href="../astrology/">Astrology</a></div></details>
+      <a class="prototype-route" href="#coming-soon" data-coming-soon-title="The Library">Library</a><a href="https://ko-fi.com/lostopaltarot/shop" target="_blank" rel="noopener noreferrer">Shop</a><a href="../#about">About</a><a href="../contact/">Contact</a>
+    </nav>
+    <div class="mobile-drawer__actions">
+      <button class="mobile-drawer__reset" type="button" data-start-over>Start Over</button>
+      <a class="mobile-drawer__donation" href="../contact/#contact-form">Request a Reading</a>
+    </div>
+    <p class="mobile-drawer__note">Clear paths. Grounded guidance. No fear tactics.</p>
+  </aside>
+
+  <main id="nuncastra-workspace">
+    <section class="nuncastra-hero" aria-labelledby="nuncastra-title">
+      <div class="nuncastra-shell nuncastra-hero__grid">
+        <div class="nuncastra-hero__copy">
+          <div class="nuncastra-title-lockup">
+            <img src="../assets/logo/lost-opal-logo-cabochons-transparent-v1.webp" alt="" width="132" height="132" loading="lazy" decoding="async" aria-hidden="true">
+            <div>
+              <p class="nuncastra-kicker">The Stars as They Are Now</p>
+              <h1 id="nuncastra-title">Nuncastra<sup class="nuncastra-copyright" aria-label="copyright">&copy;</sup></h1>
+            </div>
+          </div>
+          <p class="nuncastra-hero__lead">A living moment of sky, translated into a story told through the mystical art of Tarot.</p>
+          <div class="system-ribbon" aria-label="Current calculation and reading system">
+            <span>Tropical by Default</span>
+            <span>Western Esoteric Correspondences &middot; Traditional Rulers</span>
+            <span>True Lunar Node</span>
+            <span>Placidus Houses &middot; Equal Fallback</span>
+            <span>1909 RWS Artwork</span>
+          </div>
+        </div>
+        <aside class="nuncastra-name" aria-labelledby="name-title">
+          <div>
+            <p class="nuncastra-kicker" id="name-title">What Does the Name Mean?</p>
+            <p><em>Nunc</em> means <strong>now</strong>. <em>Astra</em> means <strong>stars</strong>. A <strong>Nuncast</strong> is a chart cast for a particular now and translated into Tarot.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="moment-chamber" aria-labelledby="moment-title">
+      <div class="nuncastra-shell moment-chamber__grid">
+        <div class="moment-panel">
+          <div class="moment-panel__heading">
+            <div>
+              <p class="nuncastra-kicker">Meet the Moment</p>
+              <h2 id="moment-title">Where and When Are You?</h2>
+            </div>
+            <p>Your location gives the sky a horizon. It is essential for the Ascendant, Midheaven, Vertex, and Lot of Fortune.</p>
+          </div>
+
+          <form class="nuncastra-form" data-snapshot-form>
+            <label><span>Date</span><input type="date" name="date" min="1800-01-01" max="2399-12-31" required></label>
+            <label><span>Local Time</span><input type="time" name="time" step="60" required></label>
+            <div class="nuncastra-form__location" data-moment-location-field><label for="moment-location"><span>City, ZIP Code, or Latitude, Longitude</span></label>
+              <div class="nuncastra-form__place-picker">
+                <input id="moment-location" type="search" name="location" value="Chandler, Arizona 85225" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="moment-location-results" aria-describedby="moment-location-message" data-moment-location-input required>
+                <ul class="nuncastra-form__place-results" id="moment-location-results" role="listbox" data-moment-location-results hidden></ul>
+              </div>
+            </div>
+            <label class="nuncastra-form__zodiac">
+              <span>Zodiac System</span>
+              <select name="zodiac" data-zodiac-system>
+                <option value="tropical">Tropical &middot; Lost Opal Default</option>
+                <option value="lahiri">Sidereal &middot; Lahiri</option>
+                <option value="fagan">Sidereal &middot; Fagan&ndash;Bradley</option>
+              </select>
+            </label>
+            <button class="nuncastra-button nuncastra-button--quiet" type="button" data-use-location>Use My Location</button>
+            <button class="nuncastra-button nuncastra-button--primary" type="submit" data-calculate>Cast This Moment</button>
+          </form>
+
+          <p class="nuncastra-form__location-status" id="moment-location-message" data-moment-location-message role="status" aria-live="polite">Confirming Chandler, Arizona&hellip;</p>
+          <p class="nuncastra-form__personal-context" data-personal-context hidden></p>
+          <p class="nuncastra-form__note" data-snapshot-status role="status" aria-live="polite">Loading the local astronomy engine&hellip;</p>
+          <details class="system-explainer">
+            <summary>Why Might My Degrees Differ From Another App?</summary>
+            <p>The selected zodiac is always printed with the result. Tropical and sidereal systems use different zero points, and sidereal systems also differ by ayanamsa. A sidereal Tarot result here is a Lost Opal hybrid&mdash;not a complete Jyotish reading.</p>
+          </details>
+        </div>
+
+        <aside class="reading-key" aria-labelledby="reading-key-title">
+          <p class="nuncastra-kicker" id="reading-key-title">How to Read a Line</p>
+          <ol>
+            <li><span>1</span><p><strong>Celestial Voice</strong>The body or point becomes its Tarot correspondence.</p></li>
+            <li><span>2</span><p><strong>Zodiacal Field</strong>The sign holding it becomes a second Major Arcana.</p></li>
+            <li><span>3</span><p><strong>Decan Action</strong>The exact ten-degree face becomes its Golden Dawn Minor Arcana.</p></li>
+          </ol>
+          <p class="reading-key__note">The everyday reading stays relatable and direct. Numerology and the Tree of Life remain optional perspectives.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="nuncastra-results" aria-labelledby="results-title" data-snapshot-results hidden>
+      <div class="nuncastra-shell">
+        <header class="nuncastra-results__heading">
+          <div>
+            <p class="nuncastra-kicker">Your Nuncast</p>
+            <h2 id="results-title">The Sky, Translated</h2>
+            <p data-results-meta></p>
+          </div>
+          <div class="print-controls">
+            <label><span>Print Treatment</span><select data-print-mode>
+              <option value="ink">Ink-Friendly</option>
+              <option value="keepsake">Keepsake PDF</option>
+              <option value="grayscale">Grayscale</option>
+            </select></label>
+            <label><span>Card Artwork</span><select data-art-mode>
+              <option value="color">Color</option>
+              <option value="gray">Grayscale</option>
+              <option value="names">Names Only</option>
+            </select></label>
+            <button type="button" data-print>Print / Save PDF</button>
+            <button type="button" data-start-over>Start Over</button>
+          </div>
+        </header>
+
+        <div class="nuncastra-pages" data-snapshot-pages></div>
+      </div>
+    </section>
+
+    <noscript><p class="nuncastra-noscript">Nuncastra needs JavaScript because the astronomical calculations happen privately in your browser.</p></noscript>
+  </main>
+
+  <dialog class="birth-dialog" data-birth-dialog aria-labelledby="birth-dialog-title">
+    <div class="birth-dialog__shell">
+      <div class="birth-dialog__kameas" aria-hidden="true">
+        <div class="birth-dialog__kamea birth-dialog__kamea--saturn">
+          <span>4</span><span>9</span><span>2</span>
+          <span>3</span><span>5</span><span>7</span>
+          <span>8</span><span>1</span><span>6</span>
+        </div>
+        <div class="birth-dialog__kamea birth-dialog__kamea--jupiter">
+          <span>4</span><span>14</span><span>15</span><span>1</span>
+          <span>9</span><span>7</span><span>6</span><span>12</span>
+          <span>5</span><span>11</span><span>10</span><span>8</span>
+          <span>16</span><span>2</span><span>3</span><span>13</span>
+        </div>
+      </div>
+      <button class="birth-dialog__close" type="button" data-birth-close aria-label="Close birthday walkthrough"></button>
+      <header class="birth-dialog__heading">
+        <img src="../assets/logo/lost-opal-logo-cabochons-transparent-v1.webp" alt="" width="68" height="68" loading="lazy" decoding="async" aria-hidden="true">
+        <div><p class="nuncastra-kicker">A Nuncast for Your Beginning</p><h2 id="birth-dialog-title">Tell me what you know.</h2></div>
+      </header>
+      <p class="birth-dialog__scope"><strong>Birth is not limited to people.</strong> This can be the first breath of a company, an idea, a relationship, a project, or any other beginning.</p>
+      <form class="birth-dialog__form" data-birth-form>
+        <label class="birth-dialog__field"><span><b>1</b> Your birth date</span><input type="date" name="birth_date" min="1800-01-01" max="2399-12-31" required></label>
+
+        <label class="birth-dialog__field"><span><b>2</b> How well do you know the time?</span>
+          <select name="birth_time_confidence" data-birth-time-confidence>
+            <option value="exact" selected>Exact or documented</option>
+            <option value="approximate">Approximate or remembered</option>
+            <option value="unknown">I do not know</option>
+          </select>
+        </label>
+
+        <label class="birth-dialog__field"><span><b>3</b> Birth time</span><input type="time" name="birth_time" step="60" data-birth-time required></label>
+        <p class="birth-dialog__field-note" data-birth-time-note>Use the documented local time shown on the birth record or to the best of your knowledge.</p>
+
+        <div class="birth-dialog__field birth-dialog__field--wide birth-dialog__place-field" data-birth-location-field>
+          <label class="birth-dialog__field-label" for="birth-location"><b>4</b> Birthplace or best honest guess</label>
+          <div class="birth-dialog__place-picker">
+            <input id="birth-location" type="search" name="birth_location" autocomplete="off" spellcheck="false" placeholder="Begin typing a city, region, or ZIP code" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="birth-location-results" aria-describedby="birth-location-message" data-birth-location-input required>
+            <ul class="birth-dialog__place-results" id="birth-location-results" role="listbox" data-birth-location-results hidden></ul>
+          </div>
+          <input type="hidden" name="birth_latitude">
+          <input type="hidden" name="birth_longitude">
+          <small id="birth-location-message" data-birth-location-message>Start typing, then choose the matching place to lock its coordinates.</small>
+        </div>
+
+        <label class="birth-dialog__field"><span><b>5</b> How certain is that place?</span>
+          <select name="birth_place_confidence">
+            <option value="known" selected>Known or documented</option>
+            <option value="best-guess">Best honest guess</option>
+            <option value="uncertain">Very uncertain</option>
+          </select>
+        </label>
+
+        <label class="birth-dialog__field"><span><b>6</b> Zodiac system</span>
+          <select name="birth_zodiac">
+            <option value="tropical">Tropical &middot; Lost Opal Default</option>
+            <option value="lahiri">Sidereal &middot; Lahiri</option>
+            <option value="fagan">Sidereal &middot; Fagan&ndash;Bradley</option>
+          </select>
+        </label>
+
+        <p class="birth-dialog__privacy">These answers stay in this browser. This creates a Nuncast for your birth moment; the fuller natal-and-current-sky comparison can grow from this foundation later.</p>
+        <div class="birth-dialog__uncertainty">
+          <p><strong>Using an approximate time:</strong> We use the time you enter and label it as approximate. The Ascendant and other horizon-sensitive points may move if the estimate is off.</p>
+          <p><strong>Using a best-guess birthplace:</strong> We use the exact coordinates of the real place you select and label the result as a best guess. A different birthplace may shift the chart&rsquo;s angles.</p>
+          <p><strong>If the birth time is unknown:</strong> We use noon as a transparent midpoint and read the day as a possible twelve hours before or after it. The Ascendant, Midheaven, Vertex, Lot of Fortune, and sometimes the Moon cannot be treated as settled. <a href="../contact/">Please contact me so we can work through what you remember together.</a></p>
+        </div>
+        <div class="birth-dialog__actions"><span class="birth-dialog__action-step" aria-label="Step 7">7</span><button class="nuncastra-button nuncastra-button--quiet" type="button" data-birth-close>Not Now</button><button class="nuncastra-button nuncastra-button--primary" type="submit">Nuncast the Soul&rsquo;s First Breath</button></div>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog class="tree-dialog" data-tree-dialog aria-labelledby="tree-title">
+    <div class="tree-dialog__shell">
+      <header class="tree-dialog__header">
+        <div><p class="nuncastra-kicker">An Optional Study Chamber</p><h2 id="tree-title">The Pattern Beneath the Cards</h2></div>
+        <button type="button" data-tree-close aria-label="Close the Tree of Life">&times;</button>
+      </header>
+      <p class="tree-dialog__welcome">The ordinary reading is complete without this layer. Enter here only when you want to study how the active paths, Sephirah, and world interact.</p>
+      <div class="tree-dialog__grid">
+        <div class="tree-stage" data-tree-stage>
+          <canvas data-tree-canvas aria-hidden="true"></canvas>
+          <div class="tree-stage__veil" aria-hidden="true"><span>Ain</span><span>Ain Soph</span><span>Ain Soph Aur</span></div>
+          <div class="tree-stage__nodes" data-tree-nodes></div>
+        </div>
+        <aside class="tree-reading" data-tree-reading>
+          <p class="tree-reading__prompt">Choose “Enter the Tree” from a Nuncast row to illuminate its pattern.</p>
+        </aside>
+      </div>
+      <details class="tree-legend">
+        <summary>How This Chamber Distinguishes Tradition</summary>
+        <p>The diagram preserves the ten Sephiroth and twenty-two Golden Dawn paths. Da&rsquo;ath is shown as an unnumbered threshold. Lost Opal additions&mdash;including Uranus at Da&rsquo;ath and Pluto at Kether through Judgement&mdash;are identified as overlays rather than presented as historical Golden Dawn doctrine.</p>
+      </details>
+    </div>
+  </dialog>
+
+  <dialog class="card-dialog" data-card-dialog aria-labelledby="card-dialog-title">
+    <button class="card-dialog__close" type="button" data-card-close aria-label="Close card view">&times;</button>
+    <div class="card-dialog__art"><img data-card-dialog-image src="" alt="" width="320" height="533" decoding="async"></div>
+    <div class="card-dialog__copy">
+      <p class="nuncastra-kicker card-dialog__category" data-card-dialog-category><span class="card-dialog__category-symbol" data-card-dialog-category-symbol hidden></span><span data-card-dialog-category-label>Tarot Card</span></p>
+      <h2 id="card-dialog-title" data-card-dialog-name></h2>
+      <p class="card-dialog__hermetic-title" data-card-dialog-hermetic-title hidden></p>
+      <p data-card-dialog-description></p>
+      <small>Additional correspondence and definition in development.</small>
+    </div>
+  </dialog>
+
+  <footer class="nuncastra-footer">
+    <div class="nuncastra-shell">
+      <p><strong>Nuncastra</strong> is a Lost Opal Tarot &amp; Astrology practice.</p>
+      <p>Calculation happens locally in your browser. Meanings are authored and bundled with the tool&mdash;not generated live by AI.</p>
+      <nav aria-label="Nuncastra footer"><a href="./source.html">Method, Sources &amp; Software</a><a href="../ethics/">Ethics</a><a href="../contact/">Request a Reading</a><a href="../donate/">Donate</a></nav>
+    </div>
+  </footer>
+
+  <div class="nuncastra-donate-float" data-donate-float data-support-dock>
+    <a class="nuncastra-donate-float__link" href="../donate/" aria-label="Open the Lost Opal donation page">
+      <span aria-hidden="true">&hearts;</span><strong>Donate</strong>
+    </a>
+    <button class="nuncastra-donate-float__close" type="button" data-donate-float-close aria-label="Close donation button" title="Close donation button"></button>
+  </div>
+</body>
+</html>

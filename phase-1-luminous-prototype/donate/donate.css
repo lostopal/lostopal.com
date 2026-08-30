@@ -1,0 +1,531 @@
+/*
+ * Donation landing page
+ *
+ * This route deliberately uses one continuous composition. No scenic elevator
+ * rides between a welcome, four buttons, and the footer. You came to donate;
+ * the page should have the good manners to make that easy.
+ */
+
+body.theme-black-opal.donate-page {
+  min-height: 100vh;
+  background: #03060a !important;
+}
+
+/* A dedicated, fixed mineral-nebula field keeps the artwork from racing past
+   the content as the visitor scrolls. */
+body.theme-black-opal.donate-page::before {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(1, 4, 8, 0.28), rgba(4, 5, 11, 0.02) 46%, rgba(4, 2, 8, 0.24)),
+    linear-gradient(180deg, rgba(2, 5, 9, 0.08), rgba(2, 4, 8, 0.18)),
+    url("../assets/backgrounds/black-opal-donation-landing-v1.webp") center 48% / cover no-repeat;
+  opacity: 0.96;
+}
+
+body.theme-black-opal.donate-page::after {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% -14%, rgba(60, 177, 183, 0.08), transparent 40%),
+    radial-gradient(circle at 50% 118%, rgba(159, 52, 116, 0.11), transparent 42%),
+    linear-gradient(180deg, transparent 62%, rgba(1, 3, 7, 0.42));
+}
+
+.donate-page .donate-landing,
+.donate-page .site-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.donate-page .site-header {
+  /* The celestial seal is impressive, but it does not outrank navigation. */
+  position: sticky;
+  z-index: 200;
+  background: rgba(4, 7, 12, 0.86);
+  backdrop-filter: blur(18px) saturate(125%);
+}
+
+.donate-landing {
+  overflow: clip;
+  padding: clamp(28px, 4.2vw, 62px) 0 clamp(30px, 4vw, 54px);
+}
+
+.donate-shell {
+  width: min(calc(100% - 48px), 1160px);
+  margin-inline: auto;
+}
+
+.donate-stage {
+  display: grid;
+  gap: clamp(18px, 2.2vw, 28px);
+}
+
+.donate-intro {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+.donate-intro h1,
+.donate-payments h2 {
+  margin: 0;
+  color: #fff1dc;
+  font-family: var(--serif);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+}
+
+.donate-title {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  width: min(100%, 720px);
+  font-size: clamp(2.75rem, 4.5vw, 4.25rem);
+  line-height: 0.94;
+  text-align: center;
+}
+
+.donate-title img {
+  display: block;
+  width: clamp(104px, 10vw, 134px);
+  height: auto;
+  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 22px rgba(222, 162, 58, 0.12));
+}
+
+.donate-intro__lead {
+  max-width: 780px;
+  margin: 12px 0 0;
+  color: #d3c8cb;
+  font-size: clamp(1rem, 1.25vw, 1.16rem);
+  line-height: 1.62;
+}
+
+.donate-assurance {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 18px;
+  margin-top: 11px;
+}
+
+.donate-assurance strong {
+  color: #f3c574;
+  font-family: var(--serif);
+  font-size: clamp(1.42rem, 2.1vw, 2rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.donate-assurance .donate-assurance__underline {
+  color: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-decoration: underline;
+  text-decoration-color: #e47762;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.14em;
+  text-transform: none;
+}
+
+.donate-assurance em {
+  color: #ee9a78;
+  font-family: var(--serif);
+  font-size: clamp(1rem, 1.25vw, 1.15rem);
+}
+
+.donate-payments {
+  display: grid;
+  gap: 10px;
+}
+
+.donate-payments__heading {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.donate-payments h2 {
+  font-size: clamp(2rem, 3.1vw, 3.15rem);
+  line-height: 1;
+}
+
+.donate-payments__heading p {
+  margin: 0;
+  color: #aa9fa5;
+  font-size: 0.9rem;
+}
+
+.donate-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 242px));
+  justify-content: center;
+  gap: clamp(15px, 1.45vw, 22px);
+}
+
+.donate-option {
+  --option-glow: rgba(65, 180, 187, 0.13);
+  --option-line: rgba(77, 188, 192, 0.55);
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  min-height: 86px;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  overflow: hidden;
+  color: #fff1dd;
+  text-decoration: none;
+  background:
+    radial-gradient(circle at 0 50%, var(--option-glow), transparent 42%),
+    linear-gradient(112deg, rgba(16, 10, 20, 0.9), rgba(4, 16, 22, 0.88));
+  border: 1px solid rgba(219, 172, 84, 0.34);
+  border-radius: 14px;
+  box-shadow:
+    0 16px 34px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 3px 0 0 var(--option-line);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.donate-option::after {
+  position: absolute;
+  z-index: -1;
+  top: -70%;
+  left: -30%;
+  width: 30%;
+  height: 240%;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(255, 236, 190, 0.09), transparent);
+  opacity: 0;
+  transform: rotate(18deg);
+  transition: left 450ms ease, opacity 180ms ease;
+}
+
+.donate-option:hover,
+.donate-option:focus-visible {
+  border-color: rgba(242, 194, 101, 0.78);
+  box-shadow:
+    0 20px 44px rgba(0, 0, 0, 0.34),
+    0 0 26px var(--option-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 3px 0 0 var(--option-line);
+  outline: none;
+  transform: translateY(-3px);
+}
+
+.donate-option:hover::after,
+.donate-option:focus-visible::after {
+  left: 112%;
+  opacity: 1;
+}
+
+.donate-option--kofi {
+  --option-glow: rgba(72, 142, 239, 0.16);
+  --option-line: rgba(100, 160, 246, 0.64);
+}
+
+.donate-option--paypal {
+  --option-glow: rgba(43, 123, 217, 0.15);
+  --option-line: rgba(61, 151, 237, 0.62);
+}
+
+.donate-option--cash {
+  --option-glow: rgba(51, 212, 107, 0.13);
+  --option-line: rgba(70, 222, 122, 0.56);
+}
+
+.donate-option--venmo {
+  --option-glow: rgba(55, 154, 238, 0.15);
+  --option-line: rgba(75, 166, 245, 0.6);
+}
+
+.donate-option__icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  padding: 10px;
+  overflow: hidden;
+  background: rgba(255, 249, 238, 0.97);
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  border-radius: 50%;
+  box-shadow: 0 9px 24px rgba(0, 0, 0, 0.28);
+}
+
+.donate-option__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.donate-option__icon--kofi {
+  padding: 0;
+  background: #6b9fe7;
+  border-color: rgba(121, 177, 255, 0.7);
+}
+
+.donate-option__icon--kofi img {
+  width: 108%;
+  height: 108%;
+  max-width: none;
+  object-fit: cover;
+}
+
+.donate-option__icon--paypal { padding: 13px; }
+.donate-option__icon--cash { padding: 11px; }
+.donate-option__icon--venmo { padding: 15px; }
+
+.donate-option__copy {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.donate-option__copy strong {
+  color: #fff0dc;
+  font-family: var(--serif);
+  font-size: clamp(1.02rem, 1.38vw, 1.28rem);
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.donate-option__copy span {
+  color: #b5aaae;
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.donate-option__arrow {
+  color: #efbc67;
+  font-size: 1.22rem;
+  transition: transform 180ms ease;
+}
+
+.donate-option:hover .donate-option__arrow,
+.donate-option:focus-visible .donate-option__arrow {
+  transform: translate(2px, -2px);
+}
+
+.donate-security {
+  max-width: 900px;
+  margin: 8px auto 0;
+  padding: 11px 18px;
+  border-left: 3px solid #d96658;
+  border-right: 3px solid #d96658;
+  border-radius: 8px;
+  background: rgba(127, 35, 38, 0.16);
+  color: #f0a093;
+  font-size: clamp(0.82rem, 0.9vw, 0.94rem);
+  font-weight: 650;
+  line-height: 1.5;
+  text-align: center;
+  text-shadow: 0 0 18px rgba(217, 102, 88, 0.16);
+}
+
+.donate-boundary {
+  display: block;
+  text-align: center;
+}
+
+.donate-boundary p {
+  max-width: 860px;
+  margin: 0 auto;
+  color: #aaa0a5;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.donate-boundary strong {
+  color: #e8bd74;
+  font-weight: 700;
+}
+
+.donate-boundary__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.donate-boundary__actions a {
+  color: #f2ca82;
+  font-family: var(--serif);
+  font-size: 0.92rem;
+  text-decoration-color: rgba(242, 202, 130, 0.36);
+  text-underline-offset: 0.24em;
+}
+
+.donate-boundary__actions .donate-contact-button {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 18px;
+  color: #fff8e8;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  background:
+    linear-gradient(120deg, rgba(7, 8, 15, 0.2), rgba(23, 6, 19, 0.14)),
+    url("../assets/ui-materials/black-opal-button-material-v1-optimized.webp") center / cover;
+  border: 1px solid rgba(255, 208, 116, 0.92);
+  border-radius: 999px;
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.3),
+    0 0 19px rgba(227, 170, 67, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 12px rgba(255, 213, 132, 0.26);
+}
+
+.donate-boundary__actions .donate-contact-button:hover,
+.donate-boundary__actions .donate-contact-button:focus-visible {
+  border-color: #ffd38a;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.34), 0 0 25px rgba(239, 186, 82, 0.28), 0 0 18px rgba(66, 183, 190, 0.16);
+  outline: none;
+}
+
+.donate-thanks {
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  margin-top: 1px;
+  padding: 4px 0 0;
+  color: #aaf8e6;
+  font-family: "Segoe Script", "Bradley Hand", cursive;
+  text-align: center;
+  text-shadow:
+    0 0 2px rgba(231, 255, 248, 0.94),
+    0 0 8px rgba(87, 239, 207, 0.88),
+    0 0 22px rgba(43, 186, 180, 0.62),
+    0 0 42px rgba(92, 68, 216, 0.38);
+}
+
+.donate-ending {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding-top: 2px;
+}
+
+.donate-thanks strong {
+  font-size: clamp(2.15rem, 4.3vw, 3.8rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.donate-thanks span {
+  margin-left: min(24vw, 180px);
+  font-size: clamp(1rem, 1.7vw, 1.35rem);
+}
+
+.donate-page .site-footer {
+  background: rgba(2, 4, 8, 0.78);
+  backdrop-filter: blur(16px) saturate(115%);
+}
+
+@media (max-width: 860px) {
+  .donate-grid {
+    grid-template-columns: repeat(2, minmax(0, 270px));
+  }
+
+  .donate-boundary {
+    text-align: center;
+  }
+}
+
+@media (max-width: 680px) {
+  body.theme-black-opal.donate-page::before {
+    background:
+      linear-gradient(180deg, rgba(2, 4, 8, 0.1), rgba(2, 4, 8, 0.24)),
+      url("../assets/backgrounds/black-opal-donation-landing-v1.webp") center top / cover no-repeat;
+  }
+
+  .donate-shell {
+    width: min(calc(100% - 28px), 1320px);
+  }
+
+  .donate-landing {
+    padding-top: 26px;
+  }
+
+  .donate-intro {
+    text-align: center;
+  }
+
+  .donate-title {
+    gap: 3px;
+    font-size: clamp(2.35rem, 11vw, 3.15rem);
+  }
+
+  .donate-title img {
+    width: 88px;
+  }
+
+  .donate-intro__lead {
+    margin-top: 13px;
+  }
+
+  .donate-assurance {
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+  }
+
+  .donate-payments__heading {
+    display: grid;
+    justify-items: center;
+    gap: 5px;
+    text-align: center;
+  }
+
+  .donate-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 13px;
+  }
+
+  .donate-option {
+    width: min(100%, 380px);
+    min-height: 76px;
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    gap: 12px;
+    padding: 12px 14px;
+  }
+
+  .donate-option__icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .donate-boundary {
+    text-align: center;
+  }
+
+  .donate-boundary__actions {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .donate-option,
+  .donate-option::after,
+  .donate-option__arrow {
+    transition: none;
+  }
+}

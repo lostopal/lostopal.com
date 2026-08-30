@@ -1,0 +1,45 @@
+name: Validate static site
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build production package
+        shell: pwsh
+        run: .\prepare_production.ps1
+      - name: Check required public files
+        shell: pwsh
+        run: |
+          $required = @(
+            'production-site/index.html',
+            'production-site/robots.txt',
+            'production-site/sitemap.xml',
+            'production-site/llms.txt',
+            'production-site/llms-full.txt',
+            'production-site/nuncastra/index.html',
+            'production-site/nuncastra/source.html',
+            'production-site/nuncastra/LICENSE.txt',
+            'production-site/nuncastra/THIRD_PARTY_NOTICES.txt'
+          )
+          foreach ($path in $required) {
+            if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+              throw "Missing required production file: $path"
+            }
+          }
+      - name: Check JavaScript syntax
+        shell: pwsh
+        run: |
+          $scripts = Get-ChildItem 'production-site' -Recurse -Filter '*.js' |
+            Where-Object { $_.FullName -notmatch '\\vendor\\' }
+          foreach ($script in $scripts) {
+            node --check $script.FullName
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }

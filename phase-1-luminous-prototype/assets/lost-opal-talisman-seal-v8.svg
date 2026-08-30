@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Lost Opal Tarot and Astrology talisman seal</title>
+  <desc id="desc">A restrained golden talisman with seven black opal planetary cabochons, an engraved zodiac collar, a small infinity crown, and an integrated Lost Opal wordmark.</desc>
+
+  <defs>
+    <style>
+      @font-face {
+        font-family: "Lost Opal Blackletter";
+        src: url("fonts/UnifrakturCook-Bold.ttf") format("truetype");
+        font-weight: 700;
+      }
+
+      .zodiac {
+        fill: #f8d88a;
+        font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", serif;
+        font-size: 38px;
+        text-anchor: middle;
+        dominant-baseline: middle;
+        paint-order: stroke fill;
+        stroke: #5a2e13;
+        stroke-width: 1.8px;
+      }
+    </style>
+
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6e3511"/>
+      <stop offset="0.16" stop-color="#fce49b"/>
+      <stop offset="0.34" stop-color="#b86a20"/>
+      <stop offset="0.54" stop-color="#fff0ae"/>
+      <stop offset="0.72" stop-color="#9d5016"/>
+      <stop offset="1" stop-color="#e8b854"/>
+    </linearGradient>
+
+    <linearGradient id="softGold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff1bc"/>
+      <stop offset="0.35" stop-color="#efc66f"/>
+      <stop offset="0.7" stop-color="#a35b1c"/>
+      <stop offset="1" stop-color="#f4d483"/>
+    </linearGradient>
+
+    <radialGradient id="field" cx="45%" cy="35%" r="72%">
+      <stop offset="0" stop-color="#12232c"/>
+      <stop offset="0.35" stop-color="#0c171d"/>
+      <stop offset="0.7" stop-color="#100914"/>
+      <stop offset="1" stop-color="#020307"/>
+    </radialGradient>
+
+    <radialGradient id="band" cx="44%" cy="22%" r="90%">
+      <stop offset="0" stop-color="#173035"/>
+      <stop offset="0.46" stop-color="#070b11"/>
+      <stop offset="0.74" stop-color="#1c0b1b"/>
+      <stop offset="1" stop-color="#040306"/>
+    </radialGradient>
+
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000000" flood-opacity="0.58"/>
+    </filter>
+
+    <filter id="goldGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="opalMist" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="3" seed="27" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="0.05 0 0 0 0  0 0.22 0 0 0  0 0 0.32 0 0  0 0 0 .38 0" result="coloredNoise"/>
+      <feBlend in="SourceGraphic" in2="coloredNoise" mode="screen"/>
+    </filter>
+
+    <clipPath id="sealClip">
+      <circle cx="600" cy="600" r="500"/>
+    </clipPath>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <circle cx="600" cy="600" r="510" fill="#030406" stroke="url(#gold)" stroke-width="16"/>
+    <circle cx="600" cy="600" r="492" fill="url(#field)" stroke="#120a08" stroke-width="7"/>
+
+    <g clip-path="url(#sealClip)" opacity="0.88" filter="url(#opalMist)">
+      <path d="M160 420 C330 220 460 360 600 210 C770 28 886 304 1040 182" fill="none" stroke="#16b6b1" stroke-width="30" stroke-linecap="round" opacity="0.17"/>
+      <path d="M90 730 C298 505 392 760 588 548 C760 363 885 620 1110 430" fill="none" stroke="#7b2dd3" stroke-width="48" stroke-linecap="round" opacity="0.13"/>
+      <path d="M150 910 C350 728 518 930 706 770 C850 650 960 810 1110 730" fill="none" stroke="#ec5f22" stroke-width="34" stroke-linecap="round" opacity="0.12"/>
+      <path d="M140 290 C360 460 475 150 690 315 C850 435 990 225 1100 390" fill="none" stroke="#51d05a" stroke-width="22" stroke-linecap="round" opacity="0.11"/>
+    </g>
+
+    <circle cx="600" cy="600" r="474" fill="none" stroke="url(#gold)" stroke-width="11"/>
+    <circle cx="600" cy="600" r="444" fill="none" stroke="#d69b44" stroke-width="2.5" opacity="0.92"/>
+    <circle cx="600" cy="600" r="417" fill="none" stroke="#8e5928" stroke-width="2" stroke-dasharray="2 14" opacity="0.82"/>
+
+    <g fill="none" stroke="#c78a3b" opacity="0.42">
+      <ellipse cx="600" cy="550" rx="340" ry="255" stroke-width="2"/>
+      <ellipse cx="600" cy="550" rx="280" ry="340" stroke-width="2" transform="rotate(54 600 550)"/>
+      <ellipse cx="600" cy="550" rx="280" ry="340" stroke-width="2" transform="rotate(-54 600 550)"/>
+      <circle cx="600" cy="550" r="205" stroke-width="1.5" stroke-dasharray="3 12"/>
+    </g>
+
+    <g fill="#dba74d" opacity="0.75">
+      <circle cx="600" cy="210" r="6"/>
+      <circle cx="340" cy="350" r="5"/>
+      <circle cx="860" cy="350" r="5"/>
+      <circle cx="340" cy="580" r="5"/>
+      <circle cx="860" cy="580" r="5"/>
+      <circle cx="600" cy="910" r="6"/>
+    </g>
+
+    <g opacity="0.98">
+      <image href="planetary-cabochons/v2/black-opal/saturn.png" x="518" y="128" width="164" height="164"/>
+      <image href="planetary-cabochons/v2/black-opal/mars.png" x="253" y="263" width="174" height="174"/>
+      <image href="planetary-cabochons/v2/black-opal/jupiter.png" x="773" y="263" width="174" height="174"/>
+      <image href="planetary-cabochons/v2/black-opal/mercury.png" x="253" y="470" width="174" height="174"/>
+      <image href="planetary-cabochons/v2/black-opal/venus.png" x="773" y="470" width="174" height="174"/>
+      <image href="planetary-cabochons/v2/black-opal/moon.png" x="518" y="828" width="164" height="164"/>
+      <image href="planetary-cabochons/v2/black-opal/sun.png" x="492" y="442" width="216" height="216"/>
+    </g>
+
+    <g aria-label="Zodiac collar beginning with Aries at nine o'clock and continuing counterclockwise">
+      <text class="zodiac" x="116" y="600">&#x2648;</text>
+      <text class="zodiac" x="180" y="842">&#x2649;</text>
+      <text class="zodiac" x="356" y="1018">&#x264A;</text>
+      <text class="zodiac" x="600" y="1082">&#x264B;</text>
+      <text class="zodiac" x="844" y="1018">&#x264C;</text>
+      <text class="zodiac" x="1020" y="842">&#x264D;</text>
+      <text class="zodiac" x="1084" y="600">&#x264E;</text>
+      <text class="zodiac" x="1020" y="358">&#x264F;</text>
+      <text class="zodiac" x="844" y="182">&#x2650;</text>
+      <text class="zodiac" x="600" y="118">&#x2651;</text>
+      <text class="zodiac" x="356" y="182">&#x2652;</text>
+      <text class="zodiac" x="180" y="358">&#x2653;</text>
+    </g>
+
+    <g fill="none" stroke="url(#softGold)" stroke-width="8" stroke-linecap="round" opacity="0.94">
+      <path d="M92 570 C18 530 18 650 91 625 C145 607 89 548 58 585"/>
+      <path d="M1108 570 C1182 530 1182 650 1109 625 C1055 607 1111 548 1142 585"/>
+    </g>
+
+    <g aria-hidden="true" filter="url(#goldGlow)">
+      <text x="600" y="83" fill="url(#softGold)" font-family="Georgia, serif" font-size="94" text-anchor="middle">&#x221E;</text>
+      <circle cx="600" cy="103" r="9" fill="#0a0b0e" stroke="url(#softGold)" stroke-width="5"/>
+    </g>
+
+    <g>
+      <path d="M172 646 Q600 586 1028 646 L994 816 Q600 858 206 816 Z" fill="url(#band)" stroke="#070405" stroke-width="18" stroke-linejoin="round"/>
+      <path d="M172 646 Q600 586 1028 646 L994 816 Q600 858 206 816 Z" fill="none" stroke="url(#gold)" stroke-width="7" stroke-linejoin="round"/>
+      <path d="M213 666 Q600 614 987 666" fill="none" stroke="#f8dda1" stroke-width="2.4" opacity="0.74"/>
+
+      <text x="600" y="750" fill="url(#softGold)" stroke="#4e260f" stroke-width="2.2" paint-order="stroke fill" font-family="Lost Opal Blackletter, 'Old English Text MT', serif" font-size="160" font-weight="700" text-anchor="middle" textLength="735" lengthAdjust="spacingAndGlyphs">Lost Opal</text>
+
+      <text x="600" y="798" fill="#f4ce77" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="700" letter-spacing="9" text-anchor="middle">TAROT &amp; ASTROLOGY</text>
+    </g>
+  </g>
+</svg>
