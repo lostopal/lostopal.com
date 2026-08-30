@@ -131,6 +131,42 @@ body.draw-page::before {
 
 .draw-hero__mark img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.54)); }
 .draw-hero__copy { position: relative; z-index: 1; max-width: 920px; }
+.draw-defined-title {
+  position: relative;
+  padding: 0 0 0.08em;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px dotted rgba(92, 214, 195, 0.76);
+  border-radius: 0;
+  cursor: help;
+}
+.draw-defined-title > span {
+  position: absolute;
+  top: calc(100% + 13px);
+  left: 0;
+  z-index: 30;
+  width: min(430px, 78vw);
+  padding: 0.85rem 1rem;
+  color: #eee4da;
+  font: 700 0.82rem/1.55 Arial, sans-serif;
+  letter-spacing: 0;
+  text-align: left;
+  background: #07130f;
+  border: 1px solid rgba(233, 185, 87, 0.52);
+  border-radius: 11px;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.62);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-5px);
+  transition: opacity 140ms ease, transform 140ms ease;
+}
+.draw-defined-title:hover > span,
+.draw-defined-title:focus-visible > span,
+.draw-defined-title[aria-expanded="true"] > span { opacity: 1; transform: none; }
 .draw-hero__copy > p:not(.draw-kicker) { max-width: 760px; margin: 1.5rem 0 0; font: 1.15rem/1.75 Arial, sans-serif; }
 .draw-hero__notes { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 2rem; }
 .draw-hero__notes span {
@@ -503,6 +539,10 @@ body.draw-page::before {
   .draw-hero { grid-template-columns: 86px minmax(0, 1fr); align-items: start; gap: 1rem; min-height: 0; padding: 1.5rem; border-radius: 22px 22px 0 0; }
   .draw-hero__mark { margin-top: 0.25rem; }
   .draw-hero__copy > p:not(.draw-kicker) { font-size: 0.96rem; line-height: 1.55; }
+  .draw-defined-title > span { position: fixed; inset: auto 14px max(14px, env(safe-area-inset-bottom)) 14px; z-index: 240; width: auto; transform: translateY(8px); }
+  .draw-defined-title:hover > span,
+  .draw-defined-title:focus-visible > span,
+  .draw-defined-title[aria-expanded="true"] > span { transform: none; }
   .draw-hero__notes { grid-column: 1 / -1; margin-top: 1rem; }
   .draw-hero__notes span { font-size: 0.6rem; }
   .draw-console,
@@ -650,6 +690,8 @@ body.draw-page::before {
   .draw-hero { display: grid; grid-template-columns: 0.75in 1fr; min-height: 0; padding: 0 0 0.25in; border: 0; border-bottom: 2px solid #80591d; border-radius: 0; color: #17110a; background: #fff; box-shadow: none; }
   .draw-hero::after { display: none; }
   .draw-hero__copy h1 { color: #17110a; font-size: 28pt; letter-spacing: -0.02em; }
+  .draw-defined-title { color: inherit; border: 0; }
+  .draw-defined-title > span { display: none; }
   .draw-hero__copy > p:not(.draw-kicker) { margin-top: 0.08in; color: #3b322d !important; font-size: 9.5pt; line-height: 1.4; }
   .draw-hero__notes { display: none; }
   .draw-kicker { color: #6b4716 !important; }

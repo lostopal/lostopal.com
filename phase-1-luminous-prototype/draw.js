@@ -714,6 +714,20 @@
     });
   });
 
+  const cartomancyDefinition = document.querySelector("[data-cartomancy-definition]");
+  cartomancyDefinition?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    cartomancyDefinition.setAttribute("aria-expanded", String(cartomancyDefinition.getAttribute("aria-expanded") !== "true"));
+  });
+  cartomancyDefinition?.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    cartomancyDefinition.setAttribute("aria-expanded", "false");
+    cartomancyDefinition.blur();
+  });
+  document.addEventListener("click", (event) => {
+    if (cartomancyDefinition && !cartomancyDefinition.contains(event.target)) cartomancyDefinition.setAttribute("aria-expanded", "false");
+  });
+
   document.querySelector("[data-reversals]")?.addEventListener("click", (event) => {
     reversalsEnabled = !reversalsEnabled;
     event.currentTarget.setAttribute("aria-pressed", String(reversalsEnabled));

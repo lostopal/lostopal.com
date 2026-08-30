@@ -376,40 +376,79 @@ const ANGLE_DATA = {
 const RESULT_GROUPS = [
   {
     title: "Luminaries & Mind",
+    tabLabel: "Light & Mind",
     names: ["Sun", "Moon", "Mercury"],
-    description: "Begin with the moment's inner light: identity and purpose, emotional instinct, then the mind that names and connects what is happening.",
+    description: "Who am I being? What am I feeling? How am I thinking—and how am I speaking it?",
+    definition: "In astrology, the Luminaries are the Sun and Moon: the two great lights associated with conscious identity and instinctive, emotional life. Mercury is placed beside them here because it names, connects, and communicates what those lights are experiencing.",
   },
   {
     title: "Desire, Action & Growth",
+    tabLabel: "Desire & Growth",
     names: ["Venus", "Mars", "Jupiter"],
-    description: "Move into the relational and active layer: what the moment values and attracts, how it applies force, and where it seeks meaning or expansion.",
+    description: "What am I drawn toward? What am I willing to do? Where is life asking me to grow?",
+    definition: "Venus describes attraction, value, pleasure, and relationship. Mars describes drive, assertion, conflict, and decisive movement. Jupiter describes faith, opportunity, meaning, and the urge to expand beyond the present boundary.",
   },
   {
     title: "Structure & Outer Weather",
+    tabLabel: "Outer Weather",
     names: ["Saturn", "Uranus", "Neptune"],
-    description: "Step outward into slower currents: the structures defining reality, the force disrupting them, and the dream or dissolution moving through the collective field.",
+    description: "What is shaping the limits? What is breaking the pattern? What dream—or fog—is moving through it?",
+    definition: "Outer Weather is our plain-language name for the slower planetary currents. Saturn defines the structure and its limits, Uranus interrupts what has become fixed, and Neptune dissolves certainty so imagination, longing, or confusion can enter.",
   },
   {
     title: "Underworld, Wound & Shadow",
+    tabLabel: "Shadow & Wound",
     names: ["Pluto", "Chiron", "Lilith"],
-    description: "Descend beneath the obvious story: irreversible transformation, the wound becoming medicine, and the lunar apogee where refusal or exile asks to be understood.",
+    description: "What must change? What still hurts? What has been refused, exiled, or left unnamed?",
+    definition: "Underworld and Shadow do not mean evil. They name the material hidden below ordinary awareness: Pluto’s irreversible transformation, Chiron’s wound becoming lived wisdom, and Lilith’s encounter with refusal, exile, and uncompromised sovereignty.",
   },
   {
     title: "Direction & Inheritance",
+    tabLabel: "Direction",
     names: ["North Node", "South Node", "Lot of Fortune"],
-    description: "Follow the axis of becoming and release, then ground it in the material circumstances through which this moment can actually be lived.",
+    description: "What do I already know by heart? What unfamiliar direction asks me to grow? What makes the path livable now?",
+    definition: "Inheritance is the pattern already carried into the moment, represented here by the South Node. Direction is the developing path of the North Node. The Lot of Fortune joins the Sun, Moon, horizon, and sect to describe where those themes meet material circumstance.",
   },
   {
     title: "Nourishment, Strategy & Covenant",
+    tabLabel: "Care & Covenant",
     names: ["Ceres", "Pallas", "Juno"],
-    description: "Listen to the embodied archetypes of care, pattern-wise intelligence, and the agreements that make relationship and responsibility real.",
+    description: "What sustains me? What pattern needs a wiser strategy? What promise asks to be honored?",
+    definition: "Ceres concerns nourishment, separation, grief, and return. Pallas concerns pattern-recognition, strategy, and craft. Juno concerns covenant: the promises, loyalties, power-sharing, and consequences that make a relationship binding.",
   },
   {
     title: "Devotion & Local Angles",
+    tabLabel: "Devotion & Angles",
     names: ["Vesta", "Ascendant", "Midheaven", "Vertex"],
-    description: "Return to the local sky: the flame receiving devotion, the eastern threshold, the visible summit, and the western point of consequential encounter.",
+    description: "What receives my devotion? How do I enter this moment? What is becoming visible—and what encounter is arriving?",
+    definition: "Angles anchor the sky to an exact time and place. The Ascendant is the eastern doorway, the Midheaven is the visible summit, and the Vertex is a western point associated with consequential encounters. Vesta joins them here as the flame of devotion and sustained attention.",
   },
 ];
+
+const ROW_PROMPTS = {
+  Sun: "Who am I being?",
+  Moon: "What am I feeling?",
+  Mercury: "How am I thinking—and how am I speaking it?",
+  Venus: "What am I drawn toward?",
+  Mars: "What am I willing to do?",
+  Jupiter: "Where is life asking me to grow?",
+  Saturn: "What is shaping the limits?",
+  Uranus: "What is breaking the pattern?",
+  Neptune: "What dream—or fog—is moving through it?",
+  Pluto: "What must change?",
+  Chiron: "What still hurts—and what wisdom is it becoming?",
+  Lilith: "What has been refused, exiled, or left unnamed?",
+  "North Node": "What unfamiliar direction asks me to grow?",
+  "South Node": "What do I already know by heart?",
+  "Lot of Fortune": "What makes the path livable now?",
+  Ceres: "What sustains me?",
+  Pallas: "What pattern needs a wiser strategy?",
+  Juno: "What promise asks to be honored?",
+  Vesta: "What receives my devotion?",
+  Ascendant: "How do I enter this moment?",
+  Midheaven: "What is becoming visible?",
+  Vertex: "What encounter is arriving?",
+};
 
 const NUMBER_MEANINGS = {
   1: ["Initiation", "A singular impulse asks to become conscious direction, self-definition, and a genuine beginning."],
@@ -477,15 +516,15 @@ const PATH_DATA = [
 ];
 
 const WORLD_DATA = {
-  Wands: { name: "Atziluth", element: "Fire", phrase: "the archetypal world of emanation and will" },
-  Cups: { name: "Briah", element: "Water", phrase: "the creative world of feeling and reception" },
-  Swords: { name: "Yetzirah", element: "Air", phrase: "the formative world of image, language, and mind" },
-  Pentacles: { name: "Assiah", element: "Earth", phrase: "the active material world of embodiment and consequence" },
+  Wands: { name: "Atziluth", hebrew: "אֲצִילוּת", translation: "Emanation", element: "Fire", elementGlyph: "🜂", phrase: "the archetypal world of emanation and will" },
+  Cups: { name: "Briah", hebrew: "בְּרִיאָה", translation: "Creation", element: "Water", elementGlyph: "🜄", phrase: "the creative world of feeling and reception" },
+  Swords: { name: "Yetzirah", hebrew: "יְצִירָה", translation: "Formation", element: "Air", elementGlyph: "🜁", phrase: "the formative world of image, language, and mind" },
+  Pentacles: { name: "Assiah", hebrew: "עֲשִׂיָּה", translation: "Action", element: "Earth", elementGlyph: "🜃", phrase: "the active material world of embodiment and consequence" },
 };
 
 const SUIT_START = { Wands: 22, Cups: 36, Swords: 50, Pentacles: 64 };
 const formatterCache = new Map();
-const state = { deviceLocation: null, confirmedPlace: null, engine: null, engineReady: false, busy: false, lines: [], activeTreeLine: null, personalContext: null, generation: 0 };
+const state = { deviceLocation: null, confirmedPlace: null, engine: null, engineReady: false, busy: false, lines: [], activeTreeLine: null, personalContext: null, generation: 0, activeGroup: 0, searchQuery: "" };
 const hasDocument = typeof document !== "undefined";
 
 const form = hasDocument ? document.querySelector("[data-snapshot-form]") : null;
@@ -501,6 +540,13 @@ const calculateButton = hasDocument ? document.querySelector("[data-calculate]")
 const results = hasDocument ? document.querySelector("[data-snapshot-results]") : null;
 const resultsMeta = hasDocument ? document.querySelector("[data-results-meta]") : null;
 const pages = hasDocument ? document.querySelector("[data-snapshot-pages]") : null;
+const snapshotNavigator = hasDocument ? document.querySelector("[data-snapshot-navigator]") : null;
+const snapshotSearch = hasDocument ? document.querySelector("[data-snapshot-search]") : null;
+const snapshotSearchClear = hasDocument ? document.querySelector("[data-snapshot-search-clear]") : null;
+const snapshotSearchStatus = hasDocument ? document.querySelector("[data-snapshot-search-status]") : null;
+const snapshotSectionTabs = hasDocument ? document.querySelector("[data-snapshot-section-tabs]") : null;
+const snapshotQuickMore = hasDocument ? document.querySelector("[data-snapshot-quick-more]") : null;
+const snapshotQuickMoreList = hasDocument ? document.querySelector("[data-snapshot-quick-more-list]") : null;
 const printButton = hasDocument ? document.querySelector("[data-print]") : null;
 const printModeSelect = hasDocument ? document.querySelector("[data-print-mode]") : null;
 const artModeSelect = hasDocument ? document.querySelector("[data-art-mode]") : null;
@@ -713,7 +759,7 @@ function tarotLineFor(line) {
   return `${entityVoice} + ${MAJORS[line.sign.majorIndex]} + ${line.decan.cardName}`;
 }
 
-function cardFigureHtml({ category, name, cardIndex, description = "", reversed = false, nodeGlyph = null, seal = null, placeholderImage = null, sealKind = "Celestial Point", sealVisualLabel = name, correspondencePending = false }) {
+function cardFigureHtml({ category, name, cardIndex, description = "", reversed = false, nodeGlyph = null, seal = null, placeholderImage = null, sealKind = "Celestial Point", sealVisualLabel = name, correspondencePending = false, sourceName = "" }) {
   const safeName = escapeHtml(name);
   const hermeticTitle = Number.isInteger(cardIndex) ? HERMETIC_CARD_TITLES[cardIndex] || "" : "";
   let visual;
@@ -729,7 +775,8 @@ function cardFigureHtml({ category, name, cardIndex, description = "", reversed 
   const warning = correspondencePending
     ? `<details class="correspondence-warning"><summary aria-label="Explain this developing correspondence">!</summary><p>Additional correspondence and definition in development.</p></details>`
     : "";
-  return `<figure>${visual}<figcaption><small>${escapeHtml(category)}</small>${safeName}${reversed ? " · Reversed" : ""}${warning}</figcaption></figure>`;
+  const source = sourceName ? `<span class="snapshot-card-source">${escapeHtml(sourceName)}</span>` : "";
+  return `<figure>${visual}<figcaption><small>${escapeHtml(category)}</small><span class="snapshot-card-name">${safeName}${reversed ? " · Reversed" : ""}</span>${source}${warning}</figcaption></figure>`;
 }
 
 function entityCardDescription(line, card) {
@@ -768,6 +815,7 @@ function entityCardsHtml(line) {
     description: entityCardDescription(line, card),
     reversed: index === 0 && line.reversed,
     nodeGlyph: index === 0 ? line.nodeGlyph : null,
+    sourceName: line.name,
   }));
   if (cards.length > 1) {
     const carouselCards = cards.map((card, index) => `<div class="snapshot-carousel-card" data-carousel-card data-carousel-index="${index}"${index === 0 ? "" : " hidden"}>${card}</div>`).join("");
@@ -871,13 +919,17 @@ function rowHtml(line) {
     ? ` Modern astrology also associates ${line.sign.name} with ${line.ruler.modern.name}, adding a later lens of ${line.ruler.modern.influence}.`
     : "";
   return `
-    <article class="snapshot-row" data-snapshot-row>
-      <div class="snapshot-cards" aria-label="${escapeHtml(tarotLineFor(line))}">
-        ${entityCardsHtml(line)}
-        ${signCardsHtml(line)}
-        ${cardFigureHtml({ category: decanLabel(line.decanIndex), name: line.decan.cardName, cardIndex: line.decan.cardIndex, description: `${line.decan.cardName} ${line.decan.meaning}. Ground it: ${line.decan.ground}` })}
+    <article class="snapshot-row" data-snapshot-row data-line-name="${escapeHtml(line.name)}">
+      <div class="snapshot-card-column">
+        <p class="snapshot-row-prompt">${escapeHtml(ROW_PROMPTS[line.name] || "What is this current asking me to notice?")}</p>
+        <div class="snapshot-cards" aria-label="${escapeHtml(tarotLineFor(line))}">
+          ${entityCardsHtml(line)}
+          ${signCardsHtml(line)}
+          ${cardFigureHtml({ category: decanLabel(line.decanIndex), name: line.decan.cardName, cardIndex: line.decan.cardIndex, description: `${line.decan.cardName} ${line.decan.meaning}. Ground it: ${line.decan.ground}` })}
+        </div>
       </div>
       <div class="snapshot-reading">
+        <p class="snapshot-search-match" data-search-match hidden></p>
         <div class="snapshot-reading__title">
           <div>
             <p>${escapeHtml(formatZodiacPosition(line.longitude))}</p>
@@ -979,17 +1031,122 @@ function printHeaderHtml(meta, pageNumber, totalPages) {
     </header>`;
 }
 
+function sectionHeadingHtml(group, pageIndex) {
+  const definitionId = `snapshot-group-definition-${pageIndex}`;
+  return `<header class="snapshot-section-heading"><h3><button class="snapshot-section-term" type="button" data-identity-explainer aria-expanded="false" aria-describedby="${definitionId}"><span>${escapeHtml(group.title)}</span><span class="snapshot-section-help" aria-hidden="true">?</span><span class="snapshot-section-tooltip" id="${definitionId}" role="tooltip">${escapeHtml(group.definition)}</span></button></h3></header>`;
+}
+
+function normalizeSearchText(value) {
+  return String(value || "").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
+function searchRolesFor(line, group, normalizedQuery) {
+  const sephirah = SEPHIROTH.find((item) => item.number === line.decan.number);
+  const fields = [
+    ["Celestial entity", [line.name, line.glyph, line.entityEssence]],
+    ["Celestial key", line.entityCards.flatMap((card) => [card.name, HERMETIC_CARD_TITLES[card.index] || ""])],
+    ["Zodiac sign", [line.sign.name, line.sign.glyph, line.sign.field]],
+    ["Sign key", [MAJORS[line.sign.majorIndex], HERMETIC_CARD_TITLES[line.sign.majorIndex] || ""]],
+    ["Decan", [decanLabel(line.decanIndex), line.decan.cardName, line.decan.meaning, line.decan.suit]],
+    ["Natural House", [line.naturalHouse.label, `${line.naturalHouse.label} House`, line.naturalHouse.title, line.naturalHouse.short, line.naturalHouse.meaning]],
+    ["Calculated House", [line.calculatedHouse.label, `${line.calculatedHouse.label} House`, line.calculatedHouse.title, line.calculatedHouse.short, line.calculatedHouse.meaning]],
+    ["Traditional ruler", [line.ruler.name, line.ruler.glyph, MAJORS[line.ruler.majorIndex], line.ruler.influence, line.ruler.description]],
+    ["Tree of Life", [sephirah?.name, sephirah?.title, sephirah?.current, WORLD_DATA[line.decan.suit]?.name, WORLD_DATA[line.decan.suit]?.hebrew, WORLD_DATA[line.decan.suit]?.translation, WORLD_DATA[line.decan.suit]?.element]],
+    ["Section", [group.title, group.tabLabel, group.description, group.definition]],
+  ];
+  const labels = fields
+    .filter(([, values]) => normalizeSearchText(values.filter(Boolean).join(" ")).includes(normalizedQuery))
+    .map(([label]) => label);
+  if (!labels.length) {
+    const readingText = normalizeSearchText([tarotLineFor(line), readingFor(line), line.entityGround, line.decan.ground, line.motion.label, line.motion.explanation].join(" "));
+    if (readingText.includes(normalizedQuery)) labels.push("Reading text");
+  }
+  return labels;
+}
+
+function renderSnapshotTabs() {
+  if (!snapshotSectionTabs) return;
+  const groupTabs = RESULT_GROUPS.map((group, index) => `<button type="button" role="tab" id="snapshot-group-tab-${index}" aria-controls="snapshot-group-${index}" aria-selected="${state.activeGroup === index ? "true" : "false"}" data-snapshot-group="${index}">${escapeHtml(group.tabLabel)}</button>`).join("");
+  snapshotSectionTabs.innerHTML = `${groupTabs}<button type="button" role="tab" aria-controls="snapshot-pages" aria-selected="${state.activeGroup === "all" ? "true" : "false"}" data-snapshot-group="all">Full Nuncast</button>`;
+}
+
+function updateSnapshotNavigation() {
+  if (!pages || !snapshotNavigator) return;
+  const normalizedQuery = normalizeSearchText(state.searchQuery);
+  const searching = Boolean(normalizedQuery);
+  let matchCount = 0;
+  const lineMap = new Map(state.lines.map((line) => [line.name, line]));
+
+  for (const section of pages.querySelectorAll("[data-snapshot-group-panel]")) {
+    const groupIndex = Number(section.dataset.snapshotGroupPanel);
+    const group = RESULT_GROUPS[groupIndex];
+    let sectionMatches = 0;
+    for (const row of section.querySelectorAll("[data-snapshot-row]")) {
+      const line = lineMap.get(row.dataset.lineName);
+      const labels = searching && line ? searchRolesFor(line, group, normalizedQuery) : [];
+      const matches = !searching || labels.length > 0;
+      row.hidden = !matches;
+      const matchLabel = row.querySelector("[data-search-match]");
+      if (matchLabel) {
+        matchLabel.hidden = !searching || !matches;
+        matchLabel.textContent = searching && matches ? `Matched: ${labels.join(" · ")}` : "";
+      }
+      if (searching && matches) {
+        sectionMatches += 1;
+        matchCount += 1;
+      }
+    }
+    section.hidden = searching ? sectionMatches === 0 : state.activeGroup !== "all" && state.activeGroup !== groupIndex;
+  }
+
+  pages.classList.toggle("is-searching", searching);
+  results?.classList.toggle("is-searching", searching);
+  snapshotSectionTabs?.classList.toggle("is-searching", searching);
+  snapshotSearchClear.disabled = !searching;
+  if (snapshotSearchStatus) {
+    snapshotSearchStatus.textContent = searching
+      ? matchCount ? `${matchCount} complete ${matchCount === 1 ? "row" : "rows"} matching “${state.searchQuery.trim()}”.` : `No complete rows match “${state.searchQuery.trim()}”.`
+      : state.activeGroup === "all" ? "Showing the complete Nuncast." : `Showing ${RESULT_GROUPS[state.activeGroup].title}.`;
+  }
+  snapshotSectionTabs?.querySelectorAll("[data-snapshot-group]").forEach((button) => {
+    const value = button.dataset.snapshotGroup === "all" ? "all" : Number(button.dataset.snapshotGroup);
+    button.setAttribute("aria-selected", String(!searching && state.activeGroup === value));
+  });
+  snapshotNavigator.querySelectorAll("[data-snapshot-quick]").forEach((button) => {
+    button.setAttribute("aria-pressed", String(normalizedQuery === normalizeSearchText(button.dataset.snapshotQuick)));
+  });
+}
+
+function selectSnapshotGroup(value, moveFocus = false) {
+  state.activeGroup = value === "all" ? "all" : Number(value);
+  state.searchQuery = "";
+  if (snapshotSearch) snapshotSearch.value = "";
+  updateSnapshotNavigation();
+  if (moveFocus) snapshotSectionTabs?.querySelector(`[data-snapshot-group="${value}"]`)?.focus();
+}
+
+function searchSnapshot(value) {
+  state.searchQuery = value;
+  updateSnapshotNavigation();
+}
+
 function renderSnapshot(lines, meta) {
   const lineMap = new Map(lines.map((line) => [line.name, line]));
   const pageCount = RESULT_GROUPS.length;
   const output = RESULT_GROUPS.map((group, pageIndex) => {
     const groupLines = group.names.map((name) => lineMap.get(name)).filter(Boolean);
-    const sectionHeading = `<header class="snapshot-section-heading"><h3>${escapeHtml(group.title)}</h3><div>${escapeHtml(group.description)}</div></header>`;
+    const sectionHeading = sectionHeadingHtml(group, pageIndex);
     const sizeClass = groupLines.length >= 4 ? " snapshot-print-page--four" : "";
-    return `<section class="snapshot-print-page${sizeClass}">${printHeaderHtml(meta, pageIndex + 1, pageCount)}${sectionHeading}${groupLines.map(rowHtml).join("")}</section>`;
+    return `<section class="snapshot-print-page${sizeClass}" id="snapshot-group-${pageIndex}" role="tabpanel" aria-labelledby="snapshot-group-tab-${pageIndex}" data-snapshot-group-panel="${pageIndex}">${printHeaderHtml(meta, pageIndex + 1, pageCount)}${sectionHeading}${groupLines.map(rowHtml).join("")}</section>`;
   });
   pages.innerHTML = output.join("");
   state.lines = lines;
+  state.activeGroup = 0;
+  state.searchQuery = "";
+  if (snapshotSearch) snapshotSearch.value = "";
+  snapshotNavigator.hidden = false;
+  renderSnapshotTabs();
+  updateSnapshotNavigation();
   resultsMeta.textContent = meta;
   results.hidden = false;
 }
@@ -1813,14 +1970,15 @@ function renderTreeReading(line) {
   const signPath = pathForMajor(line.sign.majorIndex);
   const seat = line.treeSeat ? treeNodeByName(line.treeSeat) : null;
   const entityPathText = entityPaths.length
-    ? entityPaths.map(({ card, path }) => `${card.name}: Path ${path.number}, ${path.letter} ${path.hebrew}, ${path.from}–${path.to}`).join("; ")
+    ? entityPaths.map(({ card, path }) => `${card.name} · Path ${path.number} · ${path.letter} ${path.hebrew} · ${path.from}–${path.to}`).join("; ")
     : "This custom seal does not yet claim a canonical Tarot path.";
   const entityPathCards = entityPaths.length
     ? `<span class="tree-reading__card-stack" aria-hidden="true">${entityPaths.map(({ card }) => `<img src="${cardPreviewFile(card.index)}" alt="" width="72" height="120" loading="lazy" decoding="async">`).join("")}</span>`
     : "";
-  const seatText = seat
-    ? `${seat.name} · ${seat.title} — ${seat.current}. This is a Lost Opal overlay.`
-    : "No additional Lost Opal planetary seat has been assigned to this entity.";
+  const seatHtml = seat
+    ? `<div><dt>Lost Opal seat</dt><dd>${escapeHtml(`${seat.name} · ${seat.title} — ${seat.current}. This is a Lost Opal overlay.`)}</dd></div>`
+    : "";
+  const worldMeaning = `${world.name} means ${world.translation}. In this Hermetic Tarot framework, it is ${world.phrase} and corresponds to ${world.element}.`;
   const specialTeaching = line.name === "Uranus"
     ? "For Lost Opal, Uranus occupies Da’ath and bears The Fool, Death, and The Hanged Man. In this chamber the Hanged Man opens as Mem: primordial Water, approached with more reverence than a generated paragraph can exhaust."
     : line.name === "Pluto"
@@ -1832,10 +1990,10 @@ function renderTreeReading(line) {
     <p class="tree-reading__position">${escapeHtml(formatZodiacPosition(line.longitude))}</p>
     <dl>
       <div><dt>Celestial key path${entityPaths.length === 1 ? "" : "s"}</dt><dd${entityPathCards ? ` class="tree-reading__card-detail"` : ""}>${entityPathCards}${entityPathCards ? `<span>${escapeHtml(entityPathText)}</span>` : escapeHtml(entityPathText)}</dd></div>
-      <div><dt>Zodiacal path</dt><dd class="tree-reading__card-detail"><span class="tree-reading__card-stack" aria-hidden="true"><img src="${cardPreviewFile(line.sign.majorIndex)}" alt="" width="72" height="120" loading="lazy" decoding="async"></span><span>${escapeHtml(MAJORS[line.sign.majorIndex])}: Path ${signPath.number}, ${escapeHtml(signPath.letter)} ${escapeHtml(signPath.hebrew)}, ${escapeHtml(signPath.from)}–${escapeHtml(signPath.to)}</span></dd></div>
+      <div><dt>Zodiacal path</dt><dd class="tree-reading__card-detail"><span class="tree-reading__card-stack" aria-hidden="true"><img src="${cardPreviewFile(line.sign.majorIndex)}" alt="" width="72" height="120" loading="lazy" decoding="async"></span><span>${escapeHtml(MAJORS[line.sign.majorIndex])} · Path ${signPath.number} · ${escapeHtml(signPath.letter)} ${escapeHtml(signPath.hebrew)} · ${escapeHtml(signPath.from)}–${escapeHtml(signPath.to)}</span></dd></div>
       <div><dt>Active Sephirah</dt><dd class="tree-reading__card-detail"><span class="tree-reading__card-stack" aria-hidden="true"><img src="${cardPreviewFile(line.decan.cardIndex)}" alt="" width="72" height="120" loading="lazy" decoding="async"></span><span><strong>${escapeHtml(line.decan.cardName)}</strong> in ${escapeHtml(sephirah.name)} · ${escapeHtml(sephirah.title)} — ${escapeHtml(sephirah.current)}.</span></dd></div>
-      <div><dt>World and element</dt><dd>${escapeHtml(world.name)} · ${escapeHtml(world.element)} — ${escapeHtml(world.phrase)}.</dd></div>
-      <div><dt>Lost Opal seat</dt><dd>${escapeHtml(seatText)}</dd></div>
+      <div><dt>World and element</dt><dd><button class="tree-world-term" type="button" data-tree-world-explainer aria-expanded="false" aria-describedby="tree-world-explanation"><span>${escapeHtml(world.name)}</span><span class="tree-world-hebrew" lang="he" dir="rtl">${escapeHtml(world.hebrew)}</span><span class="tree-world-tooltip" id="tree-world-explanation" role="tooltip">${escapeHtml(worldMeaning)}</span></button> · <span class="tree-world-element"><span aria-hidden="true">${escapeHtml(world.elementGlyph)}</span> ${escapeHtml(world.element)}</span> · ${escapeHtml(world.phrase)}.</dd></div>
+      ${seatHtml}
     </dl>
     ${specialTeaching ? `<p class="tree-reading__boundary">${escapeHtml(specialTeaching)}</p>` : ""}`;
 }
@@ -2030,6 +2188,12 @@ function startOver() {
   if (artModeSelect) artModeSelect.value = "color";
   applyPrintPreferences();
   pages.innerHTML = "";
+  state.activeGroup = 0;
+  state.searchQuery = "";
+  if (snapshotSearch) snapshotSearch.value = "";
+  if (snapshotNavigator) snapshotNavigator.hidden = true;
+  if (snapshotQuickMoreList) snapshotQuickMoreList.hidden = true;
+  snapshotQuickMore?.setAttribute("aria-expanded", "false");
   resultsMeta.textContent = "";
   results.hidden = true;
   if (personalContext) {
@@ -2106,6 +2270,45 @@ if (hasDocument) {
   });
   printModeSelect.addEventListener("change", applyPrintPreferences);
   artModeSelect.addEventListener("change", applyPrintPreferences);
+  snapshotSearch?.addEventListener("input", (event) => searchSnapshot(event.currentTarget.value));
+  snapshotSearchClear?.addEventListener("click", () => {
+    if (snapshotSearch) {
+      snapshotSearch.value = "";
+      snapshotSearch.focus();
+    }
+    searchSnapshot("");
+  });
+  snapshotNavigator?.addEventListener("click", (event) => {
+    const quickSearch = event.target.closest("[data-snapshot-quick]");
+    if (quickSearch) {
+      if (snapshotSearch) {
+        snapshotSearch.value = quickSearch.dataset.snapshotQuick;
+      }
+      searchSnapshot(quickSearch.dataset.snapshotQuick);
+      return;
+    }
+    const moreButton = event.target.closest("[data-snapshot-quick-more]");
+    if (moreButton) {
+      const willOpen = moreButton.getAttribute("aria-expanded") !== "true";
+      moreButton.setAttribute("aria-expanded", String(willOpen));
+      if (snapshotQuickMoreList) snapshotQuickMoreList.hidden = !willOpen;
+      return;
+    }
+    const groupButton = event.target.closest("[data-snapshot-group]");
+    if (groupButton) selectSnapshotGroup(groupButton.dataset.snapshotGroup);
+  });
+  snapshotSectionTabs?.addEventListener("keydown", (event) => {
+    const current = event.target.closest("[data-snapshot-group]");
+    if (!current || !["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    const tabs = [...snapshotSectionTabs.querySelectorAll("[data-snapshot-group]")];
+    const currentIndex = tabs.indexOf(current);
+    const nextIndex = event.key === "Home" ? 0
+      : event.key === "End" ? tabs.length - 1
+      : event.key === "ArrowRight" ? (currentIndex + 1) % tabs.length
+      : (currentIndex - 1 + tabs.length) % tabs.length;
+    event.preventDefault();
+    selectSnapshotGroup(tabs[nextIndex].dataset.snapshotGroup, true);
+  });
   pages.addEventListener("click", (event) => {
     const carouselPrevious = event.target.closest("[data-carousel-prev]");
     if (carouselPrevious) {
@@ -2261,6 +2464,17 @@ if (hasDocument) {
   treeDialog?.addEventListener("click", (event) => {
     if (event.target === treeDialog) closeDialog(treeDialog);
   });
+  treeReading?.addEventListener("click", (event) => {
+    const worldButton = event.target.closest("[data-tree-world-explainer]");
+    if (!worldButton) return;
+    worldButton.setAttribute("aria-expanded", String(worldButton.getAttribute("aria-expanded") !== "true"));
+  });
+  treeReading?.addEventListener("keydown", (event) => {
+    const worldButton = event.target.closest("[data-tree-world-explainer]");
+    if (!worldButton || event.key !== "Escape") return;
+    worldButton.setAttribute("aria-expanded", "false");
+    worldButton.blur();
+  });
   document.querySelector("[data-card-close]")?.addEventListener("click", () => closeDialog(cardDialog));
   cardDialog?.addEventListener("click", (event) => {
     if (event.target === cardDialog) closeDialog(cardDialog);
@@ -2275,6 +2489,9 @@ if (hasDocument) {
       if (!button.contains(event.target)) button.setAttribute("aria-expanded", "false");
     });
     document.querySelectorAll("[data-identity-explainer][aria-expanded='true']").forEach((button) => {
+      if (!button.contains(event.target)) button.setAttribute("aria-expanded", "false");
+    });
+    document.querySelectorAll("[data-tree-world-explainer][aria-expanded='true']").forEach((button) => {
       if (!button.contains(event.target)) button.setAttribute("aria-expanded", "false");
     });
   });

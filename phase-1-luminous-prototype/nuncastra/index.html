@@ -14,9 +14,9 @@
   <link rel="stylesheet" href="../black-opal-theme.css?v=20260804-hero-atmosphere-1">
   <link rel="stylesheet" href="../site-audit.css?v=20260804-mobile-footer-gap-1">
   <link rel="stylesheet" href="../site-future.css?v=20260813-uniform-public-shell-2">
-  <link rel="stylesheet" href="./nuncastra.css?v=20260830-review-preview-4">
+  <link rel="stylesheet" href="./nuncastra.css?v=20260830-tree-proportions-preview-10">
   <script src="../prototype.js?v=20260829-shared-runtime-1" defer></script>
-  <script type="module" src="./nuncastra.js?v=20260830-review-preview-3"></script>
+  <script type="module" src="./nuncastra.js?v=20260830-tree-proportions-preview-10"></script>
 </head>
 
 <body class="theme-black-opal site-future-page nuncastra-page" data-print-mode="ink" data-art-mode="color">
@@ -216,6 +216,43 @@
             <button type="button" data-start-over>Start Over</button>
           </div>
         </header>
+
+        <section class="snapshot-navigator" aria-label="Navigate this Nuncast" data-snapshot-navigator hidden>
+          <div class="snapshot-navigator__search">
+            <div>
+              <p class="nuncastra-kicker">Navigate This Nuncast</p>
+              <label for="nuncastra-search">Find a voice, card, sign, house, or correspondence.</label>
+            </div>
+            <div class="snapshot-search-control">
+              <input id="nuncastra-search" type="search" inputmode="search" autocomplete="off" placeholder="Try Sun, Virgo, 8th House, or The Hermit" data-snapshot-search>
+              <button type="button" data-snapshot-search-clear>Clear Search</button>
+            </div>
+          </div>
+          <div class="snapshot-quick-search" aria-label="Quick searches">
+            <button type="button" data-snapshot-quick="Sun">☉ Sun</button>
+            <button type="button" data-snapshot-quick="Moon">☽ Moon</button>
+            <button type="button" data-snapshot-quick="Mercury">☿ Mercury</button>
+            <button type="button" data-snapshot-quick="Venus">♀ Venus</button>
+            <button type="button" data-snapshot-quick="Mars">♂ Mars</button>
+            <button type="button" data-snapshot-quick="Jupiter">♃ Jupiter</button>
+            <button type="button" data-snapshot-quick="Saturn">♄ Saturn</button>
+            <button type="button" class="snapshot-quick-search__more" aria-expanded="false" data-snapshot-quick-more>More</button>
+          </div>
+          <div class="snapshot-quick-search snapshot-quick-search--more" aria-label="More quick searches" data-snapshot-quick-more-list hidden>
+            <button type="button" data-snapshot-quick="Uranus">Uranus</button>
+            <button type="button" data-snapshot-quick="Neptune">Neptune</button>
+            <button type="button" data-snapshot-quick="Pluto">Pluto</button>
+            <button type="button" data-snapshot-quick="Chiron">Chiron</button>
+            <button type="button" data-snapshot-quick="North Node">North Node</button>
+            <button type="button" data-snapshot-quick="South Node">South Node</button>
+            <button type="button" data-snapshot-quick="Ascendant">Ascendant</button>
+            <button type="button" data-snapshot-quick="Midheaven">Midheaven</button>
+            <button type="button" data-snapshot-quick="Vertex">Vertex</button>
+            <button type="button" data-snapshot-quick="Lot of Fortune">Lot of Fortune</button>
+          </div>
+          <div class="snapshot-folder-tabs" role="tablist" aria-label="Nuncast sections" data-snapshot-section-tabs></div>
+          <p class="snapshot-search-status" aria-live="polite" data-snapshot-search-status></p>
+        </section>
 
         <div class="nuncastra-pages" data-snapshot-pages></div>
       </div>
