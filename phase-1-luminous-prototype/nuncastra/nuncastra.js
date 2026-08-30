@@ -18,11 +18,13 @@ import SwissEphemeris, {
 import { lookup as lookupTimezone } from "./vendor/timezone-lookup.js";
 
 const CARD_BASE = "../assets/tarot/1909-rws";
+const PLACEHOLDER_BASE = "./assets/placeholders";
 const EPHEMERIS_FILES = ["sepl_18.se1", "semo_18.se1", "seas_18.se1"];
 const SIGN_DEGREES = 30;
 const DECAN_DEGREES = 10;
 const INTRO_STORAGE_KEY = "nuncastra-intro-seen-v1";
 const DONATE_DISMISSED_STORAGE_KEY = "nuncastra-donate-dismissed-v1";
+const RECENT_PLACES_STORAGE_KEY = "nuncastra-recent-places-v1";
 
 const ZODIAC_SYSTEMS = {
   tropical: { label: "Tropical Zodiac · Lost Opal Default", siderealMode: null },
@@ -284,11 +286,11 @@ const BODY_DATA = [
   },
   { name: "Chiron", glyph: "⚷", body: Asteroid.Chiron, majorIndices: [5], tradition: "Lost Opal", essence: "The wound that becomes wisdom asks to be held inside teaching, tradition, and lived initiation", ground: "Offer medicine from what you have embodied, not merely understood." },
   { name: "North Node", glyph: "☊", body: LunarPoint.TrueNode, majorIndices: [18], essence: "The evolutionary pull points toward unfamiliar emotional intelligence and future growth", ground: "Take one honest step toward the pattern that asks more consciousness of you." },
-  { name: "Lilith", technicalName: "Mean Black Moon Lilith", glyph: "⚸", body: LunarPoint.MeanApogee, majorIndices: [], seal: "⚸", sealVisualLabel: "Lilith", sealKind: "Celestial Point", correspondencePending: true, essence: "Lilith marks the lunar apogee as a point of refusal, estrangement, sovereignty, and material that resists polite containment", ground: "Name what has been exiled without letting the exile become your only identity." },
-  { name: "Ceres", glyph: "⚳", body: Asteroid.Ceres, majorIndices: [], seal: "⚳", sealVisualLabel: "Ceres", sealKind: "Celestial Point", correspondencePending: true, essence: "Ceres brings nourishment, separation, grief, return, and the terms through which care becomes sustainable", ground: "Ask what truly feeds the life in front of you." },
-  { name: "Pallas", glyph: "⚴", body: Asteroid.Pallas, majorIndices: [], seal: "⚴", sealVisualLabel: "Pallas", sealKind: "Celestial Point", correspondencePending: true, essence: "Pallas brings pattern-recognition, strategy, craft, and the intelligence that sees how the pieces may be arranged", ground: "Solve the pattern without sacrificing the people inside it." },
-  { name: "Juno", glyph: "⚵", body: Asteroid.Juno, majorIndices: [], seal: "⚵", sealVisualLabel: "Juno", sealKind: "Celestial Point", correspondencePending: true, essence: "Juno brings covenant, equality, loyalty, power-sharing, and the promises through which relationship becomes consequential", ground: "Examine whether the agreement honors every person bound by it." },
-  { name: "Vesta", glyph: "⚶", body: Asteroid.Vesta, majorIndices: [], seal: "⚶", sealVisualLabel: "Vesta", sealKind: "Celestial Point", correspondencePending: true, essence: "Vesta tends devotion, sacred concentration, the hearth, and the living flame protected through disciplined attention", ground: "Return one fragment of scattered attention to what you call sacred." },
+  { name: "Lilith", technicalName: "Mean Black Moon Lilith", glyph: "⚸", body: LunarPoint.MeanApogee, majorIndices: [], seal: "⚸", placeholderImage: `${PLACEHOLDER_BASE}/lilith.webp`, sealVisualLabel: "Lilith", sealKind: "Celestial Point", correspondencePending: true, essence: "Lilith marks the lunar apogee as a point of refusal, estrangement, sovereignty, and material that resists polite containment", ground: "Name what has been exiled without letting the exile become your only identity." },
+  { name: "Ceres", glyph: "⚳", body: Asteroid.Ceres, majorIndices: [], seal: "⚳", placeholderImage: `${PLACEHOLDER_BASE}/ceres.webp`, sealVisualLabel: "Ceres", sealKind: "Celestial Point", correspondencePending: true, essence: "Ceres brings nourishment, separation, grief, return, and the terms through which care becomes sustainable", ground: "Ask what truly feeds the life in front of you." },
+  { name: "Pallas", glyph: "⚴", body: Asteroid.Pallas, majorIndices: [], seal: "⚴", placeholderImage: `${PLACEHOLDER_BASE}/pallas.webp`, sealVisualLabel: "Pallas", sealKind: "Celestial Point", correspondencePending: true, essence: "Pallas brings pattern-recognition, strategy, craft, and the intelligence that sees how the pieces may be arranged", ground: "Solve the pattern without sacrificing the people inside it." },
+  { name: "Juno", glyph: "⚵", body: Asteroid.Juno, majorIndices: [], seal: "⚵", placeholderImage: `${PLACEHOLDER_BASE}/juno.webp`, sealVisualLabel: "Juno", sealKind: "Celestial Point", correspondencePending: true, essence: "Juno brings covenant, equality, loyalty, power-sharing, and the promises through which relationship becomes consequential", ground: "Examine whether the agreement honors every person bound by it." },
+  { name: "Vesta", glyph: "⚶", body: Asteroid.Vesta, majorIndices: [], seal: "⚶", placeholderImage: `${PLACEHOLDER_BASE}/vesta.webp`, sealVisualLabel: "Vesta", sealKind: "Celestial Point", correspondencePending: true, essence: "Vesta tends devotion, sacred concentration, the hearth, and the living flame protected through disciplined attention", ground: "Return one fragment of scattered attention to what you call sacred." },
 ];
 
 const ANGLE_DATA = {
@@ -296,6 +298,7 @@ const ANGLE_DATA = {
     name: "Ascendant",
     glyph: "ASC",
     seal: "ASC",
+    placeholderImage: `${PLACEHOLDER_BASE}/ascendant.webp`,
     sealVisualLabel: "Ascendant",
     sealKind: "Celestial Angle",
     correspondencePending: true,
@@ -307,6 +310,7 @@ const ANGLE_DATA = {
     name: "Midheaven",
     glyph: "MC",
     seal: "MC",
+    placeholderImage: `${PLACEHOLDER_BASE}/midheaven.webp`,
     sealVisualLabel: "Midheaven",
     sealKind: "Celestial Angle",
     correspondencePending: true,
@@ -318,6 +322,7 @@ const ANGLE_DATA = {
     name: "Vertex",
     glyph: "Vx",
     seal: "Vx",
+    placeholderImage: `${PLACEHOLDER_BASE}/vertex.webp`,
     sealVisualLabel: "Vertex",
     sealKind: "Celestial Angle",
     correspondencePending: true,
@@ -329,6 +334,7 @@ const ANGLE_DATA = {
     name: "Lot of Fortune",
     glyph: "⊗",
     seal: "⊗",
+    placeholderImage: `${PLACEHOLDER_BASE}/lot-of-fortune.webp`,
     sealVisualLabel: "Lot of Fortune",
     sealKind: "Calculated Point",
     correspondencePending: true,
@@ -443,6 +449,8 @@ const state = { deviceLocation: null, confirmedPlace: null, engine: null, engine
 const hasDocument = typeof document !== "undefined";
 
 const form = hasDocument ? document.querySelector("[data-snapshot-form]") : null;
+const momentDateControl = form?.querySelector("[data-date-control]") || null;
+const momentTimeControl = form?.querySelector("[data-time-control]") || null;
 const status = hasDocument ? document.querySelector("[data-snapshot-status]") : null;
 const locationButton = hasDocument ? document.querySelector("[data-use-location]") : null;
 const momentLocationField = hasDocument ? document.querySelector("[data-moment-location-field]") : null;
@@ -460,8 +468,9 @@ const entry = hasDocument ? document.querySelector("[data-seeker-entry]") : null
 const entrySkip = hasDocument ? document.querySelector("[data-entry-skip]") : null;
 const birthDialog = hasDocument ? document.querySelector("[data-birth-dialog]") : null;
 const birthForm = hasDocument ? document.querySelector("[data-birth-form]") : null;
+const birthDateControl = birthForm?.querySelector("[data-date-control]") || null;
 const birthTimeConfidence = hasDocument ? document.querySelector("[data-birth-time-confidence]") : null;
-const birthTimeInput = hasDocument ? document.querySelector("[data-birth-time]") : null;
+const birthTimeControl = hasDocument ? document.querySelector("[data-birth-time-control]") : null;
 const birthTimeNote = hasDocument ? document.querySelector("[data-birth-time-note]") : null;
 const birthLocationField = hasDocument ? document.querySelector("[data-birth-location-field]") : null;
 const birthLocationInput = hasDocument ? document.querySelector("[data-birth-location-input]") : null;
@@ -616,6 +625,7 @@ function buildLine(definition, longitude, speed, options = {}) {
     entityEssence: definition.essence,
     entityGround: definition.ground,
     seal: definition.seal || null,
+    placeholderImage: definition.placeholderImage || null,
     sealVisualLabel: definition.sealVisualLabel || definition.name,
     sealKind: definition.sealKind || "Celestial Point",
     correspondencePending: Boolean(definition.correspondencePending),
@@ -645,12 +655,13 @@ function tarotLineFor(line) {
   return `${entityVoice} + ${MAJORS[line.sign.majorIndex]} + ${line.decan.cardName}`;
 }
 
-function cardFigureHtml({ category, name, cardIndex, description = "", reversed = false, nodeGlyph = null, seal = null, sealKind = "Celestial Point", sealVisualLabel = name, correspondencePending = false }) {
+function cardFigureHtml({ category, name, cardIndex, description = "", reversed = false, nodeGlyph = null, seal = null, placeholderImage = null, sealKind = "Celestial Point", sealVisualLabel = name, correspondencePending = false }) {
   const safeName = escapeHtml(name);
   const hermeticTitle = Number.isInteger(cardIndex) ? HERMETIC_CARD_TITLES[cardIndex] || "" : "";
   let visual;
-  if (seal) {
-    visual = `<div class="snapshot-seal-card" role="img" aria-label="${safeName}; ${escapeHtml(sealKind)}"><span><b>${escapeHtml(seal)}</b><small>${escapeHtml(sealVisualLabel)}</small></span></div>`;
+  if (placeholderImage || seal) {
+    const imageSource = placeholderImage || `${PLACEHOLDER_BASE}/developing-correspondence.webp`;
+    visual = `<div class="snapshot-placeholder-card" role="img" aria-label="${safeName}; ${escapeHtml(sealKind)}"><img src="${escapeHtml(imageSource)}" alt="" width="216" height="360" loading="lazy" decoding="async" fetchpriority="low" data-print-image></div>`;
   } else {
     const reverseClass = reversed ? " snapshot-card-visual--reversed" : "";
     const reverseAlt = reversed ? ", reversed" : "";
@@ -686,6 +697,7 @@ function entityCardsHtml(line) {
       category: line.sealKind,
       name: line.name,
       seal: line.seal,
+      placeholderImage: line.placeholderImage,
       sealKind: line.sealKind,
       sealVisualLabel: line.sealVisualLabel,
       correspondencePending: line.correspondencePending,
@@ -911,6 +923,148 @@ function setBusy(isBusy) {
   calculateButton.textContent = isBusy ? "Casting…" : "Cast This Moment";
 }
 
+const MONTH_OPTIONS = [
+  ["1", "Jan"], ["2", "Feb"], ["3", "Mar"], ["4", "Apr"], ["5", "May"], ["6", "Jun"],
+  ["7", "Jul"], ["8", "Aug"], ["9", "Sep"], ["10", "Oct"], ["11", "Nov"], ["12", "Dec"],
+];
+
+function appendSelectOptions(select, options) {
+  if (!select || select.options.length > 1) return;
+  options.forEach(([value, label]) => select.add(new Option(label, value)));
+}
+
+function dateParts(control) {
+  return {
+    month: control?.querySelector("[data-date-month]") || null,
+    day: control?.querySelector("[data-date-day]") || null,
+    year: control?.querySelector("[data-date-year]") || null,
+    hidden: control?.querySelector('input[type="hidden"]') || null,
+  };
+}
+
+function timeParts(control) {
+  return {
+    hour: control?.querySelector("[data-time-hour]") || null,
+    minute: control?.querySelector("[data-time-minute]") || null,
+    period: control?.querySelector("[data-time-period]") || null,
+    hidden: control?.querySelector('input[type="hidden"]') || null,
+  };
+}
+
+function updateAvailableDays(control) {
+  const { month, day, year } = dateParts(control);
+  if (!month || !day || !year) return;
+  const numericMonth = Number(month.value);
+  const numericYear = Number(year.value);
+  const available = numericMonth
+    ? new Date(Date.UTC(Number.isInteger(numericYear) && numericYear > 0 ? numericYear : 2000, numericMonth, 0)).getUTCDate()
+    : 31;
+  [...day.options].forEach((option) => {
+    if (!option.value) return;
+    option.disabled = Number(option.value) > available;
+  });
+  if (Number(day.value) > available) day.value = "";
+}
+
+function syncDateControl(control, report = false) {
+  const { month, day, year, hidden } = dateParts(control);
+  if (!month || !day || !year || !hidden) return "";
+  day.setCustomValidity("");
+  year.setCustomValidity("");
+
+  if (!month.value || !day.value || !year.value) {
+    hidden.value = "";
+    return "";
+  }
+
+  const numericYear = Number(year.value);
+  const numericMonth = Number(month.value);
+  const numericDay = Number(day.value);
+  const minYear = Number(control.dataset.minYear || 1800);
+  const maxYear = Number(control.dataset.maxYear || 2399);
+  if (!Number.isInteger(numericYear) || numericYear < minYear || numericYear > maxYear) {
+    year.setCustomValidity(`Enter a four-digit year from ${minYear} through ${maxYear}.`);
+    if (report) year.reportValidity();
+    hidden.value = "";
+    return "";
+  }
+
+  const candidate = new Date(Date.UTC(numericYear, numericMonth - 1, numericDay));
+  if (candidate.getUTCFullYear() !== numericYear || candidate.getUTCMonth() !== numericMonth - 1 || candidate.getUTCDate() !== numericDay) {
+    day.setCustomValidity("Choose a day that exists in that month and year.");
+    if (report) day.reportValidity();
+    hidden.value = "";
+    return "";
+  }
+
+  hidden.value = `${String(numericYear).padStart(4, "0")}-${String(numericMonth).padStart(2, "0")}-${String(numericDay).padStart(2, "0")}`;
+  return hidden.value;
+}
+
+function setDateControlValue(control, isoDate) {
+  const { month, day, year } = dateParts(control);
+  if (!month || !day || !year) return;
+  const match = String(isoDate || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  year.value = match ? String(Number(match[1])) : "";
+  month.value = match ? String(Number(match[2])) : "";
+  updateAvailableDays(control);
+  day.value = match ? String(Number(match[3])) : "";
+  syncDateControl(control);
+}
+
+function syncTimeControl(control) {
+  const { hour, minute, period, hidden } = timeParts(control);
+  if (!hour || !minute || !period || !hidden || !hour.value || !minute.value || !period.value) {
+    if (hidden) hidden.value = "";
+    return "";
+  }
+  let numericHour = Number(hour.value) % 12;
+  if (period.value === "PM") numericHour += 12;
+  hidden.value = `${String(numericHour).padStart(2, "0")}:${String(Number(minute.value)).padStart(2, "0")}`;
+  return hidden.value;
+}
+
+function setTimeControlValue(control, isoTime) {
+  const { hour, minute, period } = timeParts(control);
+  if (!hour || !minute || !period) return;
+  const match = String(isoTime || "").match(/^(\d{2}):(\d{2})$/);
+  if (!match) {
+    hour.value = "";
+    minute.value = "";
+    period.value = "";
+    syncTimeControl(control);
+    return;
+  }
+  const numericHour = Number(match[1]);
+  hour.value = String(numericHour % 12 || 12);
+  minute.value = String(Number(match[2]));
+  period.value = numericHour >= 12 ? "PM" : "AM";
+  syncTimeControl(control);
+}
+
+function initializeTemporalControls() {
+  document.querySelectorAll("[data-date-control]").forEach((control) => {
+    const { month, day } = dateParts(control);
+    appendSelectOptions(month, MONTH_OPTIONS);
+    appendSelectOptions(day, Array.from({ length: 31 }, (_, index) => [String(index + 1), String(index + 1)]));
+    control.addEventListener("change", () => {
+      updateAvailableDays(control);
+      syncDateControl(control);
+    });
+    control.addEventListener("input", () => {
+      updateAvailableDays(control);
+      syncDateControl(control);
+    });
+  });
+
+  document.querySelectorAll("[data-time-control]").forEach((control) => {
+    const { hour, minute } = timeParts(control);
+    appendSelectOptions(hour, Array.from({ length: 12 }, (_, index) => [String(index + 1), String(index + 1)]));
+    appendSelectOptions(minute, Array.from({ length: 60 }, (_, index) => [String(index), String(index).padStart(2, "0")]));
+    control.addEventListener("change", () => syncTimeControl(control));
+  });
+}
+
 function localInputDefaults() {
   const now = new Date();
   const year = now.getFullYear();
@@ -918,8 +1072,8 @@ function localInputDefaults() {
   const day = String(now.getDate()).padStart(2, "0");
   const hour = String(now.getHours()).padStart(2, "0");
   const minute = String(now.getMinutes()).padStart(2, "0");
-  form.elements.date.value = `${year}-${month}-${day}`;
-  form.elements.time.value = `${hour}:${minute}`;
+  setDateControlValue(momentDateControl, `${year}-${month}-${day}`);
+  setTimeControlValue(momentTimeControl, `${hour}:${minute}`);
 }
 
 function parseCoordinates(query) {
@@ -933,8 +1087,8 @@ function parseCoordinates(query) {
   return { latitude, longitude, label: `${latitude.toFixed(5)}, ${longitude.toFixed(5)}` };
 }
 
-const BIRTH_PLACE_PROMPT = "Start typing, then choose the matching place to lock its coordinates.";
-const MOMENT_PLACE_PROMPT = "Start typing, then choose the matching place to confirm its coordinates.";
+const BIRTH_PLACE_PROMPT = "Choose a matching place, enter exact latitude and longitude, or reuse a recently confirmed place.";
+const MOMENT_PLACE_PROMPT = "Choose a matching place or enter exact latitude and longitude. Recently confirmed places also work offline.";
 const DEFAULT_PLACE = { latitude: 33.3062, longitude: -111.8413, label: "Chandler, Arizona 85225", kind: "City" };
 let birthPlaceSearchTimer = null;
 let birthPlaceSearchController = null;
@@ -993,22 +1147,65 @@ function photonPlace(feature) {
   return { latitude, longitude, label: parts.join(", "), kind };
 }
 
+function recentPlaces() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(RECENT_PLACES_STORAGE_KEY) || "[]");
+    return Array.isArray(stored)
+      ? stored.filter((place) => Number.isFinite(Number(place?.latitude)) && Number.isFinite(Number(place?.longitude)) && place?.label).slice(0, 8)
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function rememberPlace(place) {
+  if (!place?.label || !Number.isFinite(Number(place.latitude)) || !Number.isFinite(Number(place.longitude))) return;
+  try {
+    const key = `${Number(place.latitude).toFixed(5)}|${Number(place.longitude).toFixed(5)}`;
+    const saved = recentPlaces().filter((candidate) => `${Number(candidate.latitude).toFixed(5)}|${Number(candidate.longitude).toFixed(5)}` !== key);
+    saved.unshift({
+      latitude: Number(place.latitude),
+      longitude: Number(place.longitude),
+      label: String(place.label),
+      kind: String(place.kind || "Recently confirmed place"),
+    });
+    localStorage.setItem(RECENT_PLACES_STORAGE_KEY, JSON.stringify(saved.slice(0, 8)));
+  } catch {
+    // Place reuse is optional; the reading still works when local storage is unavailable.
+  }
+}
+
+function matchingRecentPlaces(query) {
+  const needle = query.trim().toLowerCase();
+  if (!needle) return [];
+  return recentPlaces().filter((place) => place.label.toLowerCase().includes(needle));
+}
+
 async function searchPlaces(query, signal) {
   const direct = parseCoordinates(query);
   if (direct) return [{ ...direct, kind: "Exact coordinates" }];
 
-  const endpoint = new URL("https://photon.komoot.io/api/");
-  endpoint.searchParams.set("q", query);
-  endpoint.searchParams.set("limit", "7");
-  endpoint.searchParams.set("lang", "en");
-  endpoint.searchParams.set("osm_tag", "place");
-  const response = await fetch(endpoint, { signal, headers: { Accept: "application/json" } });
-  if (!response.ok) throw new Error("The place-search service is unavailable right now.");
-  const payload = await response.json();
+  const recentMatches = matchingRecentPlaces(query);
+  if (typeof navigator !== "undefined" && navigator.onLine === false) return recentMatches;
+
+  let payload;
+  try {
+    const endpoint = new URL("https://photon.komoot.io/api/");
+    endpoint.searchParams.set("q", query);
+    endpoint.searchParams.set("limit", "7");
+    endpoint.searchParams.set("lang", "en");
+    endpoint.searchParams.set("osm_tag", "place");
+    const response = await fetch(endpoint, { signal, headers: { Accept: "application/json" } });
+    if (!response.ok) throw new Error("The place-search service is unavailable right now.");
+    payload = await response.json();
+  } catch (error) {
+    if (error.name === "AbortError") throw error;
+    if (recentMatches.length) return recentMatches;
+    throw error;
+  }
+
   const seen = new Set();
-  return (payload.features || [])
-    .map(photonPlace)
-    .filter(Boolean)
+  return [...recentMatches, ...(payload.features || []).map(photonPlace).filter(Boolean)]
     .filter((place) => {
       const key = `${place.label.toLowerCase()}|${place.latitude.toFixed(4)}|${place.longitude.toFixed(4)}`;
       if (seen.has(key)) return false;
@@ -1034,6 +1231,7 @@ function renderBirthPlaceResults(places) {
 function chooseBirthPlace(place) {
   if (!place || !birthLocationInput || !birthForm) return;
   birthSelectedPlace = { ...place };
+  rememberPlace(place);
   birthLocationInput.value = place.label;
   birthLocationInput.setCustomValidity("");
   birthForm.elements.birth_latitude.value = String(place.latitude);
@@ -1053,7 +1251,9 @@ async function performBirthPlaceSearch(query) {
     if (birthLocationInput?.value.trim() !== query) return;
     if (!places.length) {
       closeBirthPlaceResults();
-      setBirthPlaceMessage("No matching place yet. Add a state, country, region, or ZIP code and try again.", "error");
+      setBirthPlaceMessage(navigator.onLine === false
+        ? "You are offline. Enter exact latitude, longitude or begin typing a recently confirmed place."
+        : "No matching place yet. Add a state, country, region, or ZIP code and try again.", "error");
       return;
     }
     renderBirthPlaceResults(places);
@@ -1061,7 +1261,7 @@ async function performBirthPlaceSearch(query) {
   } catch (error) {
     if (error.name === "AbortError") return;
     closeBirthPlaceResults();
-    setBirthPlaceMessage("Place suggestions could not be reached. Check the connection and try again.", "error");
+    setBirthPlaceMessage("Place suggestions could not be reached. Enter exact latitude, longitude, use a recently confirmed place, or try again when connected.", "error");
   }
 }
 
@@ -1111,6 +1311,7 @@ function applyMomentPlaceSelection(place, focus = false) {
     label: place.label,
     kind: place.kind || "Place",
   };
+  rememberPlace(state.confirmedPlace);
   momentLocationInput.value = state.confirmedPlace.label;
   momentLocationInput.setCustomValidity("");
   momentLocationField?.classList.add("is-confirmed");
@@ -1152,7 +1353,9 @@ async function performMomentPlaceSearch(query) {
     if (momentLocationInput?.value.trim() !== query) return;
     if (!places.length) {
       closeMomentPlaceResults();
-      setMomentPlaceMessage("No matching place yet. Add a state, country, region, or ZIP code and try again.", "error");
+      setMomentPlaceMessage(navigator.onLine === false
+        ? "You are offline. Enter exact latitude, longitude, use My Location, or begin typing a recently confirmed place."
+        : "No matching place yet. Add a state, country, region, or ZIP code and try again.", "error");
       return;
     }
     renderMomentPlaceResults(places);
@@ -1160,7 +1363,7 @@ async function performMomentPlaceSearch(query) {
   } catch (error) {
     if (error.name === "AbortError") return;
     closeMomentPlaceResults();
-    setMomentPlaceMessage("Place suggestions could not be reached. Check the connection and try again.", "error");
+    setMomentPlaceMessage("Place suggestions could not be reached. Enter exact latitude, longitude, use My Location, or try again when connected.", "error");
   }
 }
 
@@ -1353,6 +1556,12 @@ function calculateLines(engine, utcDate, latitude, longitude, zodiacSystem = "tr
 async function handleSubmit(event) {
   event.preventDefault();
   if (state.busy) return;
+  const selectedDate = syncDateControl(momentDateControl, true);
+  const selectedTime = syncTimeControl(momentTimeControl);
+  if (!selectedDate || !selectedTime) {
+    setStatus("Choose a complete date and local time before casting the Nuncast.", "error");
+    return;
+  }
   if (!state.confirmedPlace) {
     momentLocationInput?.setCustomValidity("Choose one of the matching places so its coordinates can be confirmed.");
     momentLocationInput?.reportValidity();
@@ -1575,11 +1784,17 @@ function showEntry(force = false) {
 }
 
 function syncBirthTimeField() {
-  if (!birthTimeConfidence || !birthTimeInput || !birthTimeNote) return;
+  if (!birthTimeConfidence || !birthTimeControl || !birthTimeNote) return;
   const confidence = birthTimeConfidence.value;
   const unknown = confidence === "unknown";
-  birthTimeInput.disabled = unknown;
-  birthTimeInput.required = !unknown;
+  const timeFields = [...birthTimeControl.querySelectorAll("select")];
+  const wasUnknown = timeFields.some((field) => field.disabled);
+  timeFields.forEach((field) => {
+    field.disabled = unknown;
+    field.required = !unknown;
+  });
+  if (unknown) setTimeControlValue(birthTimeControl, "12:00");
+  else if (wasUnknown) setTimeControlValue(birthTimeControl, "");
   birthTimeNote.textContent = unknown
     ? "That is okay. We will use noon as a transparent midpoint and treat the possible time as plus or minus twelve hours."
     : confidence === "approximate"
@@ -1590,12 +1805,14 @@ function syncBirthTimeField() {
 function openBirthWalkthrough() {
   if (!birthDialog || !birthForm) return;
   birthForm.reset();
+  setDateControlValue(birthDateControl, "");
+  setTimeControlValue(birthTimeControl, "");
   resetBirthPlacePicker();
   birthForm.elements.birth_zodiac.value = form.elements.zodiac.value;
   syncBirthTimeField();
   if (typeof birthDialog.showModal === "function" && !birthDialog.open) birthDialog.showModal();
   else birthDialog.setAttribute("open", "");
-  requestAnimationFrame(() => birthForm.elements.birth_date.focus());
+  requestAnimationFrame(() => birthDateControl?.querySelector("[data-date-month]")?.focus());
 }
 
 function handleBirthSubmit(event) {
@@ -1610,7 +1827,9 @@ function handleBirthSubmit(event) {
   }
   const timeConfidence = birthForm.elements.birth_time_confidence.value;
   const placeConfidence = birthForm.elements.birth_place_confidence.value;
-  const birthTime = timeConfidence === "unknown" ? "12:00" : birthForm.elements.birth_time.value;
+  const birthDate = syncDateControl(birthDateControl, true);
+  const birthTime = timeConfidence === "unknown" ? "12:00" : syncTimeControl(birthTimeControl);
+  if (!birthDate || !birthTime) return;
   const timeMeta = timeConfidence === "unknown"
     ? "Birth time unknown; noon midpoint (±12 hours)"
     : timeConfidence === "approximate"
@@ -1622,8 +1841,8 @@ function handleBirthSubmit(event) {
       ? "Birthplace very uncertain"
       : "Birthplace is a best honest guess";
 
-  form.elements.date.value = birthForm.elements.birth_date.value;
-  form.elements.time.value = birthTime;
+  setDateControlValue(momentDateControl, birthDate);
+  setTimeControlValue(momentTimeControl, birthTime);
   applyMomentPlaceSelection({
     latitude: birthSelectedPlace.latitude,
     longitude: birthSelectedPlace.longitude,
@@ -1639,7 +1858,8 @@ function handleBirthSubmit(event) {
   }
   closeDialog(birthDialog);
   document.querySelector(".moment-chamber")?.scrollIntoView({ behavior: "auto", block: "start" });
-  form.requestSubmit();
+  if (typeof form.requestSubmit === "function") form.requestSubmit();
+  else form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
 }
 
 function closeEntry(path = "moment") {
@@ -1653,7 +1873,7 @@ function closeEntry(path = "moment") {
   if (path === "personal" && birthDialog) {
     openBirthWalkthrough();
   } else {
-    form?.elements.date?.focus({ preventScroll: true });
+    momentDateControl?.querySelector("[data-date-month]")?.focus({ preventScroll: true });
     document.querySelector(".moment-chamber")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 }
@@ -1765,6 +1985,7 @@ if (hasDocument) {
       // Hiding it for the current page still works without storage.
     }
   });
+  initializeTemporalControls();
   localInputDefaults();
   resetMomentPlacePicker();
   form.addEventListener("submit", handleSubmit);

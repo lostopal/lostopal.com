@@ -41,14 +41,22 @@ Publishing uses credentials stored outside the repository. A plain invocation is
 .\publish_ftp.ps1 -SourceDirectory production-site
 ```
 
-The owner publishes only after reviewing the generated package and taking an appropriate live backup:
+After the owner reviews the plan, publishing automatically makes an incremental
+release backup before the first live file changes:
 
 ```powershell
 .\publish_ftp.ps1 -SourceDirectory production-site -Publish
 ```
 
 That command uploads only files whose content changed and preserves remote-only
-files. To make hosting exactly match the generated public package—including
+files. The backup contains only existing remote files that will be overwritten
+or deleted, plus the previous deployment manifest. Identical content already in
+`backups/` is reused through a shared content-addressed cache, so routine
+releases do not create another full-site snapshot. A full FTP crawl requires an
+explicit `backup_ftp.ps1 -Destination <folder> -Full` maintenance command; it is
+not the normal release path.
+
+To make hosting exactly match the generated public package—including
 removing retired routes and old duplicate assets—use the explicit mirror mode:
 
 ```powershell

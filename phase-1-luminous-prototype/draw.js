@@ -3,7 +3,6 @@
 
   const CARD_BASE = "./assets/tarot/1909-rws";
   const REVERSAL_NOTE = "Reversed, this current may be blocked, internalized, delayed, exaggerated, or asking for repair. Read it as a change in access—not an automatic opposite.";
-  const HOUSE_NOTE = "A house comes from a chart cast for a time and place. This shuffled draw does not invent one.";
 
   const MAJORS = [
     "The Fool", "The Magician", "The High Priestess", "The Empress", "The Emperor", "The Hierophant",
@@ -123,6 +122,34 @@
     Aquarius: "liberation, collective vision, originality, and future-minded truth", Pisces: "mystery, permeability, imagination, and spiritual feeling",
   };
 
+  const NATURAL_HOUSES = {
+    Aries: { number: 1, meaning: "identity, embodiment, initiative, and the manner of beginning" },
+    Taurus: { number: 2, meaning: "values, resources, stability, the body, and what is sustained" },
+    Gemini: { number: 3, meaning: "language, learning, exchange, siblings, and the immediate environment" },
+    Cancer: { number: 4, meaning: "home, ancestry, belonging, memory, and the private foundation" },
+    Leo: { number: 5, meaning: "creative expression, pleasure, play, romance, and what the heart brings forth" },
+    Virgo: { number: 6, meaning: "daily practice, service, craft, maintenance, and useful refinement" },
+    Libra: { number: 7, meaning: "partnership, encounter, reciprocity, agreements, and the significant other" },
+    Scorpio: { number: 8, meaning: "shared power, intimacy, inheritance, loss, death, and transformation" },
+    Sagittarius: { number: 9, meaning: "worldview, pilgrimage, higher learning, faith, and expanded understanding" },
+    Capricorn: { number: 10, meaning: "vocation, public responsibility, authority, consequence, and visible achievement" },
+    Aquarius: { number: 11, meaning: "community, friendship, networks, collective purpose, and future possibility" },
+    Pisces: { number: 12, meaning: "solitude, surrender, dream, hidden material, compassion, and dissolution" },
+  };
+
+  const PLANET_RULERSHIPS = {
+    Sun: ["Leo"],
+    Moon: ["Cancer"],
+    Mercury: ["Gemini", "Virgo"],
+    Venus: ["Taurus", "Libra"],
+    Mars: ["Aries", "Scorpio"],
+    Jupiter: ["Sagittarius", "Pisces"],
+    Saturn: ["Capricorn", "Aquarius"],
+    Uranus: ["Aquarius"],
+    Neptune: ["Pisces"],
+    Pluto: ["Scorpio"],
+  };
+
   const MAJOR_CORRESPONDENCES = [
     { element: "Air", planet: "Uranus" }, { element: "Air", planet: "Mercury" }, { element: "Water", planet: "Moon" },
     { element: "Earth", planet: "Venus" }, { element: "Fire", planet: "Mars", sign: "Aries" },
@@ -183,25 +210,59 @@
     King: ["matures the element outwardly through direction, stewardship, consequence, and visible responsibility", "Lead this current without confusing command with control."],
   };
 
+  const COURT_DECAN_SPANS = {
+    "Knight of Wands": ["Scorpio", "Sagittarius", "20° Scorpio–20° Sagittarius"],
+    "Queen of Wands": ["Pisces", "Aries", "20° Pisces–20° Aries"],
+    "King of Wands": ["Cancer", "Leo", "20° Cancer–20° Leo"],
+    "Knight of Cups": ["Aquarius", "Pisces", "20° Aquarius–20° Pisces"],
+    "Queen of Cups": ["Gemini", "Cancer", "20° Gemini–20° Cancer"],
+    "King of Cups": ["Libra", "Scorpio", "20° Libra–20° Scorpio"],
+    "Knight of Swords": ["Taurus", "Gemini", "20° Taurus–20° Gemini"],
+    "Queen of Swords": ["Virgo", "Libra", "20° Virgo–20° Libra"],
+    "King of Swords": ["Capricorn", "Aquarius", "20° Capricorn–20° Aquarius"],
+    "Knight of Pentacles": ["Leo", "Virgo", "20° Leo–20° Virgo"],
+    "Queen of Pentacles": ["Sagittarius", "Capricorn", "20° Sagittarius–20° Capricorn"],
+    "King of Pentacles": ["Aries", "Taurus", "20° Aries–20° Taurus"],
+  };
+
+  const ELEMENTAL_QUARTERS = {
+    Wands: "Cancer · Leo · Virgo",
+    Cups: "Libra · Scorpio · Sagittarius",
+    Swords: "Capricorn · Aquarius · Pisces",
+    Pentacles: "Aries · Taurus · Gemini",
+  };
+
+  const ELEMENTAL_QUARTER_SIGNS = {
+    Wands: ["Cancer", "Leo", "Virgo"],
+    Cups: ["Libra", "Scorpio", "Sagittarius"],
+    Swords: ["Capricorn", "Aquarius", "Pisces"],
+    Pentacles: ["Aries", "Taurus", "Gemini"],
+  };
+
   const SPREADS = {
     one: {
       title: "One-Card Reading",
-      positions: [{ name: "The Living Question", lens: "This card stands at the center of the question. Let it name the current most ready to be encountered." }],
+      positions: [{ name: "Card 1" }],
     },
     three: {
       title: "Three-Card Reading",
       positions: [
-        { name: "The Ground", lens: "This is what is already here: the condition, memory, resource, or truth beneath the rest of the reading." },
-        { name: "The Meeting", lens: "This is what actively meets the ground: the exchange, tension, invitation, or force now asking for relationship." },
-        { name: "The Becoming", lens: "This is where attention can move next: not a fixed fate, but the living direction the conversation makes possible." },
+        { name: "Card 1" },
+        { name: "Card 2" },
+        { name: "Card 3" },
       ],
     },
     elm: {
       title: "Seven-Card ELM Reading",
-      positions: Array.from({ length: 7 }, (_, index) => ({
-        name: `ELM · ${roman(index + 1)}`,
-        lens: "Read this station in sequence with the surrounding cards. Its meaning grows through the pattern it makes with the whole layout.",
-      })),
+      positions: [
+        { name: "Spirit" },
+        { name: "Water" },
+        { name: "Fire" },
+        { name: "Air" },
+        { name: "Earth" },
+        { name: "Action in the Now" },
+        { name: "Potential Outcome to Test" },
+      ],
     },
     celtic: {
       title: "Celtic Cross Reading",
@@ -290,6 +351,66 @@
     return item;
   }
 
+  function ordinalHouse(number) {
+    if (number >= 11 && number <= 13) return `${number}th`;
+    return `${number}${({ 1: "st", 2: "nd", 3: "rd" })[number % 10] || "th"}`;
+  }
+
+  function ruledSigns(planetText = "") {
+    const signs = planetText
+      .split(" · ")
+      .flatMap((planet) => PLANET_RULERSHIPS[planet] || []);
+    return [...new Set(signs)];
+  }
+
+  function naturalPlacement(meta) {
+    if (meta.major) {
+      const corr = MAJOR_CORRESPONDENCES[meta.index];
+      const signs = corr.sign ? [corr.sign] : ruledSigns(corr.planet);
+      const decanDescription = corr.sign
+        ? `${meta.name} carries the first through third decans of ${corr.sign}.`
+        : `${meta.name}, through ${corr.planet}, carries the first through third decans of ${signs.join(" and ")}.`;
+      return { signs, decanDescription };
+    }
+
+    if (meta.decan) {
+      const [sign, , decan] = meta.decan;
+      return { signs: [sign], decanDescription: `${meta.name} belongs to the ${decan.toLowerCase()} of ${sign}.` };
+    }
+
+    const span = COURT_DECAN_SPANS[meta.name];
+    if (span) {
+      const [fromSign, toSign, degrees] = span;
+      return {
+        signs: [fromSign, toSign],
+        decanDescription: `${meta.name} spans ${degrees}: the third decan of ${fromSign} and the first two decans of ${toSign}.`,
+      };
+    }
+
+    const signs = ELEMENTAL_QUARTER_SIGNS[meta.suit];
+    return {
+      signs,
+      decanDescription: `${meta.name} carries the elemental quarter spanning ${signs.join(", ")}.`,
+    };
+  }
+
+  function naturalHouseTile(meta) {
+    const placement = naturalPlacement(meta);
+    const houses = placement.signs.map((sign) => ({ sign, ...NATURAL_HOUSES[sign] }));
+    const numbers = houses.map((house) => house.number);
+    const consecutive = numbers.every((number, index) => index === 0 || number === numbers[index - 1] + 1);
+    const value = houses.length === 1
+      ? `${ordinalHouse(numbers[0])} House`
+      : consecutive
+        ? `${ordinalHouse(numbers[0])}–${ordinalHouse(numbers.at(-1))} Houses`
+        : `${numbers.map(ordinalHouse).join(" & ")} Houses`;
+    const meanings = houses
+      .map((house) => `${ordinalHouse(house.number)} House (${house.sign}): ${house.meaning}`)
+      .join("; ");
+    const tooltip = `${placement.decanDescription} On the simple Aries-first natural wheel used for this un-timed Draw, that places it in the ${value}: ${meanings}.`;
+    return tile("House", value, "⌂", tooltip);
+  }
+
   function correspondenceNodes(meta) {
     const nodes = [];
     if (meta.major) {
@@ -300,7 +421,14 @@
         const firstPlanet = corr.planet.split(" · ")[0];
         nodes.push(tile("Planet", corr.planet, GLYPHS[firstPlanet] || "✦", corr.planet.split(" · ").map((planet) => PLANET_MEANINGS[planet] || planet).join("; ")));
       }
-      if (corr.sign) nodes.push(tile("Zodiac", corr.sign, GLYPHS[corr.sign], SIGN_MEANINGS[corr.sign]));
+      if (corr.sign) {
+        nodes.push(tile("Zodiac", corr.sign, GLYPHS[corr.sign], SIGN_MEANINGS[corr.sign]));
+        nodes.push(tile("Decanic Field", `All 3 · ${corr.sign}`, GLYPHS[corr.sign], `${meta.name} carries the full zodiacal field of ${corr.sign}, including all three of its decans.`));
+      } else {
+        const planetName = corr.planet?.split(" · ")[0];
+        const signs = ruledSigns(corr.planet);
+        nodes.push(tile("Decanic Reach", `1st–3rd · ${signs.join(" + ")}`, GLYPHS[planetName] || "✦", `${meta.name} carries all three decans of ${signs.join(" and ")} through ${corr.planet}.`));
+      }
     } else {
       const element = ELEMENTS[meta.suit];
       nodes.push(tile("Element", element.name, element.glyph, element.meaning));
@@ -308,12 +436,18 @@
         const [sign, planet, decan] = meta.decan;
         nodes.push(tile("Planet", planet, GLYPHS[planet], PLANET_MEANINGS[planet]));
         nodes.push(tile("Zodiac", sign, GLYPHS[sign], SIGN_MEANINGS[sign]));
-        nodes.push(tile("Decan", decan, decan.replace(" Decan", ""), `${decan} of ${sign}; this ten-degree face is ruled by ${planet}.`));
+        nodes.push(tile("Default Decan", `${decan} · ${sign}`, decan.replace(" Decan", ""), `${meta.name} is the fixed Golden Dawn card of the ${decan.toLowerCase()} of ${sign}; this ten-degree face is ruled by ${planet}.`));
       } else {
         nodes.push(tile("Court / Root", meta.rank, meta.rank === "Ace" ? "I" : "♙", `${meta.rank} expresses the ${meta.suit} current through its own stage of embodiment.`));
+        if (COURT_DECAN_SPANS[meta.name]) {
+          const [fromSign, toSign, span] = COURT_DECAN_SPANS[meta.name];
+          nodes.push(tile("Decanic Span", "Three Decans", "↔", `${meta.name} spans ${span}: the final decan of ${fromSign} and the first two decans of ${toSign}.`));
+        } else {
+          nodes.push(tile("Decanic Field", "Elemental Quarter", element.glyph, `${meta.name} belongs to the ${meta.suit} elemental quarter touching ${ELEMENTAL_QUARTERS[meta.suit]}, rather than to one numbered-minor decan.`));
+        }
       }
     }
-    nodes.push(tile("House", "Uncast", "⌂", HOUSE_NOTE));
+    nodes.push(naturalHouseTile(meta));
     return nodes;
   }
 
@@ -332,7 +466,8 @@
     button.type = "button";
     button.className = "draw-card";
     button.setAttribute("aria-label", `Open ${meta.name}${card.reversed ? ", reversed" : ""}, ${position.name}`);
-    button.innerHTML = `<span class="draw-card__frame"><img src="${imagePath(card.index)}" alt="${meta.name}${card.reversed ? ", reversed" : ""}" width="240" height="400" loading="eager" decoding="async" class="${card.reversed ? "is-reversed" : ""}"><span class="draw-card__number">${order + 1}</span></span><span class="draw-card__label">${meta.name}<small>${card.reversed ? "Reversed" : "Upright"}</small></span>`;
+    const pointLabel = currentSpread === "elm" || currentSpread === "celtic" ? `<small class="draw-card__point">${position.name}</small>` : "";
+    button.innerHTML = `<span class="draw-card__frame"><img src="${imagePath(card.index)}" alt="${meta.name}${card.reversed ? ", reversed" : ""}" width="240" height="400" loading="eager" decoding="async" class="${card.reversed ? "is-reversed" : ""}"><span class="draw-card__number">${order + 1}</span></span><span class="draw-card__label">${pointLabel}<b>${meta.name}</b><small>${card.reversed ? "Reversed" : "Upright"}</small></span>`;
     button.addEventListener("click", () => openDialog(card, position));
     return button;
   }
@@ -354,11 +489,12 @@
 
     const copy = document.createElement("div");
     copy.className = "draw-reading-card__copy";
+    const positionLens = position.lens ? `<p class="draw-reading-card__lens"><strong>In this position:</strong> ${position.lens}</p>` : "";
     copy.innerHTML = `
       <p class="draw-reading-card__position"><b>${order + 1}</b><span>${position.name} · ${card.reversed ? "Reversed" : "Upright"}</span></p>
       <h3>${meta.name}</h3>
       <p class="draw-reading-card__hermetic">${meta.hermetic}</p>
-      <p class="draw-reading-card__lens"><strong>In this position:</strong> ${position.lens}</p>
+      ${positionLens}
       <p class="draw-reading-card__meaning">${meta.meaning}</p>
       ${card.reversed ? `<p class="draw-reading-card__reversal"><strong>Reversal:</strong> ${REVERSAL_NOTE}</p>` : ""}
     `;
@@ -406,7 +542,8 @@
       const meta = cardMeta(card.index);
       spreadArea.append(cardButton(card, position, index));
       const legendItem = document.createElement("li");
-      legendItem.innerHTML = `<b>${index + 1}</b> ${position.name}`;
+      const namedPoint = currentSpread === "elm" || currentSpread === "celtic" ? `${position.name}: ` : "";
+      legendItem.innerHTML = `<b>${index + 1}</b> ${namedPoint}${meta.name}`;
       cardLegend.append(legendItem);
       readingCards.append(readingArticle(card, position, index));
       if (!meta) return;

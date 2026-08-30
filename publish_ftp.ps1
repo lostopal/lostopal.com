@@ -7,7 +7,9 @@ param(
     [string]$Password = $env:LOST_OPAL_FTP_PASS,
     [switch]$Publish,
     [switch]$Mirror,
-    [switch]$ForceUpload
+    [switch]$ForceUpload,
+    [string]$BackupRoot = 'backups',
+    [switch]$SkipBackup
 )
 
 $ErrorActionPreference = 'Stop'
@@ -215,6 +217,49 @@ if (-not $Publish) {
     Write-Host 'Dry run only. Nothing was changed.'
     Write-Host 'Use -Publish to upload changes; add -Mirror to remove remote files that are not in production-site.'
     exit 0
+}
+
+$hasLiveChanges = $uploads.Count -gt 0 -or $remoteOnlyFiles.Count -gt 0 -or $remoteOnlyDirectories.Count -gt 0
+if (-not $hasLiveChanges) {
+    Write-Host 'The live site already matches this production package. Nothing was uploaded and no backup was needed.'
+    exit 0
+}
+
+if (-not $SkipBackup) {
+    $backupPaths = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
+    foreach ($path in $uploads) {
+        # A manifest entry proves this path already exists in the current release.
+        # New paths have no live version to protect.
+        if ($null -eq $remoteManifest -or $remoteHashes.ContainsKey($path)) { [void]$backupPaths.Add($path) }
+    }
+    foreach ($path in $remoteOnlyFiles) { [void]$backupPaths.Add($path) }
+    if ($null -ne $remoteManifest) { [void]$backupPaths.Add('.deployment-manifest.json') }
+
+    if ($backupPaths.Count -gt 0) {
+        $backupRootPath = if ([IO.Path]::IsPathRooted($BackupRoot)) { $BackupRoot } else { Join-Path $workspaceRoot $BackupRoot }
+        New-Item -ItemType Directory -Path $backupRootPath -Force | Out-Null
+        $backupRootPath = (Resolve-Path -LiteralPath $backupRootPath).Path
+        $backupDestination = Join-Path $backupRootPath ("release-{0}" -f [DateTime]::Now.ToString('yyyyMMdd-HHmmss-fff'))
+        $backupCache = Join-Path $backupRootPath '.file-cache'
+        $backupScript = Join-Path $workspaceRoot 'backup_ftp.ps1'
+
+        & $backupScript `
+            -FtpHost $FtpHost `
+            -RemotePath $remoteRoot `
+            -Destination $backupDestination `
+            -RelativePaths @($backupPaths) `
+            -ReuseFromDirectory $backupRootPath `
+            -CacheDirectory $backupCache `
+            -CredentialTarget $CredentialTarget `
+            -Username $Username `
+            -Password $Password
+
+        Write-Host "Protected the $($backupPaths.Count) live files at risk in: $backupDestination"
+    } else {
+        Write-Host 'No existing live files are at risk; no release backup was needed.'
+    }
+} else {
+    Write-Warning 'The incremental release backup was explicitly skipped.'
 }
 
 foreach ($path in $uploads) {

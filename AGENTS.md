@@ -45,6 +45,12 @@ Publishing is an external action. Do not run `publish_ftp.ps1 -Publish`, use its
 `-Mirror` pruning mode, create releases, or push to a remote unless the owner
 asked for it in the current task. Never add secrets to source control.
 
+Routine publishes must use the publisher's automatic incremental backup. Back
+up only existing live files that the release will overwrite or delete, and let
+the shared backup cache reuse identical content. Do not take another full FTP
+snapshot unless the owner explicitly requests one or the deployment manifest is
+missing or untrustworthy.
+
 ## Asset policy
 
 - Prefer the optimized WebP files already used by the production build.

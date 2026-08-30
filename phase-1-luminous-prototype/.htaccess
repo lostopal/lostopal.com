@@ -7,19 +7,28 @@ ErrorDocument 404 /not_found.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteCond %{HTTP_HOST} ^nuncastra\.lostopal\.com$ [NC]
-  RewriteRule ^ https://lostopal.com/nuncastra/ [R=302,L]
+  RewriteRule ^ https://lostopal.com/nuncastra/ [R=301,L]
+
 </IfModule>
 
 # Keep optimized artwork and application assets in the visitor's cache. The
 # release uses cache-busted CSS/JS URLs, while a seven-day window prevents
 # unversioned visual assets from becoming difficult to replace.
 <IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(self), camera=(), microphone=()"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
   <FilesMatch "\.(?:html?)$">
     Header set Cache-Control "no-cache, max-age=0, must-revalidate"
   </FilesMatch>
   <FilesMatch "\.(?:css|js|wasm|se1|webp|png|ico|svg|ttf|woff2?)$">
     Header set Cache-Control "public, max-age=604800"
   </FilesMatch>
+  <Files "service-worker.js">
+    Header set Cache-Control "no-cache, max-age=0, must-revalidate"
+  </Files>
 </IfModule>
 
 <IfModule mod_expires.c>
@@ -39,4 +48,10 @@ ErrorDocument 404 /not_found.html
 
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_mime.c>
+  AddType application/manifest+json .webmanifest
+  AddType application/wasm .wasm
+  AddType application/octet-stream .se1
 </IfModule>

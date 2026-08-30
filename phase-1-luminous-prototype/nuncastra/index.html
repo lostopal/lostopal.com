@@ -14,9 +14,9 @@
   <link rel="stylesheet" href="../black-opal-theme.css?v=20260804-hero-atmosphere-1">
   <link rel="stylesheet" href="../site-audit.css?v=20260804-mobile-footer-gap-1">
   <link rel="stylesheet" href="../site-future.css?v=20260813-uniform-public-shell-2">
-  <link rel="stylesheet" href="./nuncastra.css?v=20260829-circular-intro-1">
+  <link rel="stylesheet" href="./nuncastra.css?v=20260830-safari-controls-1">
   <script src="../prototype.js?v=20260829-shared-runtime-1" defer></script>
-  <script type="module" src="./nuncastra.js?v=20260829-responsive-static-intro-1"></script>
+  <script type="module" src="./nuncastra.js?v=20260830-safari-controls-1"></script>
 </head>
 
 <body class="theme-black-opal site-future-page nuncastra-page" data-print-mode="ink" data-art-mode="color">
@@ -137,8 +137,22 @@
           </div>
 
           <form class="nuncastra-form" data-snapshot-form>
-            <label><span>Date</span><input type="date" name="date" min="1800-01-01" max="2399-12-31" required></label>
-            <label><span>Local Time</span><input type="time" name="time" step="60" required></label>
+            <fieldset class="nuncastra-form__temporal"><legend>Date</legend>
+              <div class="nuncastra-temporal nuncastra-temporal--date" data-date-control data-min-year="1800" data-max-year="2399">
+                <select data-date-month aria-label="Month" required><option value="">Month</option></select>
+                <select data-date-day aria-label="Day" required><option value="">Day</option></select>
+                <input type="text" data-date-year aria-label="Year" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="Year" required>
+                <input type="hidden" name="date">
+              </div>
+            </fieldset>
+            <fieldset class="nuncastra-form__temporal"><legend>Local Time</legend>
+              <div class="nuncastra-temporal nuncastra-temporal--time" data-time-control>
+                <select data-time-hour aria-label="Hour" required><option value="">Hour</option></select>
+                <select data-time-minute aria-label="Minute" required><option value="">Minute</option></select>
+                <select data-time-period aria-label="AM or PM" required><option value="">AM/PM</option><option value="AM">AM</option><option value="PM">PM</option></select>
+                <input type="hidden" name="time">
+              </div>
+            </fieldset>
             <div class="nuncastra-form__location" data-moment-location-field><label for="moment-location"><span>City, ZIP Code, or Latitude, Longitude</span></label>
               <div class="nuncastra-form__place-picker">
                 <input id="moment-location" type="search" name="location" value="Chandler, Arizona 85225" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="moment-location-results" aria-describedby="moment-location-message" data-moment-location-input required>
@@ -231,7 +245,14 @@
       </header>
       <p class="birth-dialog__scope"><strong>Birth is not limited to people.</strong> This can be the first breath of a company, an idea, a relationship, a project, or any other beginning.</p>
       <form class="birth-dialog__form" data-birth-form>
-        <label class="birth-dialog__field"><span><b>1</b> Your birth date</span><input type="date" name="birth_date" min="1800-01-01" max="2399-12-31" required></label>
+        <fieldset class="birth-dialog__field"><legend><b>1</b> Your birth date</legend>
+          <div class="nuncastra-temporal nuncastra-temporal--date" data-date-control data-min-year="1800" data-max-year="2399">
+            <select data-date-month aria-label="Birth month" autocomplete="bday-month" required><option value="">Month</option></select>
+            <select data-date-day aria-label="Birth day" autocomplete="bday-day" required><option value="">Day</option></select>
+            <input type="text" data-date-year aria-label="Birth year" autocomplete="bday-year" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="Year" required>
+            <input type="hidden" name="birth_date">
+          </div>
+        </fieldset>
 
         <label class="birth-dialog__field"><span><b>2</b> How well do you know the time?</span>
           <select name="birth_time_confidence" data-birth-time-confidence>
@@ -241,18 +262,25 @@
           </select>
         </label>
 
-        <label class="birth-dialog__field"><span><b>3</b> Birth time</span><input type="time" name="birth_time" step="60" data-birth-time required></label>
+        <fieldset class="birth-dialog__field"><legend><b>3</b> Birth time</legend>
+          <div class="nuncastra-temporal nuncastra-temporal--time" data-time-control data-birth-time-control>
+            <select data-time-hour aria-label="Birth hour" required><option value="">Hour</option></select>
+            <select data-time-minute aria-label="Birth minute" required><option value="">Minute</option></select>
+            <select data-time-period aria-label="Birth time AM or PM" required><option value="">AM/PM</option><option value="AM">AM</option><option value="PM">PM</option></select>
+            <input type="hidden" name="birth_time">
+          </div>
+        </fieldset>
         <p class="birth-dialog__field-note" data-birth-time-note>Use the documented local time shown on the birth record or to the best of your knowledge.</p>
 
         <div class="birth-dialog__field birth-dialog__field--wide birth-dialog__place-field" data-birth-location-field>
           <label class="birth-dialog__field-label" for="birth-location"><b>4</b> Birthplace or best honest guess</label>
           <div class="birth-dialog__place-picker">
-            <input id="birth-location" type="search" name="birth_location" autocomplete="off" spellcheck="false" placeholder="Begin typing a city, region, or ZIP code" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="birth-location-results" aria-describedby="birth-location-message" data-birth-location-input required>
+            <input id="birth-location" type="search" name="birth_location" autocomplete="off" spellcheck="false" placeholder="City, region, ZIP code, or latitude, longitude" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="birth-location-results" aria-describedby="birth-location-message" data-birth-location-input required>
             <ul class="birth-dialog__place-results" id="birth-location-results" role="listbox" data-birth-location-results hidden></ul>
           </div>
           <input type="hidden" name="birth_latitude">
           <input type="hidden" name="birth_longitude">
-          <small id="birth-location-message" data-birth-location-message>Start typing, then choose the matching place to lock its coordinates.</small>
+          <small id="birth-location-message" data-birth-location-message>Choose a matching place, enter exact latitude and longitude, or reuse a recently confirmed place.</small>
         </div>
 
         <label class="birth-dialog__field"><span><b>5</b> How certain is that place?</span>
