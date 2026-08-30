@@ -130,16 +130,63 @@ function majorKeyLabel(value) {
 }
 
 const RULER_DATA = {
-  Sun: { glyph: "☉", majorIndex: 19, influence: "vitality, centered identity, illumination, and creative radiance" },
-  Moon: { glyph: "☽", majorIndex: 18, influence: "instinct, memory, feeling, belonging, and responsive cycles" },
-  Mercury: { glyph: "☿", majorIndex: 1, influence: "thought, language, exchange, perception, and adaptable movement" },
-  Venus: { glyph: "♀", majorIndex: 3, influence: "attraction, value, relationship, beauty, pleasure, and receptive creation" },
-  Mars: { glyph: "♂", majorIndex: 16, influence: "desire, courage, conflict, severance, and decisive action" },
-  Jupiter: { glyph: "♃", majorIndex: 10, influence: "expansion, meaning, faith, opportunity, wisdom, and the larger pattern" },
-  Saturn: { glyph: "♄", majorIndex: 21, influence: "boundary, time, consequence, responsibility, endurance, and mastery" },
-  Uranus: { glyph: "♅", influence: "disruption, liberation, unprecedented possibility, and radical reorientation" },
-  Neptune: { glyph: "♆", influence: "vision, compassion, imagination, surrender, and the dissolving of boundaries" },
-  Pluto: { glyph: "♇", influence: "power, underworld truth, irreversible transformation, grief, and renewal" },
+  Sun: {
+    glyph: "☉",
+    majorIndex: 19,
+    influence: "vitality, centered identity, illumination, and creative radiance",
+    description: "The Sun gathers experience into a coherent center. It describes the identity through which life becomes organized and expressed: who you are becoming, what gives you vitality, and where the mind’s illuminating attention is presently focused.",
+  },
+  Moon: {
+    glyph: "☽",
+    majorIndex: 18,
+    influence: "instinct, memory, feeling, belonging, and responsive cycles",
+    description: "The Moon is the inner space where the unmanifest is weighed and given room to move. It holds hopes, fears, dreams, memories, emotions, and intuitive information. Its current may emerge untamed like the wolf or become trusted and familiar like the loyal dog.",
+  },
+  Mercury: {
+    glyph: "☿",
+    majorIndex: 1,
+    influence: "thought, language, exchange, perception, and adaptable movement",
+    description: "Mercury is the intelligence that notices, names, connects, and carries information between worlds. It describes thought, speech, learning, exchange, perception, and the ability to adapt an idea so it can actually travel.",
+  },
+  Venus: {
+    glyph: "♀",
+    majorIndex: 3,
+    influence: "attraction, value, relationship, beauty, pleasure, and receptive creation",
+    description: "Venus describes how we recognize value and become receptive to what draws us. It governs attraction, beauty, relationship, pleasure, harmony, and the desire to cultivate what feels worthy.",
+  },
+  Mars: {
+    glyph: "♂",
+    majorIndex: 16,
+    influence: "desire, courage, conflict, severance, and decisive action",
+    description: "Mars gives desire a direction and supplies the force required to act. It describes courage, pursuit, anger, conflict, severance, and the decisive boundary that turns intention into consequence.",
+  },
+  Jupiter: {
+    glyph: "♃",
+    majorIndex: 10,
+    influence: "expansion, meaning, faith, opportunity, wisdom, and the larger pattern",
+    description: "Jupiter widens the field so experience can become meaning. It describes growth, faith, opportunity, teaching, wisdom, generosity, and the larger pattern that helps a life understand what it is participating in.",
+  },
+  Saturn: {
+    glyph: "♄",
+    majorIndex: 21,
+    influence: "boundary, time, consequence, responsibility, endurance, and mastery",
+    description: "Saturn gives experience a boundary, a duration, and a consequence. It describes time, responsibility, discipline, limitation, endurance, and the mastery earned by remaining accountable to what is real.",
+  },
+  Uranus: {
+    glyph: "♅",
+    influence: "disruption, liberation, unprecedented possibility, and radical reorientation",
+    description: "Uranus interrupts the established circuit so a possibility without precedent can enter. It describes disruption, liberation, invention, awakening, and the radical reorientation required when an old structure can no longer conduct the future.",
+  },
+  Neptune: {
+    glyph: "♆",
+    influence: "vision, compassion, imagination, surrender, and the dissolving of boundaries",
+    description: "Neptune loosens ordinary certainty and opens perception to image, longing, compassion, and the unseen. It describes vision, imagination, surrender, glamour, spiritual feeling, and the need to distinguish revelation from projection.",
+  },
+  Pluto: {
+    glyph: "♇",
+    influence: "power, underworld truth, irreversible transformation, grief, and renewal",
+    description: "Pluto exposes the buried power inside endings that cannot be reversed. It describes underworld truth, grief, compulsion, transformation, and the renewal that becomes possible only after an exhausted form is released.",
+  },
 };
 
 const SIGN_DATA = [
@@ -158,18 +205,18 @@ const SIGN_DATA = [
 ];
 
 const HOUSE_DATA = [
-  { title: "Self & Approach", meaning: "identity, embodiment, immediate presence, and the way this current enters experience" },
-  { title: "Resources & Worth", meaning: "money, possessions, skills, values, self-worth, and what can be sustained" },
-  { title: "Learning & Exchange", meaning: "communication, everyday learning, siblings, neighbors, and the local paths information travels" },
-  { title: "Home & Roots", meaning: "home, family, ancestry, belonging, and the private foundation beneath public life" },
-  { title: "Creation & Joy", meaning: "creativity, pleasure, romance, children, play, and wholehearted personal expression" },
-  { title: "Work & Care", meaning: "daily work, service, health routines, maintenance, practice, and the craft of tending life" },
-  { title: "Partnership & Mirrors", meaning: "one-to-one relationships, agreements, open conflict, and the self encountered through another" },
-  { title: "Intimacy & Transformation", meaning: "shared resources, vulnerability, inheritance, loss, merging, and irreversible change" },
-  { title: "Meaning & Horizon", meaning: "higher study, worldview, spiritual or philosophical seeking, long journeys, and the search for meaning" },
-  { title: "Calling & Public Life", meaning: "vocation, reputation, responsibility, authority, and the contribution made visible to the world" },
-  { title: "Community & Future", meaning: "friendship, groups, causes, patrons, collective hopes, and the future imagined with others" },
-  { title: "Retreat & the Unseen", meaning: "solitude, dreams, hidden patterns, endings, surrender, and compassionate work beyond recognition" },
+  { title: "Self & Approach", short: "identity, embodiment, presence, and approach", meaning: "The 1st House is the doorway through which a life or moment becomes visible. It describes identity, embodiment, immediate presence, and the way this current approaches experience before a longer story has had time to form." },
+  { title: "Resources & Worth", short: "resources, values, self-worth, and sustainability", meaning: "The 2nd House describes what helps life feel supported and substantial. It includes possessions and material resources, but also skills, personal values, self-worth, and the things we depend upon for stability. In this line, the cards speak through questions of what is valuable, sustainable, and truly yours." },
+  { title: "Learning & Exchange", short: "language, learning, neighbors, and exchange", meaning: "The 3rd House is the living network through which information moves. It describes speech, writing, everyday learning, siblings, neighbors, short journeys, and the mental habits that shape how we notice and exchange what is happening nearby." },
+  { title: "Home & Roots", short: "home, family, ancestry, and private foundations", meaning: "The 4th House is the private ground beneath the visible life. It describes home, family, ancestry, belonging, memory, and the emotional foundation to which a person or beginning returns for shelter and orientation." },
+  { title: "Creation & Joy", short: "creativity, pleasure, play, and wholehearted expression", meaning: "The 5th House is where inner vitality risks becoming visible. It describes creativity, pleasure, romance, children, play, performance, and the wholehearted expression that lets a life discover what it genuinely loves to make and share." },
+  { title: "Work & Care", short: "daily work, care, practice, and maintenance", meaning: "The 6th House brings meaning into the repeated work of tending life. It describes daily labor, service, health routines, maintenance, apprenticeship, and the humble practices through which skill, usefulness, and care become dependable." },
+  { title: "Partnership & Mirrors", short: "partnership, agreements, mirrors, and open conflict", meaning: "The 7th House is the field of meaningful encounter with an equal other. It describes partnership, agreements, collaboration, open conflict, and the parts of ourselves that become recognizable only through relationship and reflection." },
+  { title: "Intimacy & Transformation", short: "shared resources, vulnerability, loss, and transformation", meaning: "The 8th House begins where absolute self-sufficiency ends. It describes shared resources, intimacy, vulnerability, inheritance, debt, loss, merging, and the irreversible transformations that ask us to meet power and dependence consciously." },
+  { title: "Meaning & Horizon", short: "worldview, higher study, pilgrimage, and meaning", meaning: "The 9th House stretches experience toward a wider horizon. It describes higher study, worldview, spiritual or philosophical seeking, teaching, long journeys, and the search for a meaning large enough to reorganize what we thought we knew." },
+  { title: "Calling & Public Life", short: "vocation, reputation, authority, and responsibility", meaning: "The 10th House is where private development becomes visible in the world. It speaks to vocation, reputation, authority, responsibility, and the role a person is gradually prepared to embody. It asks what you are willing to become accountable for." },
+  { title: "Community & Future", short: "friendship, groups, causes, and collective hopes", meaning: "The 11th House gathers individual effort into a future imagined with others. It describes friendship, groups, communities, causes, patrons, shared hopes, and the networks through which possibility becomes collective rather than merely personal." },
+  { title: "Retreat & the Unseen", short: "solitude, dreams, hidden patterns, and surrender", meaning: "The 12th House holds what lives beyond ordinary conscious control: solitude, dreams, inherited patterns, surrender, hidden fears, spiritual refuge, and the parts of life that require compassion rather than conquest." },
 ];
 
 const DECAN_DATA = [
@@ -776,13 +823,25 @@ function moveCarousel(button, direction) {
   carousel.querySelector("[data-carousel-status]").textContent = cards[next].dataset.carouselLabel || `${next + 1} / ${cards.length}`;
 }
 
+function standaloneSentence(value) {
+  const trimmed = String(value || "").trim();
+  if (!trimmed) return "";
+  const capitalized = trimmed.replace(/[A-Za-z]/, (letter) => letter.toUpperCase());
+  return /[.!?]$/.test(capitalized) ? capitalized : `${capitalized}.`;
+}
+
 function identityTileHtml({ id, glyph, name, kind, description, modifier = "" }) {
+  const tooltip = standaloneSentence(description);
   return `
     <button class="snapshot-identity-tile${modifier ? ` ${modifier}` : ""}" type="button" data-identity-explainer aria-expanded="false" aria-describedby="${escapeHtml(id)}" aria-label="${escapeHtml(`${kind}: ${name}. Show a short explanation.`)}">
       <b aria-hidden="true">${escapeHtml(glyph)}</b>
       <strong>${escapeHtml(name)}</strong>
-      <span class="snapshot-identity-tooltip" id="${escapeHtml(id)}" role="tooltip"><em>${escapeHtml(kind)}:</em> ${escapeHtml(description)}</span>
+      <span class="snapshot-identity-tooltip" id="${escapeHtml(id)}" role="tooltip"><em>${escapeHtml(kind)}:</em> ${escapeHtml(tooltip)}</span>
     </button>`;
+}
+
+function contextHelpHtml({ id, label, description }) {
+  return `<button class="snapshot-context-help" type="button" data-identity-explainer aria-expanded="false" aria-describedby="${escapeHtml(id)}" aria-label="${escapeHtml(label)}">?<span class="snapshot-identity-tooltip" id="${escapeHtml(id)}" role="tooltip">${escapeHtml(description)}</span></button>`;
 }
 
 function treePreviewHtml(line) {
@@ -791,10 +850,10 @@ function treePreviewHtml(line) {
   return `
     <div class="snapshot-tree-preview">
       <img class="snapshot-tree-preview__seal" src="${sephirahSealFile(sephirah.number)}" alt="${escapeHtml(`${sephirah.number} · ${sephirah.name}`)}" width="72" height="72" loading="lazy" decoding="async">
+      <img class="snapshot-tree-preview__card" src="${cardPreviewFile(line.decan.cardIndex)}" alt="${escapeHtml(`${line.decan.cardName} tarot card`)}" width="72" height="120" loading="lazy" decoding="async">
       <div>
         <p><strong>${escapeHtml(sephirah.name)} · ${escapeHtml(sephirah.title)}</strong> The ${escapeHtml(line.decan.cardName)} places this row in ${escapeHtml(sephirah.name)}, expressed through ${escapeHtml(world.name)} (${escapeHtml(world.element)}).</p>
-        <p>This is only the threshold. The complete diagram appears in a separate study chamber so the ordinary reading remains clear.</p>
-        <button class="snapshot-enter-tree" type="button" data-enter-tree="${escapeHtml(line.name)}">Enter the Tree</button>
+        <button class="snapshot-enter-tree" type="button" data-enter-tree="${escapeHtml(line.name)}">View Tree</button>
       </div>
     </div>`;
 }
@@ -802,8 +861,12 @@ function treePreviewHtml(line) {
 function rowHtml(line) {
   const rowId = line.name.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-");
   const numerology = numerologyFor(line);
-  const plainLine = `${line.name} in ${line.sign.name}, ${decanLabel(line.decanIndex)}, ${line.house.label} House; ${line.sign.name} is traditionally ruled by ${line.ruler.name}.`;
+  const plainLine = `${line.name} in ${line.sign.name}, ${decanLabel(line.decanIndex)}; ${line.sign.name} carries the ${line.naturalHouse.label} Natural House, while this chart places the line in the ${line.calculatedHouse.label} Calculated House. ${line.sign.name} is traditionally ruled by ${line.ruler.name}.`;
   const decanNumber = decanLabel(line.decanIndex).replace(" Decan", "");
+  const housesConverge = line.naturalHouse.number === line.calculatedHouse.number;
+  const houseRelationship = housesConverge
+    ? `The natural and calculated layers converge in the ${line.naturalHouse.label} House. The sign’s native terrain and the chart’s present location are emphasizing the same field of life.`
+    : `The Natural House shows the sign’s native terrain—how this current most instinctively knows how to be itself. The Calculated House shows where the selected time and place ask that current to operate now.`;
   const modernRulerNote = line.ruler.modern
     ? ` Modern astrology also associates ${line.sign.name} with ${line.ruler.modern.name}, adding a later lens of ${line.ruler.modern.influence}.`
     : "";
@@ -822,7 +885,8 @@ function rowHtml(line) {
               ${identityTileHtml({ id: `${rowId}-entity-tip`, glyph: line.glyph, name: line.name, kind: "Celestial Voice", description: `${line.entityEssence}.` })}
               ${identityTileHtml({ id: `${rowId}-sign-tip`, glyph: line.sign.glyph, name: line.sign.name, kind: "Zodiacal Field", description: `${line.sign.name} shapes expression through ${line.sign.field}.` })}
               ${identityTileHtml({ id: `${rowId}-decan-tip`, glyph: decanNumber, name: "Decan", kind: "Decan Action", description: `${line.decan.cardName} ${line.decan.meaning}.`, modifier: "snapshot-identity-tile--decan" })}
-              ${identityTileHtml({ id: `${rowId}-house-tip`, glyph: line.house.label, name: "House", kind: "House", description: `The ${line.house.label} House shows where the line operates through ${line.house.meaning}.`, modifier: "snapshot-identity-tile--house" })}
+              ${identityTileHtml({ id: `${rowId}-natural-house-tip`, glyph: line.naturalHouse.label, name: "Natural House", kind: "Natural House", description: `${line.sign.name} belongs to the ${line.naturalHouse.label} House on the Aries-first natural wheel. This is the sign’s native terrain of ${line.naturalHouse.short}.`, modifier: "snapshot-identity-tile--house snapshot-identity-tile--natural-house" })}
+              ${identityTileHtml({ id: `${rowId}-calculated-house-tip`, glyph: line.calculatedHouse.label, name: "Calculated House", kind: "Calculated House", description: `For this selected time and place, ${line.name} falls in the ${line.calculatedHouse.label} House through ${line.calculatedHouse.short}.`, modifier: "snapshot-identity-tile--house snapshot-identity-tile--calculated-house" })}
               ${identityTileHtml({ id: `${rowId}-ruler-tip`, glyph: line.ruler.glyph, name: line.ruler.name, kind: "Traditional Ruler", description: `${line.sign.name} is ruled by ${line.ruler.name}, bringing ${line.ruler.influence} to its field.`, modifier: "snapshot-identity-tile--ruler" })}
             </div>
             <p class="snapshot-identity-hint">Tap a tile to learn more.</p>
@@ -834,8 +898,9 @@ function rowHtml(line) {
           </button>
         </div>
         <div class="snapshot-reading__context">
-          <p><strong>${escapeHtml(line.house.label)} House &middot; ${escapeHtml(line.house.title)}:</strong> This house concerns ${escapeHtml(line.house.meaning)}. <span class="snapshot-reading__context-system">${escapeHtml(line.house.system)} houses.</span></p>
-          <p><strong>${escapeHtml(line.ruler.glyph)} ${escapeHtml(line.ruler.name)} &middot; Traditional Ruler of ${escapeHtml(line.sign.name)}:</strong> In this Nuncast, ${escapeHtml(line.ruler.name)} is translated into its Tarot card, ${escapeHtml(MAJORS[line.ruler.majorIndex])}. That card carries ${escapeHtml(line.ruler.influence)} into this zodiacal field.${modernRulerNote ? `<span class="snapshot-reading__modern-ruler">${escapeHtml(modernRulerNote)}</span>` : ""}</p>
+          <p><strong>Natural House &middot; ${escapeHtml(line.naturalHouse.label)} &middot; ${escapeHtml(line.naturalHouse.title)}:</strong> ${contextHelpHtml({ id: `${rowId}-natural-house-context-tip`, label: "Explain Natural and Calculated Houses", description: houseRelationship })} ${escapeHtml(line.naturalHouse.meaning)}</p>
+          <p><strong>Calculated House &middot; ${escapeHtml(line.calculatedHouse.label)} &middot; ${escapeHtml(line.calculatedHouse.title)}:</strong> ${contextHelpHtml({ id: `${rowId}-calculated-house-context-tip`, label: "Explain Natural and Calculated Houses", description: houseRelationship })} ${escapeHtml(line.calculatedHouse.meaning)} <span class="snapshot-reading__context-system">${escapeHtml(line.calculatedHouse.system)} houses for the selected time and place.</span></p>
+          <p><strong>${escapeHtml(line.ruler.glyph)} ${escapeHtml(line.ruler.name)} &middot; Traditional Ruler of ${escapeHtml(line.sign.name)}:</strong> ${escapeHtml(line.ruler.description)} In this Nuncast, that planetary current is translated into its Tarot card, ${escapeHtml(MAJORS[line.ruler.majorIndex])}, so the planet becomes a visible voice within the line.${modernRulerNote ? `<span class="snapshot-reading__modern-ruler">${escapeHtml(modernRulerNote)}</span>` : ""}</p>
         </div>
         <div class="snapshot-reading__tabs" role="tablist" aria-label="Perspectives for ${escapeHtml(line.name)}">
           <button type="button" role="tab" aria-selected="true" aria-controls="${rowId}-reading" id="${rowId}-reading-tab" data-row-view="reading" tabindex="0">Reading</button>
@@ -845,19 +910,18 @@ function rowHtml(line) {
         <div class="snapshot-reading__panel" id="${rowId}-reading" role="tabpanel" aria-labelledby="${rowId}-reading-tab" data-row-panel="reading">
           <p><strong>Tarot Line:</strong> ${escapeHtml(tarotLineFor(line))}</p>
           <p><strong>Meaning:</strong> ${escapeHtml(readingFor(line))}</p>
-          <p class="snapshot-reading__ground"><strong>Ground It:</strong> ${escapeHtml(line.entityGround)} ${escapeHtml(line.decan.ground)}</p>
+          <p class="snapshot-reading__ground"><strong>Ground It</strong><span class="snapshot-reading__ground-question">What is this line asking you to notice, hold, question, or attempt?</span><span>${escapeHtml(line.entityGround)} ${escapeHtml(line.decan.ground)}</span></p>
         </div>
         <div class="snapshot-reading__panel snapshot-numerology-panel" id="${rowId}-numerology" role="tabpanel" aria-labelledby="${rowId}-numerology-tab" data-row-panel="numerology" hidden>
           <p><strong>Card Equation:</strong> ${escapeHtml(numerology.equation)}</p>
-          <p><strong>${escapeHtml(numerology.heading)}:</strong> ${escapeHtml(numerology.meaning)}</p>
           ${numerology.cards.length ? `<div class="snapshot-numerology-sequence">
             <strong>Numerology Reduction</strong>
             <p class="snapshot-numerology-sequence__intro">Each number is read first through numerology. The Tarot key encountered at that step follows beneath it.</p>
             <ol>${numerology.cards.map((card) => `<li>
               <div class="snapshot-numerology-number"><strong><span>${escapeHtml(card.key)}</span>${escapeHtml(card.numberTitle)}</strong><p>${escapeHtml(card.numberMeaning)}</p></div>
-              <div class="snapshot-numerology-tarot"><small>Tarot Key ${escapeHtml(card.key)}</small><strong><span class="snapshot-numerology-card" tabindex="0">${escapeHtml(card.name)}<img src="${cardPreviewFile(card.value)}" alt="${escapeHtml(card.name)} tarot card preview" width="72" height="120" loading="lazy" decoding="async"></span></strong><p>${escapeHtml(card.meaning)}</p></div>
+              <div class="snapshot-numerology-tarot"><span class="snapshot-numerology-arrow" aria-hidden="true">↳</span><small>Tarot Key ${escapeHtml(card.key)}</small><strong><span class="snapshot-numerology-card" tabindex="0">${escapeHtml(card.name)}<img src="${cardPreviewFile(card.value)}" alt="${escapeHtml(card.name)} tarot card preview" width="72" height="120" loading="lazy" decoding="async"></span></strong><p>${escapeHtml(card.meaning)}</p></div>
             </li>`).join("")}</ol>
-          </div>` : ""}
+          </div>` : `<p><strong>${escapeHtml(numerology.heading)}:</strong> ${escapeHtml(numerology.meaning)}</p>`}
         </div>
         <div class="snapshot-reading__panel" id="${rowId}-tree" role="tabpanel" aria-labelledby="${rowId}-tree-tab" data-row-panel="tree" hidden>
           ${treePreviewHtml(line)}
@@ -1538,15 +1602,18 @@ function calculateLines(engine, utcDate, latitude, longitude, zodiacSystem = "tr
   }, northNode.longitude + 180, northNode.speed, { nodeGlyph: "☋", reversed: true }));
 
   let houses;
+  let calculatedHouseSystem = "Placidus";
   try {
     houses = engine.calculateHouses(julianDay, latitude, longitude, HouseSystem.Placidus);
     if (!houseCuspsAreUsable(houses.cusps)) throw new Error("Invalid Placidus cusps");
   } catch {
     houses = engine.calculateHouses(julianDay, latitude, longitude, HouseSystem.Equal);
+    calculatedHouseSystem = "Equal";
   }
 
   const ayanamsa = isSidereal ? engine.getAyanamsa(julianDay) : 0;
   const adjustedAngle = (value) => normalizeLongitude(value - ayanamsa);
+  const adjustedCusps = houses.cusps.map((value, index) => index === 0 ? value : adjustedAngle(value));
   const ascendant = adjustedAngle(houses.ascendant);
   const mc = adjustedAngle(houses.mc);
   const vertex = adjustedAngle(houses.vertex);
@@ -1563,10 +1630,16 @@ function calculateLines(engine, utcDate, latitude, longitude, zodiacSystem = "tr
   lines.push(buildLine({ ...ANGLE_DATA.ascendant, majorIndices: [] }, ascendant, 0));
   lines.push(buildLine({ ...ANGLE_DATA.mc, majorIndices: [] }, mc, 0));
   lines.push(buildLine({ ...ANGLE_DATA.vertex, majorIndices: [] }, vertex, 0));
-  return lines.map((line) => ({
-    ...line,
-    house: naturalHouseForSign(line.signIndex),
-  }));
+  return lines.map((line) => {
+    const naturalHouse = naturalHouseForSign(line.signIndex);
+    const calculatedHouse = houseFor(line.longitude, adjustedCusps, calculatedHouseSystem);
+    return {
+      ...line,
+      naturalHouse,
+      calculatedHouse,
+      house: calculatedHouse,
+    };
+  });
 }
 
 async function handleSubmit(event) {
@@ -1742,6 +1815,9 @@ function renderTreeReading(line) {
   const entityPathText = entityPaths.length
     ? entityPaths.map(({ card, path }) => `${card.name}: Path ${path.number}, ${path.letter} ${path.hebrew}, ${path.from}–${path.to}`).join("; ")
     : "This custom seal does not yet claim a canonical Tarot path.";
+  const entityPathCards = entityPaths.length
+    ? `<span class="tree-reading__card-stack" aria-hidden="true">${entityPaths.map(({ card }) => `<img src="${cardPreviewFile(card.index)}" alt="" width="72" height="120" loading="lazy" decoding="async">`).join("")}</span>`
+    : "";
   const seatText = seat
     ? `${seat.name} · ${seat.title} — ${seat.current}. This is a Lost Opal overlay.`
     : "No additional Lost Opal planetary seat has been assigned to this entity.";
@@ -1749,19 +1825,19 @@ function renderTreeReading(line) {
     ? "For Lost Opal, Uranus occupies Da’ath and bears The Fool, Death, and The Hanged Man. In this chamber the Hanged Man opens as Mem: primordial Water, approached with more reverence than a generated paragraph can exhaust."
     : line.name === "Pluto"
       ? "Pluto is deliberately shown through two registers. Death is its embodied astrological face; Judgement is its Tree of Life face at Kether. Lost Opal reads Pluto as the passage between dissolution and awakening."
-      : "The everyday Nuncast remains the primary reading. This chamber names the structure beneath it without requiring the seeker to enter deeper study.";
+      : "";
 
   treeReading.innerHTML = `
     <h3>${escapeHtml(line.name)} in ${escapeHtml(line.sign.name)}</h3>
     <p class="tree-reading__position">${escapeHtml(formatZodiacPosition(line.longitude))}</p>
     <dl>
-      <div><dt>Celestial key path${entityPaths.length === 1 ? "" : "s"}</dt><dd>${escapeHtml(entityPathText)}</dd></div>
-      <div><dt>Zodiacal path</dt><dd>${escapeHtml(MAJORS[line.sign.majorIndex])}: Path ${signPath.number}, ${escapeHtml(signPath.letter)} ${escapeHtml(signPath.hebrew)}, ${escapeHtml(signPath.from)}–${escapeHtml(signPath.to)}</dd></div>
-      <div><dt>Active Sephirah</dt><dd>${escapeHtml(sephirah.name)} · ${escapeHtml(sephirah.title)} — ${escapeHtml(sephirah.current)}.</dd></div>
+      <div><dt>Celestial key path${entityPaths.length === 1 ? "" : "s"}</dt><dd${entityPathCards ? ` class="tree-reading__card-detail"` : ""}>${entityPathCards}${entityPathCards ? `<span>${escapeHtml(entityPathText)}</span>` : escapeHtml(entityPathText)}</dd></div>
+      <div><dt>Zodiacal path</dt><dd class="tree-reading__card-detail"><span class="tree-reading__card-stack" aria-hidden="true"><img src="${cardPreviewFile(line.sign.majorIndex)}" alt="" width="72" height="120" loading="lazy" decoding="async"></span><span>${escapeHtml(MAJORS[line.sign.majorIndex])}: Path ${signPath.number}, ${escapeHtml(signPath.letter)} ${escapeHtml(signPath.hebrew)}, ${escapeHtml(signPath.from)}–${escapeHtml(signPath.to)}</span></dd></div>
+      <div><dt>Active Sephirah</dt><dd class="tree-reading__card-detail"><span class="tree-reading__card-stack" aria-hidden="true"><img src="${cardPreviewFile(line.decan.cardIndex)}" alt="" width="72" height="120" loading="lazy" decoding="async"></span><span><strong>${escapeHtml(line.decan.cardName)}</strong> in ${escapeHtml(sephirah.name)} · ${escapeHtml(sephirah.title)} — ${escapeHtml(sephirah.current)}.</span></dd></div>
       <div><dt>World and element</dt><dd>${escapeHtml(world.name)} · ${escapeHtml(world.element)} — ${escapeHtml(world.phrase)}.</dd></div>
       <div><dt>Lost Opal seat</dt><dd>${escapeHtml(seatText)}</dd></div>
     </dl>
-    <p class="tree-reading__boundary">${escapeHtml(specialTeaching)}</p>`;
+    ${specialTeaching ? `<p class="tree-reading__boundary">${escapeHtml(specialTeaching)}</p>` : ""}`;
 }
 
 function openTreeFor(lineName) {

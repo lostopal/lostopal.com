@@ -461,12 +461,20 @@
     };
   }
 
+  function standaloneSentence(value) {
+    const trimmed = String(value || "").trim();
+    if (!trimmed) return "";
+    const capitalized = trimmed.replace(/[A-Za-z]/, (letter) => letter.toUpperCase());
+    return /[.!?]$/.test(capitalized) ? capitalized : `${capitalized}.`;
+  }
+
   function tile(label, value, glyph, tooltip) {
+    const description = standaloneSentence(tooltip);
     const item = document.createElement("div");
     item.className = "draw-correspondence";
     item.tabIndex = 0;
-    item.dataset.tooltip = tooltip;
-    item.setAttribute("aria-label", `${label}: ${value}. ${tooltip}`);
+    item.dataset.tooltip = description;
+    item.setAttribute("aria-label", `${label}: ${value}. ${description}`);
     item.innerHTML = `<span class="draw-correspondence__glyph" aria-hidden="true">${glyph}</span><span class="draw-correspondence__copy"><small>${label}</small><strong>${value}</strong></span>`;
     return item;
   }
@@ -539,7 +547,7 @@
       if (corr.element) nodes.push(tile("Element", corr.element, ELEMENTS[Object.keys(ELEMENTS).find((suit) => ELEMENTS[suit].name === corr.element)]?.glyph || "✦", `${corr.element} carries ${corr.element.toLowerCase()} through this key.`));
       if (corr.planet) {
         const firstPlanet = corr.planet.split(" · ")[0];
-        nodes.push(tile("Planet", corr.planet, GLYPHS[firstPlanet] || "✦", corr.planet.split(" · ").map((planet) => PLANET_MEANINGS[planet] || planet).join("; ")));
+        nodes.push(tile("Planet", corr.planet, GLYPHS[firstPlanet] || "✦", corr.planet.split(" · ").map((planet) => standaloneSentence(PLANET_MEANINGS[planet] || planet)).join(" ")));
       }
       if (corr.sign) {
         nodes.push(tile("Zodiac", corr.sign, GLYPHS[corr.sign], SIGN_MEANINGS[corr.sign]));
@@ -609,7 +617,7 @@
 
     const copy = document.createElement("div");
     copy.className = "draw-reading-card__copy";
-    const positionLens = position.lens ? `<p class="draw-reading-card__lens"><strong>In this position:</strong> ${position.lens}</p>` : "";
+    const positionLens = position.lens ? `<p class="draw-reading-card__lens">${position.lens}</p>` : "";
     const activeMeaning = card.reversed ? meta.reversedMeaning : meta.meaning;
     copy.innerHTML = `
       <p class="draw-reading-card__position"><b>${order + 1}</b><span>${position.name} · ${card.reversed ? "Reversed" : "Upright"}</span></p>

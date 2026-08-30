@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title">
   <title id="title">7 · Netzach</title>
-  <defs><radialGradient id="opal" cx="31%" cy="25%" r="82%"><stop offset="0" stop-color="#dcffea"/><stop offset=".2" stop-color="#3b9a72"/><stop offset=".47" stop-color="#124238"/><stop offset=".72" stop-color="#33142c"/><stop offset="1" stop-color="#05090b"/></radialGradient></defs>
-  <circle cx="48" cy="48" r="45" fill="#070b0d" stroke="#d8a54c" stroke-width="2"/><circle cx="48" cy="48" r="40" fill="url(#opal)" stroke="#65c59c" stroke-opacity=".46"/><circle cx="48" cy="48" r="32" fill="none" stroke="#f2cb78" stroke-opacity=".34"/>
-  <text x="48" y="53" fill="#fff1c7" font-family="Georgia,serif" font-size="30" text-anchor="middle">7</text><text x="48" y="72" fill="#efd18c" font-family="Arial,sans-serif" font-size="6.5" font-weight="700" letter-spacing=".85" text-anchor="middle">NETZACH</text>
+  <defs><radialGradient id="sphere" cx="32%" cy="25%" r="75%"><stop offset="0" stop-color="#65ad72"/><stop offset="1" stop-color="#184729"/></radialGradient></defs>
+  <circle cx="48" cy="48" r="45" fill="#07090c" stroke="#d8a54c" stroke-width="2"/>
+  <circle cx="48" cy="48" r="39" fill="url(#sphere)" stroke="#8bc798" stroke-width="1.5"/>
+  <text x="48" y="49" fill="#ffffff" font-family="Georgia,serif" font-size="34" font-weight="700" text-anchor="middle" dominant-baseline="middle">7</text>
 </svg>
