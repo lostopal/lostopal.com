@@ -411,12 +411,19 @@ function openDrawer() {
   }
 
   lastFocusedElement = document.activeElement;
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   drawer.hidden = false;
   drawerBackdrop.hidden = false;
   document.body.classList.add("drawer-open");
   menuToggle.setAttribute("aria-expanded", "true");
   menuToggle.setAttribute("aria-label", "Close menu");
-  drawerClose.focus();
+  drawerClose.focus({ preventScroll: true });
+
+  /* iPad Safari may reapply its previous scroll position after the fixed
+     drawer and focus target appear. Reassert the intended top position. */
+  window.requestAnimationFrame(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  });
 }
 
 function closeDrawer() {

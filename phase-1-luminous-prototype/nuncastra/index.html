@@ -14,8 +14,8 @@
   <link rel="stylesheet" href="../black-opal-theme.css?v=20260804-hero-atmosphere-1">
   <link rel="stylesheet" href="../site-audit.css?v=20260804-mobile-footer-gap-1">
   <link rel="stylesheet" href="../site-future.css?v=20260813-uniform-public-shell-2">
-  <link rel="stylesheet" href="./nuncastra.css?v=20260831-compact-tiles-25">
-  <script src="../prototype.js?v=20260829-shared-runtime-1" defer></script>
+  <link rel="stylesheet" href="./nuncastra.css?v=20260831-ipad-layout-27">
+  <script src="../prototype.js?v=20260831-ipad-menu-2" defer></script>
   <script type="module" src="./nuncastra.js?v=20260831-compact-tiles-25"></script>
 </head>
 
@@ -183,9 +183,11 @@
             <button class="nuncastra-button nuncastra-button--primary" type="submit" data-calculate>Cast This Moment</button>
           </form>
 
-          <p class="nuncastra-form__location-status" id="moment-location-message" data-moment-location-message role="status" aria-live="polite">Confirming Chandler, Arizona&hellip;</p>
+          <div class="nuncastra-form__status-line">
+            <p class="nuncastra-form__location-status" id="moment-location-message" data-moment-location-message role="status" aria-live="polite">Confirming Chandler, Arizona&hellip;</p>
+            <p class="nuncastra-form__note" data-snapshot-status role="status" aria-live="polite">Loading the local astronomy engine&hellip;</p>
+          </div>
           <p class="nuncastra-form__personal-context" data-personal-context hidden></p>
-          <p class="nuncastra-form__note" data-snapshot-status role="status" aria-live="polite">Loading the local astronomy engine&hellip;</p>
           <details class="system-explainer">
             <summary>Why Might My Degrees Differ From Another App?</summary>
             <p>The selected zodiac is always printed with the result. Tropical and sidereal systems use different zero points, and sidereal systems also differ by ayanamsa. A sidereal Tarot result here is a Lost Opal hybrid&mdash;not a complete Jyotish reading.</p>
