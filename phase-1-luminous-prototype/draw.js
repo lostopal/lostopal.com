@@ -748,10 +748,12 @@
     return COURT_TREE[meta.rank]?.number || meta.rankIndex + 1;
   }
 
-  function reductionPath(value) {
+  function reductionPath(value, { reduceTen = false } = {}) {
     const path = [value];
     let current = value;
-    while (current > 9) {
+    // Ten is a complete Tarot current in its own right. Pages alone pass from
+    // Ten into One because their court role is the beginning made tangible.
+    while (current > 10 || (reduceTen && current === 10)) {
       current = String(current).split("").reduce((sum, digit) => sum + Number(digit), 0);
       path.push(current);
     }
@@ -760,7 +762,7 @@
 
   function numerologyDetails(meta) {
     const number = cardNumber(meta);
-    const path = reductionPath(number);
+    const path = reductionPath(number, { reduceTen: meta.rank === "Page" });
     const root = path.at(-1);
     const [rootTitle, rootMeaning] = NUMBER_MEANINGS[root] || ["Root Current", "The reduced current beneath the card number."];
     const context = meta.major
@@ -824,9 +826,11 @@
     const section = document.createElement("section");
     section.className = "draw-perspectives";
     section.setAttribute("aria-label", `Reading, numerology, and Tree of Life perspectives for ${meta.name}`);
-    const tenNote = numerology.path.includes(10)
-      ? `<p class="draw-numerology-note"><strong>About Ten:</strong> Ten reduces by addition: 1 + 0 = 1. Zero remains the distinct current of The Fool; Ten is not treated as Zero here.</p>`
-      : "";
+    const tenNote = meta.rank === "Page"
+      ? `<p class="draw-numerology-note"><strong>About Pages:</strong> Pages begin at Ten but resolve to One in the Lost Opal court sequence: 1 + 0 = 1. Zero remains The Fool&rsquo;s distinct current.</p>`
+      : numerology.root === 10
+        ? `<p class="draw-numerology-note"><strong>About Ten:</strong> Ten is held as a complete Tarot current here rather than reduced past The Wheel into One.</p>`
+        : "";
     const sequence = numerology.sequence.map((step) => `
       <li>
         <div class="draw-numerology-step"><strong><span>${step.value}</span>${step.title}</strong><p>${step.meaning}</p></div>
