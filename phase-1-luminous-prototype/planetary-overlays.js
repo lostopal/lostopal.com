@@ -62,6 +62,9 @@
     const title = panel.querySelector("[data-planet-title]");
     const role = panel.querySelector("[data-planet-role]");
     const copy = panel.querySelector("[data-planet-copy]");
+    const panelHome = panel.parentNode;
+    const panelNextSibling = panel.nextSibling;
+    const sheetQuery = window.matchMedia("(max-width: 1180px), (pointer: coarse)");
     let pinnedHotspot = null;
     let suppressNextFocusPreview = false;
 
@@ -97,6 +100,8 @@
       delete panel.dataset.pinned;
       delete panel.dataset.position;
       delete map.dataset.activePlanet;
+      panel.classList.remove("planetary-insight--sheet");
+      if (panel.parentNode !== panelHome) panelHome.insertBefore(panel, panelNextSibling);
 
       if (restoreFocus && hotspotToRestore && document.activeElement !== hotspotToRestore) {
         suppressNextFocusPreview = true;
@@ -114,7 +119,12 @@
       resetExpanded();
       hotspot.setAttribute("aria-expanded", "true");
       panel.dataset.pinned = "true";
+      if (sheetQuery.matches) {
+        panel.classList.add("planetary-insight--sheet");
+        document.body.append(panel);
+      }
       show(hotspot);
+      if (sheetQuery.matches) closeButton?.focus({ preventScroll: true });
     };
 
     hotspots.forEach((hotspot) => {
@@ -141,14 +151,14 @@
 
     closeButton?.addEventListener("click", () => close({ restoreFocus: true }));
 
-    map.addEventListener("keydown", (event) => {
+    document.addEventListener("keydown", (event) => {
       if (event.key !== "Escape" || panel.hidden) return;
       event.preventDefault();
       close({ restoreFocus: true });
     });
 
     document.addEventListener("pointerdown", (event) => {
-      if (pinnedHotspot && !map.contains(event.target)) close();
+      if (pinnedHotspot && !map.contains(event.target) && !panel.contains(event.target)) close();
     });
   });
 })();

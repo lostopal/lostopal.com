@@ -14,9 +14,9 @@
   <link rel="stylesheet" href="../black-opal-theme.css?v=20260804-hero-atmosphere-1">
   <link rel="stylesheet" href="../site-audit.css?v=20260804-mobile-footer-gap-1">
   <link rel="stylesheet" href="../site-future.css?v=20260813-uniform-public-shell-2">
-  <link rel="stylesheet" href="./nuncastra.css?v=20260830-tree-proportions-preview-10">
+  <link rel="stylesheet" href="./nuncastra.css?v=20260831-print-title-release-21">
   <script src="../prototype.js?v=20260829-shared-runtime-1" defer></script>
-  <script type="module" src="./nuncastra.js?v=20260830-tree-proportions-preview-10"></script>
+  <script type="module" src="./nuncastra.js?v=20260831-print-title-release-21"></script>
 </head>
 
 <body class="theme-black-opal site-future-page nuncastra-page" data-print-mode="ink" data-art-mode="color">
@@ -108,13 +108,16 @@
             </div>
           </div>
           <p class="nuncastra-hero__lead">A living moment of sky, translated into a story told through the mystical art of Tarot.</p>
-          <div class="system-ribbon" aria-label="Current calculation and reading system">
-            <span>Tropical by Default</span>
-            <span>Western Esoteric Correspondences &middot; Traditional Rulers</span>
-            <span>True Lunar Node</span>
-          <span>Natural + Calculated Houses</span>
-            <span>1909 RWS Artwork</span>
-          </div>
+          <details class="nuncastra-methods">
+            <summary>How this Nuncast is calculated</summary>
+            <ul>
+              <li>Tropical zodiac by default</li>
+              <li>Western esoteric correspondences &middot; traditional rulers</li>
+              <li>True lunar node</li>
+              <li>Natural and calculated houses</li>
+              <li>1909 RWS artwork</li>
+            </ul>
+          </details>
         </div>
         <aside class="nuncastra-name" aria-labelledby="name-title">
           <div>
@@ -124,6 +127,10 @@
         </aside>
       </div>
     </section>
+
+    <div class="nuncastra-explore-note">
+      <div class="nuncastra-shell"><span aria-hidden="true">✦</span><p>Click or tap the cards, tiles, question marks, and underlined terms. Nuncastra is meant to be explored.</p></div>
+    </div>
 
     <section class="moment-chamber" aria-labelledby="moment-title">
       <div class="nuncastra-shell moment-chamber__grid">
@@ -141,7 +148,7 @@
               <div class="nuncastra-temporal nuncastra-temporal--date" data-date-control data-min-year="1800" data-max-year="2399">
                 <select data-date-month aria-label="Month" required><option value="">Month</option></select>
                 <select data-date-day aria-label="Day" required><option value="">Day</option></select>
-                <input type="text" data-date-year aria-label="Year" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="Year" required>
+                <select data-date-year aria-label="Year" required><option value="">Year</option></select>
                 <input type="hidden" name="date">
               </div>
             </fieldset>
@@ -159,14 +166,17 @@
                 <ul class="nuncastra-form__place-results" id="moment-location-results" role="listbox" data-moment-location-results hidden></ul>
               </div>
             </div>
-            <label class="nuncastra-form__zodiac">
-              <span>Zodiac System</span>
-              <select name="zodiac" data-zodiac-system>
-                <option value="tropical">Tropical &middot; Lost Opal Default</option>
+            <div class="nuncastra-form__zodiac nuncastra-form__field">
+              <div class="nuncastra-form__field-heading">
+                <label for="moment-zodiac-system">Zodiac System</label>
+                <button class="snapshot-context-help" type="button" data-info-explainer data-info-title="Zodiac system" aria-haspopup="dialog" aria-describedby="moment-zodiac-system-explanation" aria-label="Explain the zodiac system choices">?<span class="nuncastra-info-source" id="moment-zodiac-system-explanation">Zodiac system tells the calculator where the zodiac begins. Tropical follows the seasonal cycle, placing 0&deg; Aries at the March equinox. It is the default here; &ldquo;default&rdquo; is only the preselected setting, not a special Lost Opal version of Tropical. Sidereal uses a star-based reference and an ayanamsa. Lahiri and Fagan&ndash;Bradley use different offsets, so degrees and sometimes signs may change. Choosing a sidereal option changes the calculated sky positions; Nuncastra&rsquo;s Tarot translation remains a Western esoteric Lost Opal framework, not a complete Jyotish reading.</span></button>
+              </div>
+              <select id="moment-zodiac-system" name="zodiac" data-zodiac-system>
+                <option value="tropical">Tropical &middot; Default</option>
                 <option value="lahiri">Sidereal &middot; Lahiri</option>
                 <option value="fagan">Sidereal &middot; Fagan&ndash;Bradley</option>
               </select>
-            </label>
+            </div>
             <button class="nuncastra-button nuncastra-button--quiet" type="button" data-use-location>Use My Location</button>
             <button class="nuncastra-button nuncastra-button--primary" type="submit" data-calculate>Cast This Moment</button>
           </form>
@@ -188,7 +198,6 @@
             <li><span>3</span><p><strong>Decan Action</strong>The exact ten-degree face becomes its Golden Dawn Minor Arcana.</p></li>
             <li><span>4</span><p><strong>Ground It</strong>The completed Tarot sentence becomes something you can notice, hold, question, or attempt in lived experience.</p></li>
           </ol>
-          <p class="reading-key__note">The everyday reading stays relatable and direct. Numerology and the Tree of Life remain optional perspectives.</p>
         </aside>
       </div>
     </section>
@@ -283,31 +292,44 @@
       </header>
       <p class="birth-dialog__scope"><strong>Birth is not limited to people.</strong> This can be the first breath of a company, an idea, a relationship, a project, or any other beginning.</p>
       <form class="birth-dialog__form" data-birth-form>
-        <fieldset class="birth-dialog__field"><legend><b>1</b> Your birth date</legend>
-          <div class="nuncastra-temporal nuncastra-temporal--date" data-date-control data-min-year="1800" data-max-year="2399">
+        <div class="birth-dialog__field" role="group" aria-labelledby="birth-date-label">
+          <p class="birth-dialog__field-label" id="birth-date-label"><b>1</b> Your birth date</p>
+          <div class="nuncastra-temporal nuncastra-temporal--date" data-date-control data-min-year="1800" data-max-year="2399" data-year-order="recent-first">
             <select data-date-month aria-label="Birth month" autocomplete="bday-month" required><option value="">Month</option></select>
             <select data-date-day aria-label="Birth day" autocomplete="bday-day" required><option value="">Day</option></select>
-            <input type="text" data-date-year aria-label="Birth year" autocomplete="bday-year" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="Year" required>
+            <select data-date-year aria-label="Birth year" autocomplete="bday-year" required><option value="">Year</option></select>
             <input type="hidden" name="birth_date">
           </div>
-        </fieldset>
+        </div>
 
-        <label class="birth-dialog__field"><span><b>2</b> How well do you know the time?</span>
-          <select name="birth_time_confidence" data-birth-time-confidence>
+        <div class="birth-dialog__field">
+          <div class="birth-dialog__field-heading">
+            <label class="birth-dialog__field-label" for="birth-time-confidence"><b>2</b> How well do you know the time?</label>
+            <details class="birth-dialog__help birth-dialog__help--time" data-info-title="Birth-time certainty">
+              <summary aria-label="Explain the birth-time certainty choices" aria-haspopup="dialog">?</summary>
+              <div class="birth-dialog__help-popover">
+                <p><strong>Exact or documented</strong> uses the recorded local time as given.</p>
+                <p><strong>Approximate or remembered</strong> uses the time you enter and labels it approximate. The Ascendant and other horizon-sensitive points may move if the estimate is off.</p>
+                <p><strong>I do not know</strong> uses noon as a transparent midpoint, with the day understood as a possible twelve hours before or after it. The Ascendant, Midheaven, Vertex, Lot of Fortune, and sometimes the Moon cannot be treated as settled. <a href="../contact/">Contact me if you want help working through what you remember.</a></p>
+              </div>
+            </details>
+          </div>
+          <select id="birth-time-confidence" name="birth_time_confidence" data-birth-time-confidence>
             <option value="exact" selected>Exact or documented</option>
             <option value="approximate">Approximate or remembered</option>
             <option value="unknown">I do not know</option>
           </select>
-        </label>
+        </div>
 
-        <fieldset class="birth-dialog__field"><legend><b>3</b> Birth time</legend>
+        <div class="birth-dialog__field" role="group" aria-labelledby="birth-time-label">
+          <p class="birth-dialog__field-label" id="birth-time-label"><b>3</b> Birth time</p>
           <div class="nuncastra-temporal nuncastra-temporal--time" data-time-control data-birth-time-control>
             <select data-time-hour aria-label="Birth hour" required><option value="">Hour</option></select>
             <select data-time-minute aria-label="Birth minute" required><option value="">Minute</option></select>
             <select data-time-period aria-label="Birth time AM or PM" required><option value="">AM/PM</option><option value="AM">AM</option><option value="PM">PM</option></select>
             <input type="hidden" name="birth_time">
           </div>
-        </fieldset>
+        </div>
         <p class="birth-dialog__field-note" data-birth-time-note>Use the documented local time shown on the birth record or to the best of your knowledge.</p>
 
         <div class="birth-dialog__field birth-dialog__field--wide birth-dialog__place-field" data-birth-location-field>
@@ -321,28 +343,38 @@
           <small id="birth-location-message" data-birth-location-message>Choose a matching place, enter exact latitude and longitude, or reuse a recently confirmed place.</small>
         </div>
 
-        <label class="birth-dialog__field"><span><b>5</b> How certain is that place?</span>
-          <select name="birth_place_confidence">
+        <div class="birth-dialog__field">
+          <div class="birth-dialog__field-heading">
+            <label class="birth-dialog__field-label" for="birth-place-confidence"><b>5</b> How certain is your birthplace?</label>
+            <details class="birth-dialog__help birth-dialog__help--place" data-info-title="Birthplace certainty">
+              <summary aria-label="Explain the birthplace certainty choices" aria-haspopup="dialog">?</summary>
+              <div class="birth-dialog__help-popover">
+                <p><strong>Known or documented</strong> uses the exact coordinates of the real place you select.</p>
+                <p><strong>Best honest guess</strong> uses the selected place and clearly labels the result as a best guess. A different birthplace may shift the chart&rsquo;s angles.</p>
+                <p><strong>Very uncertain</strong> keeps the birthplace and its horizon-sensitive points provisional. Choose the closest honest place you can, then read the angles with care.</p>
+              </div>
+            </details>
+          </div>
+          <select id="birth-place-confidence" name="birth_place_confidence">
             <option value="known" selected>Known or documented</option>
             <option value="best-guess">Best honest guess</option>
             <option value="uncertain">Very uncertain</option>
           </select>
-        </label>
+        </div>
 
-        <label class="birth-dialog__field"><span><b>6</b> Zodiac system</span>
-          <select name="birth_zodiac">
-            <option value="tropical">Tropical &middot; Lost Opal Default</option>
+        <div class="birth-dialog__field">
+          <div class="birth-dialog__field-heading">
+            <label class="birth-dialog__field-label" for="birth-zodiac-system"><b>6</b> Zodiac system</label>
+            <button class="snapshot-context-help" type="button" data-info-explainer data-info-title="Zodiac system" aria-haspopup="dialog" aria-describedby="birth-zodiac-system-explanation" aria-label="Explain the zodiac system choices">?<span class="nuncastra-info-source" id="birth-zodiac-system-explanation">Zodiac system tells the calculator where the zodiac begins. Tropical follows the seasonal cycle, placing 0&deg; Aries at the March equinox. It is the default here; &ldquo;default&rdquo; is only the preselected setting, not a special Lost Opal version of Tropical. Sidereal uses a star-based reference and an ayanamsa. Lahiri and Fagan&ndash;Bradley use different offsets, so degrees and sometimes signs may change. Choosing a sidereal option changes the calculated sky positions; Nuncastra&rsquo;s Tarot translation remains a Western esoteric Lost Opal framework, not a complete Jyotish reading.</span></button>
+          </div>
+          <select id="birth-zodiac-system" name="birth_zodiac">
+            <option value="tropical">Tropical &middot; Default</option>
             <option value="lahiri">Sidereal &middot; Lahiri</option>
             <option value="fagan">Sidereal &middot; Fagan&ndash;Bradley</option>
           </select>
-        </label>
+        </div>
 
         <p class="birth-dialog__privacy">These answers stay in this browser. This creates a Nuncast for your birth moment; the fuller natal-and-current-sky comparison can grow from this foundation later.</p>
-        <div class="birth-dialog__uncertainty">
-          <p><strong>Using an approximate time:</strong> We use the time you enter and label it as approximate. The Ascendant and other horizon-sensitive points may move if the estimate is off.</p>
-          <p><strong>Using a best-guess birthplace:</strong> We use the exact coordinates of the real place you select and label the result as a best guess. A different birthplace may shift the chart&rsquo;s angles.</p>
-          <p><strong>If the birth time is unknown:</strong> We use noon as a transparent midpoint and read the day as a possible twelve hours before or after it. The Ascendant, Midheaven, Vertex, Lot of Fortune, and sometimes the Moon cannot be treated as settled. <a href="../contact/">Please contact me so we can work through what you remember together.</a></p>
-        </div>
         <div class="birth-dialog__actions"><span class="birth-dialog__action-step" aria-label="Step 7">7</span><button class="nuncastra-button nuncastra-button--quiet" type="button" data-birth-close>Not Now</button><button class="nuncastra-button nuncastra-button--primary" type="submit">Nuncast the Soul&rsquo;s First Breath</button></div>
       </form>
     </div>
@@ -380,6 +412,16 @@
       <p class="card-dialog__hermetic-title" data-card-dialog-hermetic-title hidden></p>
       <p data-card-dialog-description></p>
       <small>Additional correspondence and definition in development.</small>
+    </div>
+  </dialog>
+
+  <dialog class="nuncastra-info-dialog" data-info-dialog aria-labelledby="nuncastra-info-title">
+    <div class="nuncastra-info-dialog__shell">
+      <header class="nuncastra-info-dialog__header">
+        <div><p class="nuncastra-kicker">Learn More</p><h2 id="nuncastra-info-title" data-info-dialog-title>More information</h2></div>
+        <button type="button" data-info-dialog-close aria-label="Close more information"></button>
+      </header>
+      <div class="nuncastra-info-dialog__body" data-info-dialog-body></div>
     </div>
   </dialog>
 

@@ -1,5 +1,5 @@
 /*
- * Nuncastra — the stars as they are now
+ * Nuncastra: the stars as they are now
  * Copyright (C) 2026 Lost Opal
  *
  * This calculator is free software: you can redistribute it and/or modify it
@@ -28,7 +28,7 @@ const DONATE_DISMISSED_STORAGE_KEY = "nuncastra-donate-dismissed-v1";
 const RECENT_PLACES_STORAGE_KEY = "nuncastra-recent-places-v1";
 
 const ZODIAC_SYSTEMS = {
-  tropical: { label: "Tropical Zodiac · Lost Opal Default", siderealMode: null },
+  tropical: { label: "Tropical · Default", siderealMode: null },
   lahiri: { label: "Sidereal Zodiac · Lahiri Ayanamsa · Lost Opal Tarot Hybrid", siderealMode: SiderealMode.Lahiri },
   fagan: { label: "Sidereal Zodiac · Fagan–Bradley Ayanamsa · Lost Opal Tarot Hybrid", siderealMode: SiderealMode.FaganBradley },
 };
@@ -376,7 +376,7 @@ const ANGLE_DATA = {
 const RESULT_GROUPS = [
   {
     title: "Luminaries & Mind",
-    tabLabel: "Light & Mind",
+    tabLabel: "Identity & Feelings",
     names: ["Sun", "Moon", "Mercury"],
     description: "Who am I being? What am I feeling? How am I thinking—and how am I speaking it?",
     definition: "In astrology, the Luminaries are the Sun and Moon: the two great lights associated with conscious identity and instinctive, emotional life. Mercury is placed beside them here because it names, connects, and communicates what those lights are experiencing.",
@@ -575,6 +575,9 @@ const cardDialogCategory = hasDocument ? document.querySelector("[data-card-dial
 const cardDialogCategorySymbol = hasDocument ? document.querySelector("[data-card-dialog-category-symbol]") : null;
 const cardDialogCategoryLabel = hasDocument ? document.querySelector("[data-card-dialog-category-label]") : null;
 const cardDialogDescription = hasDocument ? document.querySelector("[data-card-dialog-description]") : null;
+const infoDialog = hasDocument ? document.querySelector("[data-info-dialog]") : null;
+const infoDialogTitle = hasDocument ? document.querySelector("[data-info-dialog-title]") : null;
+const infoDialogBody = hasDocument ? document.querySelector("[data-info-dialog-body]") : null;
 const donateFloat = hasDocument ? document.querySelector("[data-donate-float]") : null;
 const donateFloatClose = hasDocument ? document.querySelector("[data-donate-float-close]") : null;
 
@@ -601,6 +604,11 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function entityNameForProse(name, sentenceStart = false) {
+  if (name === "Sun" || name === "Moon") return `${sentenceStart ? "The" : "the"} ${name}`;
+  return name;
 }
 
 function normalizeLongitude(value) {
@@ -773,7 +781,7 @@ function cardFigureHtml({ category, name, cardIndex, description = "", reversed 
     visual = `<button class="snapshot-card-button" type="button" data-card-open data-card-name="${safeName}" data-card-hermetic-title="${escapeHtml(hermeticTitle)}" data-card-category="${escapeHtml(category)}" data-card-description="${escapeHtml(description)}" data-card-src="${cardFile(cardIndex)}" data-card-reversed="${reversed ? "true" : "false"}" aria-label="Enlarge ${safeName}${reverseAlt}"><span class="snapshot-card-visual${reverseClass}"><img src="${cardFile(cardIndex)}" alt="${safeName} tarot card${reverseAlt}" width="320" height="533" loading="lazy" decoding="async" fetchpriority="low" data-print-image>${badge}</span></button>`;
   }
   const warning = correspondencePending
-    ? `<details class="correspondence-warning"><summary aria-label="Explain this developing correspondence">!</summary><p>Additional correspondence and definition in development.</p></details>`
+    ? `<details class="correspondence-warning" data-info-title="Developing correspondence"><summary aria-label="Explain this developing correspondence" aria-haspopup="dialog">!</summary><p>Additional correspondence and definition in development.</p></details>`
     : "";
   const source = sourceName ? `<span class="snapshot-card-source">${escapeHtml(sourceName)}</span>` : "";
   return `<figure>${visual}<figcaption><small>${escapeHtml(category)}</small><span class="snapshot-card-name">${safeName}${reversed ? " · Reversed" : ""}</span>${source}${warning}</figcaption></figure>`;
@@ -793,7 +801,7 @@ function entityCardDescription(line, card) {
       ? "For Pluto, Death is the embodied astrological face: irreversible change, mourning for the self that cannot be returned to, and the sacred demand to enter the next moment."
       : "For Pluto, Judgement is the Tree of Life face at Kether: an awakening call through dissolution, shown beside Death so neither grief nor renewal is erased.";
   }
-  return `${card.name} is the celestial voice of ${line.name} in this row. ${line.entityEssence}.`;
+  return `${card.name} is the celestial voice of ${entityNameForProse(line.name)} in this row. ${line.entityEssence}.`;
 }
 
 function entityCardsHtml(line) {
@@ -881,7 +889,7 @@ function standaloneSentence(value) {
 function identityTileHtml({ id, glyph, name, kind, description, modifier = "" }) {
   const tooltip = standaloneSentence(description);
   return `
-    <button class="snapshot-identity-tile${modifier ? ` ${modifier}` : ""}" type="button" data-identity-explainer aria-expanded="false" aria-describedby="${escapeHtml(id)}" aria-label="${escapeHtml(`${kind}: ${name}. Show a short explanation.`)}">
+    <button class="snapshot-identity-tile${modifier ? ` ${modifier}` : ""}" type="button" data-identity-explainer data-info-title="${escapeHtml(`${kind}: ${name}`)}" aria-haspopup="dialog" aria-describedby="${escapeHtml(id)}" aria-label="${escapeHtml(`${kind}: ${name}. Show a short explanation.`)}">
       <b aria-hidden="true">${escapeHtml(glyph)}</b>
       <strong>${escapeHtml(name)}</strong>
       <span class="snapshot-identity-tooltip" id="${escapeHtml(id)}" role="tooltip"><em>${escapeHtml(kind)}:</em> ${escapeHtml(tooltip)}</span>
@@ -889,7 +897,7 @@ function identityTileHtml({ id, glyph, name, kind, description, modifier = "" })
 }
 
 function contextHelpHtml({ id, label, description }) {
-  return `<button class="snapshot-context-help" type="button" data-identity-explainer aria-expanded="false" aria-describedby="${escapeHtml(id)}" aria-label="${escapeHtml(label)}">?<span class="snapshot-identity-tooltip" id="${escapeHtml(id)}" role="tooltip">${escapeHtml(description)}</span></button>`;
+  return `<button class="snapshot-context-help" type="button" data-identity-explainer data-info-title="${escapeHtml(label.replace(/^Explain\s+/i, ""))}" aria-haspopup="dialog" aria-describedby="${escapeHtml(id)}" aria-label="${escapeHtml(label)}">?<span class="snapshot-identity-tooltip" id="${escapeHtml(id)}" role="tooltip">${escapeHtml(description)}</span></button>`;
 }
 
 function treePreviewHtml(line) {
@@ -909,7 +917,7 @@ function treePreviewHtml(line) {
 function rowHtml(line) {
   const rowId = line.name.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-");
   const numerology = numerologyFor(line);
-  const plainLine = `${line.name} in ${line.sign.name}, ${decanLabel(line.decanIndex)}; ${line.sign.name} carries the ${line.naturalHouse.label} Natural House, while this chart places the line in the ${line.calculatedHouse.label} Calculated House. ${line.sign.name} is traditionally ruled by ${line.ruler.name}.`;
+  const plainLine = `${entityNameForProse(line.name, true)} in ${line.sign.name}, ${decanLabel(line.decanIndex)}; ${line.sign.name} carries the ${line.naturalHouse.label} Natural House, while this chart places the line in the ${line.calculatedHouse.label} Calculated House. ${line.sign.name} is traditionally ruled by ${line.ruler.name}.`;
   const decanNumber = decanLabel(line.decanIndex).replace(" Decan", "");
   const housesConverge = line.naturalHouse.number === line.calculatedHouse.number;
   const houseRelationship = housesConverge
@@ -938,13 +946,13 @@ function rowHtml(line) {
               ${identityTileHtml({ id: `${rowId}-sign-tip`, glyph: line.sign.glyph, name: line.sign.name, kind: "Zodiacal Field", description: `${line.sign.name} shapes expression through ${line.sign.field}.` })}
               ${identityTileHtml({ id: `${rowId}-decan-tip`, glyph: decanNumber, name: "Decan", kind: "Decan Action", description: `${line.decan.cardName} ${line.decan.meaning}.`, modifier: "snapshot-identity-tile--decan" })}
               ${identityTileHtml({ id: `${rowId}-natural-house-tip`, glyph: line.naturalHouse.label, name: "Natural House", kind: "Natural House", description: `${line.sign.name} belongs to the ${line.naturalHouse.label} House on the Aries-first natural wheel. This is the sign’s native terrain of ${line.naturalHouse.short}.`, modifier: "snapshot-identity-tile--house snapshot-identity-tile--natural-house" })}
-              ${identityTileHtml({ id: `${rowId}-calculated-house-tip`, glyph: line.calculatedHouse.label, name: "Calculated House", kind: "Calculated House", description: `For this selected time and place, ${line.name} falls in the ${line.calculatedHouse.label} House through ${line.calculatedHouse.short}.`, modifier: "snapshot-identity-tile--house snapshot-identity-tile--calculated-house" })}
+              ${identityTileHtml({ id: `${rowId}-calculated-house-tip`, glyph: line.calculatedHouse.label, name: "Calculated House", kind: "Calculated House", description: `For this selected time and place, ${entityNameForProse(line.name)} falls in the ${line.calculatedHouse.label} House through ${line.calculatedHouse.short}.`, modifier: "snapshot-identity-tile--house snapshot-identity-tile--calculated-house" })}
               ${identityTileHtml({ id: `${rowId}-ruler-tip`, glyph: line.ruler.glyph, name: line.ruler.name, kind: "Traditional Ruler", description: `${line.sign.name} is ruled by ${line.ruler.name}, bringing ${line.ruler.influence} to its field.`, modifier: "snapshot-identity-tile--ruler" })}
             </div>
             <p class="snapshot-identity-hint">Tap a tile to learn more.</p>
             <p class="snapshot-reading__plain-line">${escapeHtml(plainLine)}</p>
           </div>
-          <button class="snapshot-motion ${line.motion.className}" type="button" data-motion-explainer aria-expanded="false" aria-describedby="${rowId}-motion-explanation">
+          <button class="snapshot-motion ${line.motion.className}" type="button" data-motion-explainer data-info-title="${escapeHtml(`${line.motion.label} motion`)}" aria-haspopup="dialog" aria-describedby="${rowId}-motion-explanation">
             ${escapeHtml(line.motion.label)}
             <span class="snapshot-motion__tooltip" id="${rowId}-motion-explanation" role="tooltip">${escapeHtml(line.motion.explanation)}</span>
           </button>
@@ -1033,7 +1041,7 @@ function printHeaderHtml(meta, pageNumber, totalPages) {
 
 function sectionHeadingHtml(group, pageIndex) {
   const definitionId = `snapshot-group-definition-${pageIndex}`;
-  return `<header class="snapshot-section-heading"><h3><button class="snapshot-section-term" type="button" data-identity-explainer aria-expanded="false" aria-describedby="${definitionId}"><span>${escapeHtml(group.title)}</span><span class="snapshot-section-help" aria-hidden="true">?</span><span class="snapshot-section-tooltip" id="${definitionId}" role="tooltip">${escapeHtml(group.definition)}</span></button></h3></header>`;
+  return `<header class="snapshot-section-heading"><h3><button class="snapshot-section-term" type="button" data-identity-explainer data-info-title="${escapeHtml(group.title)}" aria-haspopup="dialog" aria-describedby="${definitionId}"><span>${escapeHtml(group.title)}</span><span class="snapshot-section-help" aria-hidden="true">?</span><span class="snapshot-section-tooltip" id="${definitionId}" role="tooltip">${escapeHtml(group.definition)}</span></button></h3></header>`;
 }
 
 function normalizeSearchText(value) {
@@ -1173,6 +1181,23 @@ function appendSelectOptions(select, options) {
   options.forEach(([value, label]) => select.add(new Option(label, value)));
 }
 
+function yearOptionsFor(control) {
+  const minYear = Number(control.dataset.minYear || 1800);
+  const maxYear = Number(control.dataset.maxYear || 2399);
+  const currentYear = new Date().getFullYear();
+  const years = [];
+
+  if (control.dataset.yearOrder === "recent-first") {
+    const anchorYear = Math.min(maxYear, Math.max(minYear, currentYear));
+    for (let year = anchorYear; year >= minYear; year -= 1) years.push(year);
+    for (let year = anchorYear + 1; year <= maxYear; year += 1) years.push(year);
+  } else {
+    for (let year = minYear; year <= maxYear; year += 1) years.push(year);
+  }
+
+  return years.map((year) => [String(year), String(year)]);
+}
+
 function dateParts(control) {
   return {
     month: control?.querySelector("[data-date-month]") || null,
@@ -1223,7 +1248,7 @@ function syncDateControl(control, report = false) {
   const minYear = Number(control.dataset.minYear || 1800);
   const maxYear = Number(control.dataset.maxYear || 2399);
   if (!Number.isInteger(numericYear) || numericYear < minYear || numericYear > maxYear) {
-    year.setCustomValidity(`Enter a four-digit year from ${minYear} through ${maxYear}.`);
+    year.setCustomValidity(`Choose a year from ${minYear} through ${maxYear}.`);
     if (report) year.reportValidity();
     hidden.value = "";
     return "";
@@ -1284,9 +1309,10 @@ function setTimeControlValue(control, isoTime) {
 
 function initializeTemporalControls() {
   document.querySelectorAll("[data-date-control]").forEach((control) => {
-    const { month, day } = dateParts(control);
+    const { month, day, year } = dateParts(control);
     appendSelectOptions(month, MONTH_OPTIONS);
     appendSelectOptions(day, Array.from({ length: 31 }, (_, index) => [String(index + 1), String(index + 1)]));
+    appendSelectOptions(year, yearOptionsFor(control));
     control.addEventListener("change", () => {
       updateAvailableDays(control);
       syncDateControl(control);
@@ -1986,13 +2012,13 @@ function renderTreeReading(line) {
       : "";
 
   treeReading.innerHTML = `
-    <h3>${escapeHtml(line.name)} in ${escapeHtml(line.sign.name)}</h3>
+    <h3>${escapeHtml(entityNameForProse(line.name, true))} in ${escapeHtml(line.sign.name)}</h3>
     <p class="tree-reading__position">${escapeHtml(formatZodiacPosition(line.longitude))}</p>
     <dl>
       <div><dt>Celestial key path${entityPaths.length === 1 ? "" : "s"}</dt><dd${entityPathCards ? ` class="tree-reading__card-detail"` : ""}>${entityPathCards}${entityPathCards ? `<span>${escapeHtml(entityPathText)}</span>` : escapeHtml(entityPathText)}</dd></div>
       <div><dt>Zodiacal path</dt><dd class="tree-reading__card-detail"><span class="tree-reading__card-stack" aria-hidden="true"><img src="${cardPreviewFile(line.sign.majorIndex)}" alt="" width="72" height="120" loading="lazy" decoding="async"></span><span>${escapeHtml(MAJORS[line.sign.majorIndex])} · Path ${signPath.number} · ${escapeHtml(signPath.letter)} ${escapeHtml(signPath.hebrew)} · ${escapeHtml(signPath.from)}–${escapeHtml(signPath.to)}</span></dd></div>
       <div><dt>Active Sephirah</dt><dd class="tree-reading__card-detail"><span class="tree-reading__card-stack" aria-hidden="true"><img src="${cardPreviewFile(line.decan.cardIndex)}" alt="" width="72" height="120" loading="lazy" decoding="async"></span><span><strong>${escapeHtml(line.decan.cardName)}</strong> in ${escapeHtml(sephirah.name)} · ${escapeHtml(sephirah.title)} — ${escapeHtml(sephirah.current)}.</span></dd></div>
-      <div><dt>World and element</dt><dd><button class="tree-world-term" type="button" data-tree-world-explainer aria-expanded="false" aria-describedby="tree-world-explanation"><span>${escapeHtml(world.name)}</span><span class="tree-world-hebrew" lang="he" dir="rtl">${escapeHtml(world.hebrew)}</span><span class="tree-world-tooltip" id="tree-world-explanation" role="tooltip">${escapeHtml(worldMeaning)}</span></button> · <span class="tree-world-element"><span aria-hidden="true">${escapeHtml(world.elementGlyph)}</span> ${escapeHtml(world.element)}</span> · ${escapeHtml(world.phrase)}.</dd></div>
+      <div><dt>World and element</dt><dd><button class="tree-world-term" type="button" data-tree-world-explainer data-info-title="${escapeHtml(`${world.name} · ${world.translation}`)}" aria-haspopup="dialog" aria-describedby="tree-world-explanation"><span>${escapeHtml(world.name)}</span><span class="tree-world-hebrew" lang="he" dir="rtl">${escapeHtml(world.hebrew)}</span><span class="tree-world-tooltip" id="tree-world-explanation" role="tooltip">${escapeHtml(worldMeaning)}</span></button> · <span class="tree-world-element"><span aria-hidden="true">${escapeHtml(world.elementGlyph)}</span> ${escapeHtml(world.element)}</span> · ${escapeHtml(world.phrase)}.</dd></div>
       ${seatHtml}
     </dl>
     ${specialTeaching ? `<p class="tree-reading__boundary">${escapeHtml(specialTeaching)}</p>` : ""}`;
@@ -2160,6 +2186,44 @@ function closeDialog(dialog) {
   else dialog.removeAttribute("open");
 }
 
+let infoDialogReturnFocus = null;
+
+function infoSourceFor(trigger) {
+  const containedSource = trigger.closest(".birth-dialog__help, .correspondence-warning")
+    ?.querySelector(".birth-dialog__help-popover, p");
+  if (containedSource) return containedSource;
+
+  const describedBy = (trigger.getAttribute("aria-describedby") || "").trim().split(/\s+/).filter(Boolean);
+  return describedBy.map((id) => document.getElementById(id)).find(Boolean) || null;
+}
+
+function infoTitleFor(trigger) {
+  return trigger.dataset.infoTitle
+    || trigger.closest("[data-info-title]")?.dataset.infoTitle
+    || "More information";
+}
+
+function openInfoDialogFor(trigger) {
+  if (!infoDialog || !infoDialogTitle || !infoDialogBody) return false;
+  const source = infoSourceFor(trigger);
+  if (!source) return false;
+
+  infoDialogTitle.textContent = infoTitleFor(trigger);
+  const fragment = document.createDocumentFragment();
+  if (source.matches(".birth-dialog__help-popover")) {
+    [...source.childNodes].forEach((node) => fragment.append(node.cloneNode(true)));
+  } else {
+    const paragraph = document.createElement("p");
+    [...source.childNodes].forEach((node) => paragraph.append(node.cloneNode(true)));
+    fragment.append(paragraph);
+  }
+  infoDialogBody.replaceChildren(fragment);
+  infoDialogReturnFocus = trigger;
+  if (typeof infoDialog.showModal === "function" && !infoDialog.open) infoDialog.showModal();
+  else if (!infoDialog.open) infoDialog.setAttribute("open", "");
+  return true;
+}
+
 function startOver() {
   state.generation += 1;
   state.deviceLocation = null;
@@ -2171,6 +2235,7 @@ function startOver() {
   closeDialog(birthDialog);
   closeDialog(treeDialog);
   closeDialog(cardDialog);
+  closeDialog(infoDialog);
   resetBirthPlacePicker();
   const mobileDrawer = document.querySelector(".mobile-drawer");
   const drawerBackdrop = document.querySelector("[data-drawer-backdrop]");
@@ -2218,12 +2283,20 @@ async function prepareImagesForPrint() {
   });
   await Promise.all(images.map(async (image) => {
     if (!image.complete) {
-      await new Promise((resolve) => {
-        image.addEventListener("load", resolve, { once: true });
-        image.addEventListener("error", resolve, { once: true });
-      });
+      await Promise.race([
+        new Promise((resolve) => {
+          image.addEventListener("load", resolve, { once: true });
+          image.addEventListener("error", resolve, { once: true });
+        }),
+        new Promise((resolve) => window.setTimeout(resolve, 3500))
+      ]);
     }
-    if (image.decode) await image.decode().catch(() => {});
+    if (image.decode && image.complete && image.naturalWidth) {
+      await Promise.race([
+        image.decode().catch(() => {}),
+        new Promise((resolve) => window.setTimeout(resolve, 1500))
+      ]);
+    }
   }));
 }
 
@@ -2266,6 +2339,7 @@ if (hasDocument) {
     await prepareImagesForPrint();
     printButton.disabled = false;
     printButton.textContent = originalLabel;
+    await new Promise((resolve) => window.requestAnimationFrame(resolve));
     window.print();
   });
   printModeSelect.addEventListener("change", applyPrintPreferences);
@@ -2320,18 +2394,20 @@ if (hasDocument) {
       moveCarousel(carouselNext, 1);
       return;
     }
+    const correspondenceSummary = event.target.closest(".correspondence-warning > summary");
+    if (correspondenceSummary) {
+      event.preventDefault();
+      openInfoDialogFor(correspondenceSummary);
+      return;
+    }
     const motionButton = event.target.closest("[data-motion-explainer]");
     if (motionButton) {
-      const willOpen = motionButton.getAttribute("aria-expanded") !== "true";
-      pages.querySelectorAll("[data-motion-explainer][aria-expanded='true']").forEach((button) => button.setAttribute("aria-expanded", "false"));
-      motionButton.setAttribute("aria-expanded", String(willOpen));
+      openInfoDialogFor(motionButton);
       return;
     }
     const identityButton = event.target.closest("[data-identity-explainer]");
     if (identityButton) {
-      const willOpen = identityButton.getAttribute("aria-expanded") !== "true";
-      pages.querySelectorAll("[data-identity-explainer][aria-expanded='true']").forEach((button) => button.setAttribute("aria-expanded", "false"));
-      identityButton.setAttribute("aria-expanded", String(willOpen));
+      openInfoDialogFor(identityButton);
       return;
     }
     const cardButton = event.target.closest("[data-card-open]");
@@ -2350,12 +2426,6 @@ if (hasDocument) {
     activateRowTab(row, tab);
   });
   pages.addEventListener("keydown", (event) => {
-    const identityButton = event.target.closest("[data-identity-explainer]");
-    if (identityButton && event.key === "Escape") {
-      identityButton.setAttribute("aria-expanded", "false");
-      identityButton.blur();
-      return;
-    }
     const current = event.target.closest("[data-row-view]");
     if (!current || !["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
     const row = current.closest("[data-snapshot-row]");
@@ -2453,11 +2523,18 @@ if (hasDocument) {
   birthForm?.addEventListener("submit", handleBirthSubmit);
   document.querySelectorAll("[data-birth-close]").forEach((button) => button.addEventListener("click", () => closeDialog(birthDialog)));
   birthDialog?.addEventListener("click", (event) => {
-    if (event.target === birthDialog) closeDialog(birthDialog);
+    const helpSummary = event.target.closest(".birth-dialog__help > summary");
+    if (helpSummary) {
+      event.preventDefault();
+      openInfoDialogFor(helpSummary);
+      return;
+    }
   });
+  birthDialog?.addEventListener("cancel", (event) => event.preventDefault());
   birthDialog?.addEventListener("close", () => {
     birthPlaceSearchController?.abort();
     closeBirthPlaceResults();
+    birthDialog.querySelectorAll(".birth-dialog__help[open]").forEach((help) => help.removeAttribute("open"));
   });
 
   document.querySelector("[data-tree-close]")?.addEventListener("click", () => closeDialog(treeDialog));
@@ -2467,21 +2544,31 @@ if (hasDocument) {
   treeReading?.addEventListener("click", (event) => {
     const worldButton = event.target.closest("[data-tree-world-explainer]");
     if (!worldButton) return;
-    worldButton.setAttribute("aria-expanded", String(worldButton.getAttribute("aria-expanded") !== "true"));
-  });
-  treeReading?.addEventListener("keydown", (event) => {
-    const worldButton = event.target.closest("[data-tree-world-explainer]");
-    if (!worldButton || event.key !== "Escape") return;
-    worldButton.setAttribute("aria-expanded", "false");
-    worldButton.blur();
+    openInfoDialogFor(worldButton);
   });
   document.querySelector("[data-card-close]")?.addEventListener("click", () => closeDialog(cardDialog));
   cardDialog?.addEventListener("click", (event) => {
     if (event.target === cardDialog) closeDialog(cardDialog);
   });
+  document.querySelector("[data-info-dialog-close]")?.addEventListener("click", () => closeDialog(infoDialog));
+  document.addEventListener("click", (event) => {
+    const infoButton = event.target.closest?.("[data-info-explainer]");
+    if (infoButton) openInfoDialogFor(infoButton);
+  }, { capture: true });
+  infoDialog?.addEventListener("click", (event) => {
+    if (event.target === infoDialog) closeDialog(infoDialog);
+  });
+  infoDialog?.addEventListener("close", () => {
+    const returnTarget = infoDialogReturnFocus;
+    infoDialogReturnFocus = null;
+    if (returnTarget?.isConnected) requestAnimationFrame(() => returnTarget.focus({ preventScroll: true }));
+  });
   document.addEventListener("click", (event) => {
     if (momentLocationField && !momentLocationField.contains(event.target)) closeMomentPlaceResults();
     if (birthLocationField && !birthLocationField.contains(event.target)) closeBirthPlaceResults();
+    document.querySelectorAll(".birth-dialog__help[open]").forEach((help) => {
+      if (!help.contains(event.target)) help.removeAttribute("open");
+    });
     document.querySelectorAll(".correspondence-warning[open]").forEach((warning) => {
       if (!warning.contains(event.target)) warning.removeAttribute("open");
     });

@@ -2486,6 +2486,26 @@ body::before {
   pointer-events: auto;
 }
 
+.planetary-insight.planetary-insight--sheet,
+.planetary-insight.planetary-insight--sheet[data-position="upper"],
+.planetary-insight.planetary-insight--sheet[data-position="lower"],
+.planetary-insight.planetary-insight--sheet[data-position="east"],
+.planetary-insight.planetary-insight--sheet[data-position="west"] {
+  position: fixed;
+  top: auto;
+  right: auto;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  left: 50%;
+  z-index: 300;
+  width: min(560px, calc(100% - 28px));
+  max-height: min(72dvh, 560px);
+  padding: 20px 22px 22px;
+  overflow-y: auto;
+  pointer-events: auto;
+  transform: translateX(-50%);
+  -webkit-overflow-scrolling: touch;
+}
+
 .planetary-insight[data-position="upper"] {
   top: 5.5%;
   left: 50%;
