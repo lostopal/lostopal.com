@@ -29,94 +29,6 @@ const RECENT_PLACES_STORAGE_KEY = "nuncastra-recent-places-v1";
 const PLACE_INDEX_BASE = new URL("./data/places/", import.meta.url);
 const PLACE_INDEX_KIND_LABELS = ["World city", "U.S. Census place", "U.S. ZIP Code"];
 const placeIndexShardCache = new Map();
-const HOVER_TOOLTIP_TRIGGER_SELECTOR = "[data-identity-explainer], [data-motion-explainer], [data-tree-world-explainer]";
-const HOVER_TOOLTIP_SELECTOR = ".snapshot-section-tooltip, .snapshot-identity-tooltip, .snapshot-motion__tooltip, .tree-world-tooltip";
-const HOVER_TOOLTIP_GUTTER = 12;
-
-let activeHoverTooltipTrigger = null;
-let hoverTooltipPositionFrame = 0;
-
-function hoverTooltipFor(trigger) {
-  return trigger?.querySelector(`:scope > ${HOVER_TOOLTIP_SELECTOR}`) || null;
-}
-
-function positionHoverTooltip(trigger) {
-  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-  const tooltip = hoverTooltipFor(trigger);
-  if (!tooltip) return;
-
-  trigger.dataset.viewportTooltipTrigger = "";
-  tooltip.classList.add("nuncastra-viewport-tooltip");
-
-  const visualViewport = window.visualViewport;
-  const viewportLeft = visualViewport?.offsetLeft || 0;
-  const viewportTop = visualViewport?.offsetTop || 0;
-  const viewportWidth = visualViewport?.width || window.innerWidth;
-  const viewportHeight = visualViewport?.height || window.innerHeight;
-  const triggerBounds = trigger.getBoundingClientRect();
-
-  tooltip.style.right = "auto";
-  tooltip.style.bottom = "auto";
-  tooltip.style.left = "0px";
-  tooltip.style.top = "0px";
-
-  const tooltipBounds = tooltip.getBoundingClientRect();
-  const maximumLeft = viewportLeft + viewportWidth - tooltipBounds.width - HOVER_TOOLTIP_GUTTER;
-  const centeredLeft = triggerBounds.left + ((triggerBounds.width - tooltipBounds.width) / 2);
-  const left = Math.max(
-    viewportLeft + HOVER_TOOLTIP_GUTTER,
-    Math.min(centeredLeft, maximumLeft),
-  );
-
-  const gap = 10;
-  const above = triggerBounds.top - tooltipBounds.height - gap;
-  const below = triggerBounds.bottom + gap;
-  const maximumTop = viewportTop + viewportHeight - tooltipBounds.height - HOVER_TOOLTIP_GUTTER;
-  const preferredTop = above >= viewportTop + HOVER_TOOLTIP_GUTTER ? above : below;
-  const top = Math.max(
-    viewportTop + HOVER_TOOLTIP_GUTTER,
-    Math.min(preferredTop, maximumTop),
-  );
-
-  tooltip.style.left = `${Math.round(left - triggerBounds.left)}px`;
-  tooltip.style.top = `${Math.round(top - triggerBounds.top)}px`;
-}
-
-function scheduleHoverTooltipPosition(trigger = activeHoverTooltipTrigger) {
-  if (!trigger) return;
-  cancelAnimationFrame(hoverTooltipPositionFrame);
-  hoverTooltipPositionFrame = requestAnimationFrame(() => {
-    hoverTooltipPositionFrame = 0;
-    positionHoverTooltip(trigger);
-  });
-}
-
-function activateHoverTooltip(trigger) {
-  if (!hoverTooltipFor(trigger)) return;
-  activeHoverTooltipTrigger = trigger;
-  scheduleHoverTooltipPosition(trigger);
-}
-
-document.addEventListener("pointerover", (event) => {
-  if (event.pointerType !== "mouse") return;
-  const trigger = event.target.closest(HOVER_TOOLTIP_TRIGGER_SELECTOR);
-  if (trigger) activateHoverTooltip(trigger);
-});
-document.addEventListener("pointerout", (event) => {
-  if (event.pointerType !== "mouse" || !activeHoverTooltipTrigger) return;
-  if (activeHoverTooltipTrigger.contains(event.relatedTarget)) return;
-  activeHoverTooltipTrigger = null;
-});
-document.addEventListener("focusin", (event) => {
-  const trigger = event.target.closest(HOVER_TOOLTIP_TRIGGER_SELECTOR);
-  if (trigger) activateHoverTooltip(trigger);
-});
-document.addEventListener("focusout", (event) => {
-  if (activeHoverTooltipTrigger?.contains(event.target)) activeHoverTooltipTrigger = null;
-});
-window.addEventListener("resize", () => scheduleHoverTooltipPosition(), { passive: true });
-window.visualViewport?.addEventListener("resize", () => scheduleHoverTooltipPosition(), { passive: true });
-document.addEventListener("scroll", () => scheduleHoverTooltipPosition(), { passive: true, capture: true });
 
 const ZODIAC_SYSTEMS = {
   tropical: { label: "Tropical · Default", siderealMode: null },
@@ -1023,38 +935,35 @@ function standaloneSentence(value) {
   return /[.!?]$/.test(capitalized) ? capitalized : `${capitalized}.`;
 }
 
-function identityTileHtml({ id, glyph, name, kind, description, modifier = "" }) {
+function identityTileHtml({ glyph, name, kind, description, modifier = "" }) {
   const tooltip = standaloneSentence(description);
   return `
-    <button class="snapshot-identity-tile${modifier ? ` ${modifier}` : ""}" type="button" data-identity-explainer data-info-title="${escapeHtml(`${kind}: ${name}`)}" aria-haspopup="dialog" aria-describedby="${escapeHtml(id)}" aria-label="${escapeHtml(`${kind}: ${name}. Show a short explanation.`)}">
+    <button class="snapshot-identity-tile${modifier ? ` ${modifier}` : ""}" type="button" data-info-explainer data-info-title="${escapeHtml(`${kind}: ${name}`)}" data-info-description="${escapeHtml(tooltip)}" aria-haspopup="dialog" aria-label="${escapeHtml(`${kind}: ${name}. Show a short explanation.`)}">
       <b aria-hidden="true">${escapeHtml(glyph)}</b>
       <strong>${escapeHtml(name)}</strong>
-      <span class="snapshot-identity-tooltip" id="${escapeHtml(id)}" role="tooltip"><em>${escapeHtml(kind)}:</em> ${escapeHtml(tooltip)}</span>
     </button>`;
 }
 
-function celestialAssociationTilesHtml(line, rowId) {
+function celestialAssociationTilesHtml(line) {
   const myths = CELESTIAL_MYTHS[line.name] || [];
   const stones = CELESTIAL_STONES[line.name] || [];
   const mythTile = myths.length
-    ? `<button class="snapshot-identity-tile snapshot-identity-tile--association" type="button" data-identity-explainer data-info-title="Myth" aria-haspopup="dialog" aria-describedby="${escapeHtml(`${rowId}-myth-tip`)}" aria-label="Myth for ${escapeHtml(entityNameForProse(line.name, true))}. Show names.">
+    ? `<button class="snapshot-identity-tile snapshot-identity-tile--association" type="button" data-info-explainer data-info-title="Myth" data-info-description="${escapeHtml(myths.join(" · "))}" aria-haspopup="dialog" aria-label="Myth for ${escapeHtml(entityNameForProse(line.name, true))}. Show names.">
         <b aria-hidden="true">📖</b>
         <strong>Myth</strong>
-        <span class="snapshot-identity-tooltip" id="${escapeHtml(`${rowId}-myth-tip`)}" role="tooltip">${escapeHtml(myths.join(" · "))}</span>
       </button>`
     : "";
   const stoneTile = stones.length
-    ? `<button class="snapshot-identity-tile snapshot-identity-tile--association" type="button" data-identity-explainer data-info-title="Stones" aria-haspopup="dialog" aria-describedby="${escapeHtml(`${rowId}-stones-tip`)}" aria-label="Stones for ${escapeHtml(entityNameForProse(line.name, true))}. Show common correspondences.">
+    ? `<button class="snapshot-identity-tile snapshot-identity-tile--association" type="button" data-info-explainer data-info-title="Stones" data-info-description="${escapeHtml(stones.join(" · "))}" aria-haspopup="dialog" aria-label="Stones for ${escapeHtml(entityNameForProse(line.name, true))}. Show common correspondences.">
         <b aria-hidden="true">◆</b>
         <strong>Stones</strong>
-        <span class="snapshot-identity-tooltip" id="${escapeHtml(`${rowId}-stones-tip`)}" role="tooltip">${escapeHtml(stones.join(" · "))}</span>
       </button>`
     : "";
   return `${mythTile}${stoneTile}`;
 }
 
-function contextHelpHtml({ id, label, description }) {
-  return `<button class="snapshot-context-help" type="button" data-identity-explainer data-info-title="${escapeHtml(label.replace(/^Explain\s+/i, ""))}" aria-haspopup="dialog" aria-describedby="${escapeHtml(id)}" aria-label="${escapeHtml(label)}">?<span class="snapshot-identity-tooltip" id="${escapeHtml(id)}" role="tooltip">${escapeHtml(description)}</span></button>`;
+function contextHelpHtml({ label, description }) {
+  return `<button class="snapshot-context-help" type="button" data-info-explainer data-info-title="${escapeHtml(label.replace(/^Explain\s+/i, ""))}" data-info-description="${escapeHtml(description)}" aria-haspopup="dialog" aria-label="${escapeHtml(label)}">?</button>`;
 }
 
 function treePreviewHtml(line) {
@@ -1103,27 +1012,26 @@ function rowHtml(line) {
           <div>
             <div class="snapshot-reading__position">
               <p>${escapeHtml(formatZodiacPosition(line.longitude))}</p>
-              <button class="snapshot-motion ${line.motion.className}" type="button" data-motion-explainer data-info-title="${escapeHtml(`${line.motion.label} motion`)}" aria-haspopup="dialog" aria-describedby="${rowId}-motion-explanation">
+              <button class="snapshot-motion ${line.motion.className}" type="button" data-info-explainer data-info-title="${escapeHtml(`${line.motion.label} motion`)}" data-info-description="${escapeHtml(line.motion.explanation)}" aria-haspopup="dialog">
                 ${escapeHtml(line.motion.label)}
-                <span class="snapshot-motion__tooltip" id="${rowId}-motion-explanation" role="tooltip">${escapeHtml(line.motion.explanation)}</span>
               </button>
             </div>
             <div class="snapshot-reading__identity" aria-label="${escapeHtml(plainLine)}">
-              ${identityTileHtml({ id: `${rowId}-entity-tip`, glyph: line.glyph, name: line.name, kind: "Celestial Voice", description: `${line.entityEssence}.` })}
-              ${identityTileHtml({ id: `${rowId}-sign-tip`, glyph: line.sign.glyph, name: line.sign.name, kind: "Zodiacal Field", description: signDescription })}
-              ${identityTileHtml({ id: `${rowId}-decan-tip`, glyph: decanNumber, name: "Decan", kind: "Decan Action", description: `${line.decan.cardName} ${line.decan.meaning}.`, modifier: "snapshot-identity-tile--decan" })}
-              ${identityTileHtml({ id: `${rowId}-natural-house-tip`, glyph: line.naturalHouse.label, name: "Natural House", kind: "Natural House", description: `${line.sign.name} belongs to the ${line.naturalHouse.label} House on the Aries-first natural wheel. This is the sign’s native terrain of ${line.naturalHouse.short}.`, modifier: "snapshot-identity-tile--house snapshot-identity-tile--natural-house" })}
-              ${identityTileHtml({ id: `${rowId}-calculated-house-tip`, glyph: line.calculatedHouse.label, name: "Calculated House", kind: "Calculated House", description: `For this selected time and place, ${entityNameForProse(line.name)} falls in the ${line.calculatedHouse.label} House through ${line.calculatedHouse.short}.`, modifier: "snapshot-identity-tile--house snapshot-identity-tile--calculated-house" })}
-              ${identityTileHtml({ id: `${rowId}-ruler-tip`, glyph: line.ruler.glyph, name: line.ruler.name, kind: "Traditional Ruler", description: `${line.sign.name} is ruled by ${line.ruler.name}, bringing ${line.ruler.influence} to its field.`, modifier: "snapshot-identity-tile--ruler" })}
-              ${celestialAssociationTilesHtml(line, rowId)}
+              ${identityTileHtml({ glyph: line.glyph, name: line.name, kind: "Celestial Voice", description: `${line.entityEssence}.` })}
+              ${identityTileHtml({ glyph: line.sign.glyph, name: line.sign.name, kind: "Zodiacal Field", description: signDescription })}
+              ${identityTileHtml({ glyph: decanNumber, name: "Decan", kind: "Decan Action", description: `${line.decan.cardName} ${line.decan.meaning}.`, modifier: "snapshot-identity-tile--decan" })}
+              ${identityTileHtml({ glyph: line.naturalHouse.label, name: "Natural House", kind: "Natural House", description: `${line.sign.name} belongs to the ${line.naturalHouse.label} House on the Aries-first natural wheel. This is the sign’s native terrain of ${line.naturalHouse.short}.`, modifier: "snapshot-identity-tile--house snapshot-identity-tile--natural-house" })}
+              ${identityTileHtml({ glyph: line.calculatedHouse.label, name: "Calculated House", kind: "Calculated House", description: `For this selected time and place, ${entityNameForProse(line.name)} falls in the ${line.calculatedHouse.label} House through ${line.calculatedHouse.short}.`, modifier: "snapshot-identity-tile--house snapshot-identity-tile--calculated-house" })}
+              ${identityTileHtml({ glyph: line.ruler.glyph, name: line.ruler.name, kind: "Traditional Ruler", description: `${line.sign.name} is ruled by ${line.ruler.name}, bringing ${line.ruler.influence} to its field.`, modifier: "snapshot-identity-tile--ruler" })}
+              ${celestialAssociationTilesHtml(line)}
             </div>
             <p class="snapshot-identity-hint">Tap a tile to learn more.</p>
             <p class="snapshot-reading__plain-line">${escapeHtml(plainLine)}</p>
           </div>
         </div>
         <div class="snapshot-reading__context">
-          <p><strong>Natural House &middot; ${escapeHtml(line.naturalHouse.label)} &middot; ${escapeHtml(line.naturalHouse.title)}:</strong> ${contextHelpHtml({ id: `${rowId}-natural-house-context-tip`, label: "Explain Natural and Calculated Houses", description: houseRelationship })} ${escapeHtml(line.naturalHouse.meaning)}</p>
-          <p><strong>Calculated House &middot; ${escapeHtml(line.calculatedHouse.label)} &middot; ${escapeHtml(line.calculatedHouse.title)}:</strong> ${contextHelpHtml({ id: `${rowId}-calculated-house-context-tip`, label: "Explain Natural and Calculated Houses", description: houseRelationship })} ${escapeHtml(line.calculatedHouse.meaning)} <span class="snapshot-reading__context-system">${escapeHtml(line.calculatedHouse.system)} houses for the selected time and place.</span></p>
+          <p><strong>Natural House &middot; ${escapeHtml(line.naturalHouse.label)} &middot; ${escapeHtml(line.naturalHouse.title)}:</strong> ${contextHelpHtml({ label: "Explain Natural and Calculated Houses", description: houseRelationship })} ${escapeHtml(line.naturalHouse.meaning)}</p>
+          <p><strong>Calculated House &middot; ${escapeHtml(line.calculatedHouse.label)} &middot; ${escapeHtml(line.calculatedHouse.title)}:</strong> ${contextHelpHtml({ label: "Explain Natural and Calculated Houses", description: houseRelationship })} ${escapeHtml(line.calculatedHouse.meaning)} <span class="snapshot-reading__context-system">${escapeHtml(line.calculatedHouse.system)} houses for the selected time and place.</span></p>
           <p><strong>${escapeHtml(line.ruler.glyph)} ${escapeHtml(line.ruler.name)} &middot; Traditional Ruler of ${escapeHtml(line.sign.name)}:</strong> ${escapeHtml(line.ruler.description)} In this Nuncast, that planetary current is translated into its Tarot card, ${escapeHtml(MAJORS[line.ruler.majorIndex])}, so the planet becomes a visible voice within the line.${modernRulerNote ? `<span class="snapshot-reading__modern-ruler">${escapeHtml(modernRulerNote)}</span>` : ""}</p>
         </div>
         <div class="snapshot-reading__tabs" role="tablist" aria-label="Perspectives for ${escapeHtml(line.name)}">
@@ -1904,7 +1812,7 @@ function formatMoment(date, timeZone) {
   }).format(date);
 }
 
-export function printTitleForMoment(dateValue, timeValue) {
+function printTitleForMoment(dateValue, timeValue) {
   const dateMatch = String(dateValue || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
   const timeMatch = String(timeValue || "").match(/^(\d{2}):(\d{2})$/);
   if (!dateMatch || !timeMatch) return "Lost Opal - Nuncast";
@@ -2226,7 +2134,7 @@ function renderTreeReading(line) {
       <div><dt>Celestial key path${entityPaths.length === 1 ? "" : "s"}</dt><dd${entityPathCards ? ` class="tree-reading__card-detail"` : ""}>${entityPathCards}${entityPathCards ? `<span>${escapeHtml(entityPathText)}</span>` : escapeHtml(entityPathText)}</dd></div>
       <div><dt>Zodiacal path</dt><dd class="tree-reading__card-detail"><span class="tree-reading__card-stack" aria-hidden="true"><img src="${cardPreviewFile(line.sign.majorIndex)}" alt="" width="72" height="120" loading="lazy" decoding="async"></span><span>${escapeHtml(MAJORS[line.sign.majorIndex])} · Path ${signPath.number} · ${escapeHtml(signPath.letter)} ${escapeHtml(signPath.hebrew)} · ${escapeHtml(signPath.from)}–${escapeHtml(signPath.to)}</span></dd></div>
       <div><dt>Active Sephirah</dt><dd class="tree-reading__card-detail"><span class="tree-reading__card-stack" aria-hidden="true"><img src="${cardPreviewFile(line.decan.cardIndex)}" alt="" width="72" height="120" loading="lazy" decoding="async"></span><span><strong>${escapeHtml(line.decan.cardName)}</strong> in ${escapeHtml(sephirah.name)} · ${escapeHtml(sephirah.title)} — ${escapeHtml(sephirah.current)}.</span></dd></div>
-      <div><dt>World and element</dt><dd><button class="tree-world-term" type="button" data-tree-world-explainer data-info-title="${escapeHtml(`${world.name} · ${world.translation}`)}" aria-haspopup="dialog" aria-describedby="tree-world-explanation"><span>${escapeHtml(world.name)}</span><span class="tree-world-hebrew" lang="he" dir="rtl">${escapeHtml(world.hebrew)}</span><span class="tree-world-tooltip" id="tree-world-explanation" role="tooltip">${escapeHtml(worldMeaning)}</span></button> · <span class="tree-world-element"><span aria-hidden="true">${escapeHtml(world.elementGlyph)}</span> ${escapeHtml(world.element)}</span> · ${escapeHtml(world.phrase)}.</dd></div>
+      <div><dt>World and element</dt><dd><button class="tree-world-term" type="button" data-info-explainer data-info-title="${escapeHtml(`${world.name} · ${world.translation}`)}" data-info-description="${escapeHtml(worldMeaning)}" aria-haspopup="dialog"><span>${escapeHtml(world.name)}</span><span class="tree-world-hebrew" lang="he" dir="rtl">${escapeHtml(world.hebrew)}</span></button> · <span class="tree-world-element"><span aria-hidden="true">${escapeHtml(world.elementGlyph)}</span> ${escapeHtml(world.element)}</span> · ${escapeHtml(world.phrase)}.</dd></div>
       ${seatHtml}
     </dl>
     ${specialTeaching ? `<p class="tree-reading__boundary">${escapeHtml(specialTeaching)}</p>` : ""}`;
@@ -2623,16 +2531,6 @@ if (hasDocument) {
       openInfoDialogFor(correspondenceSummary);
       return;
     }
-    const motionButton = event.target.closest("[data-motion-explainer]");
-    if (motionButton) {
-      openInfoDialogFor(motionButton);
-      return;
-    }
-    const identityButton = event.target.closest("[data-identity-explainer]:not([data-info-explainer])");
-    if (identityButton) {
-      openInfoDialogFor(identityButton);
-      return;
-    }
     const cardButton = event.target.closest("[data-card-open]");
     if (cardButton) {
       openCard(cardButton);
@@ -2764,11 +2662,6 @@ if (hasDocument) {
   treeDialog?.addEventListener("click", (event) => {
     if (event.target === treeDialog) closeDialog(treeDialog);
   });
-  treeReading?.addEventListener("click", (event) => {
-    const worldButton = event.target.closest("[data-tree-world-explainer]");
-    if (!worldButton) return;
-    openInfoDialogFor(worldButton);
-  });
   document.querySelector("[data-card-close]")?.addEventListener("click", () => closeDialog(cardDialog));
   cardDialog?.addEventListener("click", (event) => {
     if (event.target === cardDialog) closeDialog(cardDialog);
@@ -2794,15 +2687,6 @@ if (hasDocument) {
     });
     document.querySelectorAll(".correspondence-warning[open]").forEach((warning) => {
       if (!warning.contains(event.target)) warning.removeAttribute("open");
-    });
-    document.querySelectorAll("[data-motion-explainer][aria-expanded='true']").forEach((button) => {
-      if (!button.contains(event.target)) button.setAttribute("aria-expanded", "false");
-    });
-    document.querySelectorAll("[data-identity-explainer][aria-expanded='true']").forEach((button) => {
-      if (!button.contains(event.target)) button.setAttribute("aria-expanded", "false");
-    });
-    document.querySelectorAll("[data-tree-world-explainer][aria-expanded='true']").forEach((button) => {
-      if (!button.contains(event.target)) button.setAttribute("aria-expanded", "false");
     });
   });
   treeNodes?.addEventListener("click", (event) => {
