@@ -756,8 +756,8 @@
         }
       }
     }
-    nodes.push(...celestialVoiceTiles(meta));
     nodes.push(naturalHouseTile(meta));
+    nodes.push(...celestialVoiceTiles(meta));
     return nodes;
   }
 

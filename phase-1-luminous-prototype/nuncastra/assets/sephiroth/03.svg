@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title">
   <title id="title">3 · Binah</title>
-  <defs><radialGradient id="sphere" cx="32%" cy="25%" r="75%"><stop offset="0" stop-color="#35383d"/><stop offset="1" stop-color="#030405"/></radialGradient></defs>
+  <defs><radialGradient id="sphere-03" cx="32%" cy="25%" r="75%"><stop offset="0" stop-color="#35383d"/><stop offset="1" stop-color="#030405"/></radialGradient></defs>
   <circle cx="48" cy="48" r="45" fill="#07090c" stroke="#d8a54c" stroke-width="2"/>
-  <circle cx="48" cy="48" r="39" fill="url(#sphere)" stroke="#73767b" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="39" fill="url(#sphere-03)" stroke="#73767b" stroke-width="1.5"/>
   <text x="48" y="49" fill="#fff7e4" font-family="Georgia,serif" font-size="34" font-weight="700" text-anchor="middle" dominant-baseline="middle">3</text>
 </svg>

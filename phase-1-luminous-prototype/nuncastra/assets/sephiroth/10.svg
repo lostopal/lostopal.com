@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title">
   <title id="title">10 · Malkuth</title>
-  <defs><clipPath id="sphere"><circle cx="48" cy="48" r="39"/></clipPath></defs>
+  <defs><clipPath id="sphere-10"><circle cx="48" cy="48" r="39"/></clipPath></defs>
   <circle cx="48" cy="48" r="45" fill="#07090c" stroke="#d8a54c" stroke-width="2"/>
-  <g clip-path="url(#sphere)"><path d="M9 9h39v39H9z" fill="#c7a84c"/><path d="M48 9h39v39H48z" fill="#67743e"/><path d="M9 48h39v39H9z" fill="#8b4935"/><path d="M48 48h39v39H48z" fill="#111316"/></g>
+  <g clip-path="url(#sphere-10)"><path d="M9 9h39v39H9z" fill="#c7a84c"/><path d="M48 9h39v39H48z" fill="#67743e"/><path d="M9 48h39v39H9z" fill="#8b4935"/><path d="M48 48h39v39H48z" fill="#111316"/></g>
   <circle cx="48" cy="48" r="39" fill="none" stroke="#d9bd75" stroke-width="1.5"/>
   <text x="48" y="49" fill="#ffffff" stroke="#17120c" stroke-width="1" paint-order="stroke" font-family="Georgia,serif" font-size="31" font-weight="700" text-anchor="middle" dominant-baseline="middle">10</text>
 </svg>

@@ -724,7 +724,7 @@ function cardPreviewFile(index) {
 }
 
 function sephirahSealFile(number) {
-  return `./assets/sephiroth/${String(number).padStart(2, "0")}.svg`;
+  return `./assets/sephiroth/${String(number).padStart(2, "0")}.svg?v=20260831-sphere-colors-1`;
 }
 
 function minorCardIndex(suit, number) {
@@ -1107,12 +1107,12 @@ function rowHtml(line) {
             </div>
             <div class="snapshot-reading__identity" aria-label="${escapeHtml(plainLine)}">
               ${identityTileHtml({ id: `${rowId}-entity-tip`, glyph: line.glyph, name: line.name, kind: "Celestial Voice", description: `${line.entityEssence}.` })}
-              ${celestialAssociationTilesHtml(line, rowId)}
               ${identityTileHtml({ id: `${rowId}-sign-tip`, glyph: line.sign.glyph, name: line.sign.name, kind: "Zodiacal Field", description: signDescription })}
               ${identityTileHtml({ id: `${rowId}-decan-tip`, glyph: decanNumber, name: "Decan", kind: "Decan Action", description: `${line.decan.cardName} ${line.decan.meaning}.`, modifier: "snapshot-identity-tile--decan" })}
               ${identityTileHtml({ id: `${rowId}-natural-house-tip`, glyph: line.naturalHouse.label, name: "Natural House", kind: "Natural House", description: `${line.sign.name} belongs to the ${line.naturalHouse.label} House on the Aries-first natural wheel. This is the sign’s native terrain of ${line.naturalHouse.short}.`, modifier: "snapshot-identity-tile--house snapshot-identity-tile--natural-house" })}
               ${identityTileHtml({ id: `${rowId}-calculated-house-tip`, glyph: line.calculatedHouse.label, name: "Calculated House", kind: "Calculated House", description: `For this selected time and place, ${entityNameForProse(line.name)} falls in the ${line.calculatedHouse.label} House through ${line.calculatedHouse.short}.`, modifier: "snapshot-identity-tile--house snapshot-identity-tile--calculated-house" })}
               ${identityTileHtml({ id: `${rowId}-ruler-tip`, glyph: line.ruler.glyph, name: line.ruler.name, kind: "Traditional Ruler", description: `${line.sign.name} is ruled by ${line.ruler.name}, bringing ${line.ruler.influence} to its field.`, modifier: "snapshot-identity-tile--ruler" })}
+              ${celestialAssociationTilesHtml(line, rowId)}
             </div>
             <p class="snapshot-identity-hint">Tap a tile to learn more.</p>
             <p class="snapshot-reading__plain-line">${escapeHtml(plainLine)}</p>
