@@ -3471,7 +3471,7 @@ a {
 .nuncastra-info-dialog {
   width: min(580px, calc(100% - 30px));
   max-width: none;
-  max-height: min(720px, calc(100% - 30px));
+  max-height: none;
   padding: 0;
   overflow: hidden;
   color: var(--copy);
@@ -3485,6 +3485,7 @@ a {
 }
 
 .nuncastra-info-dialog[open] {
+  display: block;
   margin: auto;
 }
 
@@ -3494,13 +3495,15 @@ a {
 }
 
 .nuncastra-info-dialog__shell {
-  max-height: inherit;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 30px);
+  max-height: calc(100dvh - 30px);
 }
 
 .nuncastra-info-dialog__header {
   display: flex;
+  flex: 0 0 auto;
   align-items: start;
   justify-content: space-between;
   gap: 18px;
@@ -3555,7 +3558,10 @@ a {
 }
 
 .nuncastra-info-dialog__body {
+  flex: 0 1 auto;
   min-height: 0;
+  max-height: calc(100vh - 126px);
+  max-height: calc(100dvh - 126px);
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 21px 24px 25px;
@@ -3589,7 +3595,7 @@ a {
   .nuncastra-info-dialog {
     width: 100%;
     max-width: none;
-    max-height: min(78dvh, 640px);
+    max-height: none;
     margin: auto 0 0;
     border-right: 0;
     border-bottom: 0;
@@ -3601,11 +3607,18 @@ a {
     margin: auto 0 0;
   }
 
+  .nuncastra-info-dialog__shell {
+    max-height: min(78vh, 640px);
+    max-height: min(78dvh, 640px);
+  }
+
   .nuncastra-info-dialog__header {
     padding: 18px 18px 14px;
   }
 
   .nuncastra-info-dialog__body {
+    max-height: calc(78vh - 90px);
+    max-height: calc(78dvh - 90px);
     padding: 18px max(18px, env(safe-area-inset-right)) max(22px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left));
     font-size: 0.84rem;
   }

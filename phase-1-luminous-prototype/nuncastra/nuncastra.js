@@ -21,6 +21,8 @@ const CARD_BASE = "../assets/tarot/1909-rws";
 const CARD_PREVIEW_BASE = "../assets/tarot/1909-rws-draw";
 const PLACEHOLDER_BASE = "./assets/placeholders";
 const EPHEMERIS_FILES = ["sepl_18.se1", "semo_18.se1", "seas_18.se1"];
+const ENGINE_LOAD_ATTEMPTS = 2;
+const EPHEMERIS_FETCH_ATTEMPTS = 2;
 const SIGN_DEGREES = 30;
 const DECAN_DEGREES = 10;
 const INTRO_STORAGE_KEY = "nuncastra-intro-seen-v1";
@@ -1825,23 +1827,81 @@ function printTitleForMoment(dateValue, timeValue) {
   return `Lost Opal - Nuncast - ${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]} ${hour12}-${timeMatch[2]} ${period}`;
 }
 
+function wait(milliseconds) {
+  return new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+}
+
+async function fetchEphemerisFile(name) {
+  const url = new URL(`./ephemeris/${name}`, import.meta.url).href;
+  let lastError;
+
+  for (let attempt = 1; attempt <= EPHEMERIS_FETCH_ATTEMPTS; attempt += 1) {
+    try {
+      const response = await fetch(url, { cache: "force-cache" });
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status} ${response.statusText}`.trim());
+      }
+      return { name, data: new Uint8Array(await response.arrayBuffer()) };
+    } catch (error) {
+      lastError = error;
+      if (attempt < EPHEMERIS_FETCH_ATTEMPTS) await wait(350);
+    }
+  }
+
+  throw new Error(`Failed to load ${name}: ${lastError?.message || "unknown error"}`);
+}
+
+async function loadLocalEphemeris(engine) {
+  // The upstream helper downloads these files serially. Loading the three local
+  // tables together substantially shortens a cold start on phones and tablets.
+  const files = await Promise.all(EPHEMERIS_FILES.map(fetchEphemerisFile));
+  const fileSystem = engine.module?.FS;
+
+  if (!fileSystem) {
+    await engine.loadEphemerisFiles(EPHEMERIS_FILES.map((name) => ({
+      name,
+      url: new URL(`./ephemeris/${name}`, import.meta.url).href,
+    })));
+    return;
+  }
+
+  try {
+    fileSystem.mkdir("/ephemeris");
+  } catch {
+    // The in-memory directory may already exist after a recovered attempt.
+  }
+  files.forEach(({ name, data }) => fileSystem.writeFile(`/ephemeris/${name}`, data));
+  engine.setEphemerisPath("/ephemeris");
+}
+
 async function initializeEngine() {
-  const engine = new SwissEphemeris();
-  await engine.init();
-  await engine.loadEphemerisFiles(EPHEMERIS_FILES.map((name) => ({
-    name,
-    url: new URL(`./ephemeris/${name}`, import.meta.url).href,
-  })));
-  state.engine = engine;
-  state.engineReady = true;
-  setStatus("Astronomy ready · Calculations stay in your browser.");
-  return engine;
+  let lastError;
+
+  for (let attempt = 1; attempt <= ENGINE_LOAD_ATTEMPTS; attempt += 1) {
+    try {
+      setStatus(attempt === 1
+        ? "Loading the local astronomy engine and sky tables…"
+        : "The astronomy setup was interrupted. Retrying automatically…");
+      const engine = new SwissEphemeris();
+      await engine.init();
+      await loadLocalEphemeris(engine);
+      state.engine = engine;
+      state.engineReady = true;
+      setStatus("Astronomy ready · Calculations stay in your browser.");
+      return engine;
+    } catch (error) {
+      lastError = error;
+      if (attempt < ENGINE_LOAD_ATTEMPTS) await wait(500);
+    }
+  }
+
+  throw lastError;
 }
 
 const enginePromise = hasDocument
   ? initializeEngine().catch((error) => {
       console.error(error);
-      setStatus("The astronomy engine could not load. Refresh the page and try again.", "error");
+      setStatus("The astronomy engine could not load after retrying. Check the connection and try again.", "error");
       throw error;
     })
   : Promise.resolve(null);
