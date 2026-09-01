@@ -312,7 +312,28 @@
   };
 
   const MAJOR_MYTHOLOGY = {
+    0: ["Ouranos", "Caelus"],
+    1: ["Hermes", "Thoth", "Nabu"],
+    2: ["Selene", "Artemis", "Khonsu"],
+    3: ["Aphrodite", "Inanna", "Hathor"],
+    4: ["Ares", "Nergal", "Anhur"],
     5: ["Chiron"],
+    6: ["Hermes", "Thoth", "Nabu"],
+    7: ["Selene", "Artemis", "Khonsu"],
+    8: ["Helios", "Apollo", "Ra"],
+    9: ["Hermes", "Thoth", "Nabu"],
+    10: ["Zeus", "Marduk", "Amun"],
+    11: ["Aphrodite", "Inanna", "Hathor"],
+    12: ["Neptune", "Poseidon", "Enki"],
+    13: ["Hades", "Pluto", "Ereshkigal", "Ares", "Nergal", "Anhur"],
+    14: ["Zeus", "Marduk", "Amun"],
+    15: ["Cronus", "Ninurta", "Geb"],
+    16: ["Ares", "Nergal", "Anhur"],
+    17: ["Ouranos", "Caelus", "Cronus", "Ninurta", "Geb"],
+    18: ["Selene", "Artemis", "Khonsu"],
+    19: ["Helios", "Apollo", "Ra"],
+    20: ["Hades", "Pluto", "Ereshkigal"],
+    21: ["Cronus", "Ninurta", "Geb"],
   };
 
   const SIGN_MYTHOLOGY = {
@@ -624,9 +645,8 @@
     const voices = celestialVoices(meta);
     if (!voices.length) return [];
 
-    const correspondence = meta.major ? MAJOR_CORRESPONDENCES[meta.index] : null;
     const mythology = meta.major
-      ? MAJOR_MYTHOLOGY[meta.index] || (correspondence?.sign ? [] : [...new Set(voices.flatMap((voice) => PLANET_MYTHOLOGY[voice] || []))])
+      ? MAJOR_MYTHOLOGY[meta.index] || [...new Set(voices.flatMap((voice) => PLANET_MYTHOLOGY[voice] || []))]
       : [...new Set(voices.flatMap((voice) => PLANET_MYTHOLOGY[voice] || []))];
     const stoneGroups = voices.map((voice) => PLANET_STONES[voice] || []).filter((stones) => stones.length);
     const primaryStone = stoneGroups[0]?.[0];

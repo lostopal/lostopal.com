@@ -766,9 +766,9 @@ a {
 
 .nuncastra-guide {
   display: grid;
-  grid-template-columns: max-content minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   align-items: start;
-  gap: 18px;
+  gap: 12px;
   padding: 18px 20px;
   background:
     radial-gradient(circle at 88% 12%, rgba(159, 120, 216, 0.1), transparent 42%),
@@ -780,13 +780,12 @@ a {
 
 .nuncastra-guide__explore {
   margin: 0;
-  color: #c7d9d3;
-  font-size: 0.73rem;
-  line-height: 1.55;
+  color: #ecf3ec;
+  font: 500 clamp(1.05rem, 1.45vw, 1.32rem)/1.44 var(--serif);
 }
 
 .nuncastra-guide__explore span {
-  margin-right: 5px;
+  margin-right: 7px;
   color: var(--gold);
   text-shadow: 0 0 14px rgba(72, 199, 212, 0.35);
 }
