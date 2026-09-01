@@ -1,0 +1,173 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-01T06:09:15.449Z",
+  "records": {
+    "worldCities": 62127,
+    "censusPlaces": 32350,
+    "postalCodes": 41490
+  },
+  "totalRecords": 135967,
+  "sources": [
+    {
+      "name": "GeoNames cities5000",
+      "license": "CC BY 4.0",
+      "url": "https://www.geonames.org/export/"
+    },
+    {
+      "name": "GeoNames US postal codes",
+      "license": "CC BY 4.0",
+      "url": "https://www.geonames.org/export/"
+    },
+    {
+      "name": "2025 U.S. Census Gazetteer Places",
+      "license": "U.S. Government data",
+      "url": "https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html"
+    }
+  ],
+  "shards": {
+    "0": {
+      "records": 3350,
+      "bytes": 248910
+    },
+    "1": {
+      "records": 4425,
+      "bytes": 336511
+    },
+    "2": {
+      "records": 4558,
+      "bytes": 353324
+    },
+    "3": {
+      "records": 4590,
+      "bytes": 335831
+    },
+    "4": {
+      "records": 4489,
+      "bytes": 322872
+    },
+    "5": {
+      "records": 4145,
+      "bytes": 303256
+    },
+    "6": {
+      "records": 4100,
+      "bytes": 297744
+    },
+    "7": {
+      "records": 4715,
+      "bytes": 336585
+    },
+    "8": {
+      "records": 2794,
+      "bytes": 203429
+    },
+    "9": {
+      "records": 4329,
+      "bytes": 325739
+    },
+    "a": {
+      "records": 5372,
+      "bytes": 402128
+    },
+    "b": {
+      "records": 7865,
+      "bytes": 602136
+    },
+    "c": {
+      "records": 7186,
+      "bytes": 562218
+    },
+    "d": {
+      "records": 3274,
+      "bytes": 247581
+    },
+    "e": {
+      "records": 2505,
+      "bytes": 196271
+    },
+    "f": {
+      "records": 2374,
+      "bytes": 189196
+    },
+    "g": {
+      "records": 3791,
+      "bytes": 292247
+    },
+    "h": {
+      "records": 3762,
+      "bytes": 291452
+    },
+    "i": {
+      "records": 1572,
+      "bytes": 115025
+    },
+    "j": {
+      "records": 1485,
+      "bytes": 112146
+    },
+    "k": {
+      "records": 4864,
+      "bytes": 354872
+    },
+    "l": {
+      "records": 5069,
+      "bytes": 392340
+    },
+    "m": {
+      "records": 7330,
+      "bytes": 562229
+    },
+    "n": {
+      "records": 3657,
+      "bytes": 283257
+    },
+    "o": {
+      "records": 2058,
+      "bytes": 155541
+    },
+    "p": {
+      "records": 5607,
+      "bytes": 433175
+    },
+    "q": {
+      "records": 490,
+      "bytes": 36292
+    },
+    "r": {
+      "records": 3354,
+      "bytes": 261884
+    },
+    "s": {
+      "records": 10143,
+      "bytes": 799544
+    },
+    "t": {
+      "records": 4343,
+      "bytes": 324602
+    },
+    "u": {
+      "records": 852,
+      "bytes": 64098
+    },
+    "v": {
+      "records": 2184,
+      "bytes": 165999
+    },
+    "w": {
+      "records": 3253,
+      "bytes": 264013
+    },
+    "x": {
+      "records": 259,
+      "bytes": 17082
+    },
+    "y": {
+      "records": 909,
+      "bytes": 64394
+    },
+    "z": {
+      "records": 914,
+      "bytes": 66841
+    }
+  }
+}

@@ -255,6 +255,7 @@ $precacheFiles = $releaseFiles | Where-Object {
     $relativePath = $_.FullName.Substring($destinationRoot.Length).TrimStart('\').Replace('\', '/')
     $relativePath -notlike 'assets/tarot/*' -and
     $relativePath -notlike 'nuncastra/ephemeris/*' -and
+    $relativePath -notlike 'nuncastra/data/places/*.json' -and
     $relativePath -notlike '*.wasm'
 }
 

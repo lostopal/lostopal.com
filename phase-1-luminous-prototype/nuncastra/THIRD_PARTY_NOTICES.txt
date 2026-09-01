@@ -22,15 +22,22 @@ The offline coordinate-to-IANA-time-zone lookup is dedicated under CC0-1.0.
 Source: https://github.com/darkskyapp/tz-lookup
 Its license text is included as vendor/tz-lookup-LICENSE.txt.
 
-OpenStreetMap / Nominatim
-------------------------
-User-initiated city and postal-code searches use the public Nominatim service.
-OpenStreetMap data is copyright OpenStreetMap contributors and available under
-the Open Database License. Direct coordinates and browser geolocation do not
-use Nominatim.
+GeoNames
+--------
+The local place-search index includes GeoNames worldwide city and U.S. postal-
+code data under Creative Commons Attribution 4.0. Typed searches are performed
+inside the visitor's browser and are not sent to the GeoNames web service.
 
-Attribution: https://www.openstreetmap.org/copyright
-Nominatim: https://nominatim.org/
+Data and attribution: https://www.geonames.org/export/
+License: https://creativecommons.org/licenses/by/4.0/
+
+United States Census Bureau Gazetteer
+-------------------------------------
+The local place-search index includes official 2025 U.S. Census Gazetteer
+place names and representative coordinates. Census data is provided by the
+United States Census Bureau.
+
+Source: https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html
 
 Tarot imagery
 -------------

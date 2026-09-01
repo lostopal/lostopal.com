@@ -26,6 +26,9 @@ const DECAN_DEGREES = 10;
 const INTRO_STORAGE_KEY = "nuncastra-intro-seen-v1";
 const DONATE_DISMISSED_STORAGE_KEY = "nuncastra-donate-dismissed-v1";
 const RECENT_PLACES_STORAGE_KEY = "nuncastra-recent-places-v1";
+const PLACE_INDEX_BASE = new URL("./data/places/", import.meta.url);
+const PLACE_INDEX_KIND_LABELS = ["World city", "U.S. Census place", "U.S. ZIP Code"];
+const placeIndexShardCache = new Map();
 const HOVER_TOOLTIP_TRIGGER_SELECTOR = "[data-identity-explainer], [data-motion-explainer], [data-tree-world-explainer]";
 const HOVER_TOOLTIP_SELECTOR = ".snapshot-section-tooltip, .snapshot-identity-tooltip, .snapshot-motion__tooltip, .tree-world-tooltip";
 const HOVER_TOOLTIP_GUTTER = 12;
@@ -1517,8 +1520,8 @@ function parseCoordinates(query) {
   return { latitude, longitude, label: `${latitude.toFixed(5)}, ${longitude.toFixed(5)}` };
 }
 
-const BIRTH_PLACE_PROMPT = "Choose a matching place, enter exact latitude and longitude, or reuse a recently confirmed place.";
-const MOMENT_PLACE_PROMPT = "Choose a matching place or enter exact latitude and longitude. Recently confirmed places also work offline.";
+const BIRTH_PLACE_PROMPT = "Choose a matching place from the private local index, enter exact latitude and longitude, or reuse a recently confirmed place.";
+const MOMENT_PLACE_PROMPT = "Choose a matching place from the private local index or enter exact latitude and longitude.";
 const DEFAULT_PLACE = { latitude: 33.3062, longitude: -111.8413, label: "Chandler, Arizona 85225", kind: "City" };
 let birthPlaceSearchTimer = null;
 let birthPlaceSearchController = null;
@@ -1561,20 +1564,62 @@ function resetBirthPlacePicker() {
   setBirthPlaceMessage(BIRTH_PLACE_PROMPT);
 }
 
-function photonPlace(feature) {
-  const properties = feature?.properties || {};
-  const coordinates = feature?.geometry?.coordinates || [];
-  const longitude = Number(coordinates[0]);
-  const latitude = Number(coordinates[1]);
-  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return null;
+function normalizePlaceSearch(value) {
+  return String(value || "")
+    .normalize("NFKD")
+    .replace(/\p{M}/gu, "")
+    .toLowerCase()
+    .replace(/&/g, " and ")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .replace(/\s+/g, " ");
+}
 
-  const parts = [properties.name, properties.city, properties.state, properties.country]
-    .map((part) => String(part || "").trim())
-    .filter((part, index, values) => part && values.findIndex((value) => value.toLowerCase() === part.toLowerCase()) === index);
-  if (!parts.length) return null;
-  const rawKind = properties.osm_value || properties.type || "place";
-  const kind = String(rawKind).replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
-  return { latitude, longitude, label: parts.join(", "), kind };
+function placeIndexShardKey(query) {
+  const first = normalizePlaceSearch(query).charAt(0);
+  return /[a-z0-9]/.test(first) ? first : "misc";
+}
+
+async function loadPlaceIndexShard(query, signal) {
+  const key = placeIndexShardKey(query);
+  if (!placeIndexShardCache.has(key)) {
+    const request = fetch(new URL(`${key}.json`, PLACE_INDEX_BASE), { headers: { Accept: "application/json" } })
+      .then((response) => {
+        if (!response.ok) throw new Error("The local place index could not be loaded.");
+        return response.json();
+      });
+    placeIndexShardCache.set(key, request);
+    request.catch(() => placeIndexShardCache.delete(key));
+  }
+  const records = await placeIndexShardCache.get(key);
+  if (signal?.aborted) throw new DOMException("The place search was replaced by a newer query.", "AbortError");
+  return records;
+}
+
+function indexedPlaces(records, query) {
+  const normalizedQuery = normalizePlaceSearch(query);
+  const terms = normalizedQuery.split(" ").filter(Boolean);
+  return records
+    .map(([label, latitude, longitude, kindIndex, population, aliases]) => {
+      const primary = normalizePlaceSearch(String(label).split(",")[0]);
+      const searchable = normalizePlaceSearch(`${label} ${aliases || ""}`);
+      if (!terms.every((term) => searchable.includes(term))) return null;
+      const score = primary === normalizedQuery ? 0
+        : primary.startsWith(normalizedQuery) ? 1
+          : searchable.startsWith(normalizedQuery) ? 2
+            : 3;
+      return {
+        latitude: Number(latitude),
+        longitude: Number(longitude),
+        label: String(label),
+        kind: PLACE_INDEX_KIND_LABELS[Number(kindIndex)] || "Place",
+        population: Number(population) || 0,
+        score,
+      };
+    })
+    .filter(Boolean)
+    .sort((left, right) => left.score - right.score || right.population - left.population || left.label.localeCompare(right.label))
+    .slice(0, 12);
 }
 
 function recentPlaces() {
@@ -1616,18 +1661,9 @@ async function searchPlaces(query, signal) {
   if (direct) return [{ ...direct, kind: "Exact coordinates" }];
 
   const recentMatches = matchingRecentPlaces(query);
-  if (typeof navigator !== "undefined" && navigator.onLine === false) return recentMatches;
-
-  let payload;
+  let localMatches;
   try {
-    const endpoint = new URL("https://photon.komoot.io/api/");
-    endpoint.searchParams.set("q", query);
-    endpoint.searchParams.set("limit", "7");
-    endpoint.searchParams.set("lang", "en");
-    endpoint.searchParams.set("osm_tag", "place");
-    const response = await fetch(endpoint, { signal, headers: { Accept: "application/json" } });
-    if (!response.ok) throw new Error("The place-search service is unavailable right now.");
-    payload = await response.json();
+    localMatches = indexedPlaces(await loadPlaceIndexShard(query, signal), query);
   } catch (error) {
     if (error.name === "AbortError") throw error;
     if (recentMatches.length) return recentMatches;
@@ -1635,13 +1671,14 @@ async function searchPlaces(query, signal) {
   }
 
   const seen = new Set();
-  return [...recentMatches, ...(payload.features || []).map(photonPlace).filter(Boolean)]
+  return [...recentMatches, ...localMatches]
     .filter((place) => {
-      const key = `${place.label.toLowerCase()}|${place.latitude.toFixed(4)}|${place.longitude.toFixed(4)}`;
+      const key = normalizePlaceSearch(place.label).replace(/ united states$/, "");
       if (seen.has(key)) return false;
       seen.add(key);
       return true;
-    });
+    })
+    .slice(0, 7);
 }
 
 function renderBirthPlaceResults(places) {
@@ -1675,15 +1712,13 @@ function chooseBirthPlace(place) {
 async function performBirthPlaceSearch(query) {
   birthPlaceSearchController?.abort();
   birthPlaceSearchController = new AbortController();
-  setBirthPlaceMessage("Searching for matching places…", "searching");
+  setBirthPlaceMessage("Searching the private place index on this device…", "searching");
   try {
     const places = await searchPlaces(query, birthPlaceSearchController.signal);
     if (birthLocationInput?.value.trim() !== query) return;
     if (!places.length) {
       closeBirthPlaceResults();
-      setBirthPlaceMessage(navigator.onLine === false
-        ? "You are offline. Enter exact latitude, longitude or begin typing a recently confirmed place."
-        : "No matching place yet. Add a state, country, region, or ZIP code and try again.", "error");
+      setBirthPlaceMessage("No matching place yet. Add a state, country, region, or ZIP code, or enter exact latitude and longitude.", "error");
       return;
     }
     renderBirthPlaceResults(places);
@@ -1691,7 +1726,7 @@ async function performBirthPlaceSearch(query) {
   } catch (error) {
     if (error.name === "AbortError") return;
     closeBirthPlaceResults();
-    setBirthPlaceMessage("Place suggestions could not be reached. Enter exact latitude, longitude, use a recently confirmed place, or try again when connected.", "error");
+    setBirthPlaceMessage("The local place index could not be loaded. Enter exact latitude and longitude or use a recently confirmed place.", "error");
   }
 }
 
@@ -1777,15 +1812,13 @@ function renderMomentPlaceResults(places) {
 async function performMomentPlaceSearch(query) {
   momentPlaceSearchController?.abort();
   momentPlaceSearchController = new AbortController();
-  setMomentPlaceMessage("Searching for matching places…", "searching");
+  setMomentPlaceMessage("Searching the private place index on this device…", "searching");
   try {
     const places = await searchPlaces(query, momentPlaceSearchController.signal);
     if (momentLocationInput?.value.trim() !== query) return;
     if (!places.length) {
       closeMomentPlaceResults();
-      setMomentPlaceMessage(navigator.onLine === false
-        ? "You are offline. Enter exact latitude, longitude, use My Location, or begin typing a recently confirmed place."
-        : "No matching place yet. Add a state, country, region, or ZIP code and try again.", "error");
+      setMomentPlaceMessage("No matching place yet. Add a state, country, region, or ZIP code, use My Location, or enter exact latitude and longitude.", "error");
       return;
     }
     renderMomentPlaceResults(places);
@@ -1793,7 +1826,7 @@ async function performMomentPlaceSearch(query) {
   } catch (error) {
     if (error.name === "AbortError") return;
     closeMomentPlaceResults();
-    setMomentPlaceMessage("Place suggestions could not be reached. Enter exact latitude, longitude, use My Location, or try again when connected.", "error");
+    setMomentPlaceMessage("The local place index could not be loaded. Enter exact latitude and longitude or use My Location.", "error");
   }
 }
 

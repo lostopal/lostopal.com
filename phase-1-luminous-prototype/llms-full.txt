@@ -32,7 +32,7 @@ Nuncastra offers tropical and sidereal zodiac choices and visibly identifies the
 
 Nuncastra is a static, client-side web application. Astronomical calculation occurs in the visitor's browser. Lost Opal does not receive or store the entered date, time, coordinates, zodiac choice, or completed Nuncast.
 
-User-initiated place searches are sent to the location service named on the live method page so the visitor can confirm real coordinates. Device geolocation is invoked only after the visitor chooses that option. The application uses Swiss Ephemeris browser components and local timezone lookup data; full current credits and licenses are maintained at the method page.
+User-initiated place-name and ZIP-code searches run inside the visitor's browser against a bundled GeoNames and U.S. Census Gazetteer index. The typed search is not sent to a geocoding service. Device geolocation is invoked only after the visitor chooses that option. The application uses Swiss Ephemeris browser components and local timezone lookup data; full current credits and licenses are maintained at the method page.
 
 ## Public Routes
 
