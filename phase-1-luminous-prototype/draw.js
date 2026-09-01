@@ -205,6 +205,32 @@
     Neptune: "vision, compassion, imagination, surrender, and the dissolving of boundaries", Pluto: "underworld truth, irreversible transformation, grief, power, and renewal",
   };
 
+  const PLANET_MYTHOLOGY = {
+    Sun: ["Helios", "Apollo", "Ra"],
+    Moon: ["Selene", "Artemis", "Khonsu"],
+    Mercury: ["Hermes", "Thoth", "Nabu"],
+    Venus: ["Aphrodite", "Inanna", "Hathor"],
+    Mars: ["Ares", "Nergal", "Anhur"],
+    Jupiter: ["Zeus", "Marduk", "Amun"],
+    Saturn: ["Cronus", "Ninurta", "Geb"],
+    Uranus: ["Ouranos", "Caelus"],
+    Neptune: ["Poseidon", "Neptune", "Enki"],
+    Pluto: ["Hades", "Pluto", "Ereshkigal"],
+  };
+
+  const PLANET_STONES = {
+    Sun: ["Sunstone", "Ruby", "Citrine"],
+    Moon: ["Moonstone", "Selenite", "Labradorite"],
+    Mercury: ["Agate", "Fluorite", "Citrine"],
+    Venus: ["Rose Quartz", "Emerald", "Malachite"],
+    Mars: ["Carnelian", "Red Jasper", "Bloodstone"],
+    Jupiter: ["Amethyst", "Lapis Lazuli", "Turquoise"],
+    Saturn: ["Onyx", "Obsidian", "Smoky Quartz"],
+    Uranus: ["Labradorite", "Aquamarine", "Amazonite"],
+    Neptune: ["Aquamarine", "Amethyst", "Moonstone"],
+    Pluto: ["Obsidian", "Smoky Quartz", "Garnet"],
+  };
+
   const SIGN_MEANINGS = {
     Aries: "direct courage, ignition, sovereignty, and the right to begin", Taurus: "embodiment, value, continuity, and patient cultivation",
     Gemini: "choice, language, exchange, and the joining of perspectives", Cancer: "protection, belonging, memory, and emotionally guided movement",
@@ -468,15 +494,46 @@
     return /[.!?]$/.test(capitalized) ? capitalized : `${capitalized}.`;
   }
 
-  function tile(label, value, glyph, tooltip) {
-    const description = standaloneSentence(tooltip);
+  function tile(label, value, glyph, tooltip, options = {}) {
+    const description = options.verbatim ? String(tooltip || "").trim() : standaloneSentence(tooltip);
+    const accessibleDescription = description.replace(/\s*\n+\s*/g, ". ");
     const item = document.createElement("div");
     item.className = "draw-correspondence";
     item.tabIndex = 0;
     item.dataset.tooltip = description;
-    item.setAttribute("aria-label", `${label}: ${value}. ${description}`);
+    item.setAttribute("aria-label", `${label}: ${value}. ${accessibleDescription}`);
     item.innerHTML = `<span class="draw-correspondence__glyph" aria-hidden="true">${glyph}</span><span class="draw-correspondence__copy"><small>${label}</small><strong>${value}</strong></span>`;
     return item;
+  }
+
+  function celestialVoices(meta) {
+    if (meta.major) return (MAJOR_CORRESPONDENCES[meta.index].planet || "").split(" · ").filter(Boolean);
+    return meta.decan ? [meta.decan[1]] : [];
+  }
+
+  function celestialVoiceTiles(meta) {
+    const voices = celestialVoices(meta);
+    if (!voices.length) return [];
+
+    const mythology = [...new Set(voices.flatMap((voice) => PLANET_MYTHOLOGY[voice] || []))];
+    const stoneGroups = voices.map((voice) => PLANET_STONES[voice] || []).filter((stones) => stones.length);
+    const primaryStone = stoneGroups[0]?.[0];
+    const relatedStones = [...new Set([
+      ...stoneGroups.slice(1).map((stones) => stones[0]),
+      ...stoneGroups.flatMap((stones) => stones.slice(1)),
+    ])].filter((stone) => stone !== primaryStone).slice(0, 2);
+    const nodes = [];
+
+    if (mythology.length) {
+      nodes.push(tile("Myth", mythology[0], "📖", mythology.join(" · "), { verbatim: true }));
+    }
+    if (primaryStone) {
+      const stoneTooltip = relatedStones.length
+        ? `Primary\n${primaryStone}\n\nAlso Related\n${relatedStones.join(" · ")}`
+        : `Primary\n${primaryStone}`;
+      nodes.push(tile("Stones", primaryStone, "◆", stoneTooltip, { verbatim: true }));
+    }
+    return nodes;
   }
 
   function ordinalHouse(number) {
@@ -575,6 +632,7 @@
         }
       }
     }
+    nodes.push(...celestialVoiceTiles(meta));
     nodes.push(naturalHouseTile(meta));
     return nodes;
   }
@@ -595,7 +653,8 @@
     button.className = "draw-card";
     button.setAttribute("aria-label", `Open ${meta.name}${card.reversed ? ", reversed" : ""}, ${position.name}`);
     const pointLabel = currentSpread === "elm" || currentSpread === "celtic" ? `<small class="draw-card__point">${position.name}</small>` : "";
-    button.innerHTML = `<span class="draw-card__frame"><img src="${imagePath(card.index)}" alt="${meta.name}${card.reversed ? ", reversed" : ""}" width="180" height="300" loading="eager" decoding="sync" class="${card.reversed ? "is-reversed" : ""}"><span class="draw-card__number">${order + 1}</span></span><span class="draw-card__label">${pointLabel}<b>${meta.name}</b><small>${card.reversed ? "Reversed" : "Upright"}</small></span>`;
+    const reversedMarker = card.reversed ? `<span class="draw-card__reversed-marker" aria-hidden="true" title="Reversed">↻</span>` : "";
+    button.innerHTML = `<span class="draw-card__frame"><img src="${imagePath(card.index)}" alt="${meta.name}${card.reversed ? ", reversed" : ""}" width="180" height="300" loading="eager" decoding="sync" class="${card.reversed ? "is-reversed" : ""}"><span class="draw-card__number">${order + 1}</span></span><span class="draw-card__label">${pointLabel}<b>${meta.name}${reversedMarker}</b><small>${card.reversed ? "Reversed" : "Upright"}</small></span>`;
     button.addEventListener("click", () => openDialog(card, position));
     return button;
   }
@@ -681,7 +740,8 @@
       spreadArea.append(cardButton(card, position, index));
       const legendItem = document.createElement("li");
       const namedPoint = currentSpread === "elm" || currentSpread === "celtic" ? `${position.name}: ` : "";
-      legendItem.innerHTML = `<b>${index + 1}</b> ${namedPoint}${meta.name}`;
+      const legendReversedMarker = card.reversed ? ` <span class="draw-legend__reversed-marker" role="img" aria-label="Reversed" title="Reversed">↻</span>` : "";
+      legendItem.innerHTML = `<b>${index + 1}</b> ${namedPoint}${meta.name}${legendReversedMarker}`;
       cardLegend.append(legendItem);
       readingCards.append(readingArticle(card, position, index));
       if (!meta) return;

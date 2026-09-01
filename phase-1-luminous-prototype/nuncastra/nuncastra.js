@@ -189,6 +189,48 @@ const RULER_DATA = {
   },
 };
 
+const CELESTIAL_MYTHS = {
+  Sun: ["Helios", "Apollo", "Ra"],
+  Moon: ["Selene", "Artemis", "Khonsu"],
+  Mercury: ["Hermes", "Thoth", "Nabu"],
+  Venus: ["Aphrodite", "Inanna", "Hathor"],
+  Mars: ["Ares", "Nergal", "Anhur"],
+  Jupiter: ["Zeus", "Marduk", "Amun"],
+  Saturn: ["Cronus", "Ninurta", "Geb"],
+  Uranus: ["Ouranos", "Caelus"],
+  Neptune: ["Poseidon", "Neptune", "Enki"],
+  Pluto: ["Hades", "Pluto", "Ereshkigal"],
+  Chiron: ["Chiron"],
+  "North Node": ["Rahu"],
+  "South Node": ["Ketu"],
+  Lilith: ["Lilith"],
+  Ceres: ["Demeter"],
+  Pallas: ["Athena"],
+  Juno: ["Hera"],
+  Vesta: ["Hestia"],
+};
+
+const CELESTIAL_STONES = {
+  Sun: ["Sunstone", "Ruby", "Citrine"],
+  Moon: ["Moonstone", "Selenite", "Labradorite"],
+  Mercury: ["Agate", "Fluorite", "Citrine"],
+  Venus: ["Rose Quartz", "Emerald", "Malachite"],
+  Mars: ["Carnelian", "Red Jasper", "Bloodstone"],
+  Jupiter: ["Amethyst", "Lapis Lazuli", "Turquoise"],
+  Saturn: ["Onyx", "Obsidian", "Smoky Quartz"],
+  Uranus: ["Labradorite", "Aquamarine", "Amazonite"],
+  Neptune: ["Aquamarine", "Amethyst", "Moonstone"],
+  Pluto: ["Obsidian", "Smoky Quartz", "Garnet"],
+  Chiron: ["Rhodonite", "Malachite", "Turquoise"],
+  "North Node": ["Labradorite", "Moonstone", "Iolite"],
+  "South Node": ["Smoky Quartz", "Obsidian", "Labradorite"],
+  Lilith: ["Black Obsidian", "Labradorite", "Garnet"],
+  Ceres: ["Moss Agate", "Emerald", "Moonstone"],
+  Pallas: ["Lapis Lazuli", "Sodalite", "Fluorite"],
+  Juno: ["Garnet", "Rose Quartz", "Emerald"],
+  Vesta: ["Carnelian", "Fire Agate", "Garnet"],
+};
+
 const SIGN_DATA = [
   { name: "Aries", glyph: "♈", majorIndex: 4, ruler: "Mars", field: "direct courage, ignition, sovereignty, and the right to begin" },
   { name: "Taurus", glyph: "♉", majorIndex: 5, ruler: "Venus", field: "embodiment, value, continuity, and patient cultivation" },
@@ -896,6 +938,26 @@ function identityTileHtml({ id, glyph, name, kind, description, modifier = "" })
     </button>`;
 }
 
+function celestialAssociationTilesHtml(line, rowId) {
+  const myths = CELESTIAL_MYTHS[line.name] || [];
+  const stones = CELESTIAL_STONES[line.name] || [];
+  const mythTile = myths.length
+    ? `<button class="snapshot-identity-tile snapshot-identity-tile--association" type="button" data-identity-explainer data-info-title="Myth" aria-haspopup="dialog" aria-describedby="${escapeHtml(`${rowId}-myth-tip`)}" aria-label="Myth for ${escapeHtml(entityNameForProse(line.name, true))}. Show names.">
+        <b aria-hidden="true">📖</b>
+        <strong>Myth</strong>
+        <span class="snapshot-identity-tooltip" id="${escapeHtml(`${rowId}-myth-tip`)}" role="tooltip">${escapeHtml(myths.join(" · "))}</span>
+      </button>`
+    : "";
+  const stoneTile = stones.length
+    ? `<button class="snapshot-identity-tile snapshot-identity-tile--association" type="button" data-identity-explainer data-info-title="Stones" aria-haspopup="dialog" aria-describedby="${escapeHtml(`${rowId}-stones-tip`)}" aria-label="Stones for ${escapeHtml(entityNameForProse(line.name, true))}. Show common correspondences.">
+        <b aria-hidden="true">◆</b>
+        <strong>Stones</strong>
+        <span class="snapshot-identity-tooltip" id="${escapeHtml(`${rowId}-stones-tip`)}" role="tooltip"><span class="snapshot-association-sections"><span class="snapshot-association-section"><em>Primary</em><span>${escapeHtml(stones[0])}</span></span>${stones.length > 1 ? `<span class="snapshot-association-section"><em>Also Related</em><span>${escapeHtml(stones.slice(1).join(" · "))}</span></span>` : ""}</span></span>
+      </button>`
+    : "";
+  return `${mythTile}${stoneTile}`;
+}
+
 function contextHelpHtml({ id, label, description }) {
   return `<button class="snapshot-context-help" type="button" data-identity-explainer data-info-title="${escapeHtml(label.replace(/^Explain\s+/i, ""))}" aria-haspopup="dialog" aria-describedby="${escapeHtml(id)}" aria-label="${escapeHtml(label)}">?<span class="snapshot-identity-tooltip" id="${escapeHtml(id)}" role="tooltip">${escapeHtml(description)}</span></button>`;
 }
@@ -943,6 +1005,7 @@ function rowHtml(line) {
             <p>${escapeHtml(formatZodiacPosition(line.longitude))}</p>
             <div class="snapshot-reading__identity" aria-label="${escapeHtml(plainLine)}">
               ${identityTileHtml({ id: `${rowId}-entity-tip`, glyph: line.glyph, name: line.name, kind: "Celestial Voice", description: `${line.entityEssence}.` })}
+              ${celestialAssociationTilesHtml(line, rowId)}
               ${identityTileHtml({ id: `${rowId}-sign-tip`, glyph: line.sign.glyph, name: line.sign.name, kind: "Zodiacal Field", description: `${line.sign.name} shapes expression through ${line.sign.field}.` })}
               ${identityTileHtml({ id: `${rowId}-decan-tip`, glyph: decanNumber, name: "Decan", kind: "Decan Action", description: `${line.decan.cardName} ${line.decan.meaning}.`, modifier: "snapshot-identity-tile--decan" })}
               ${identityTileHtml({ id: `${rowId}-natural-house-tip`, glyph: line.naturalHouse.label, name: "Natural House", kind: "Natural House", description: `${line.sign.name} belongs to the ${line.naturalHouse.label} House on the Aries-first natural wheel. This is the sign’s native terrain of ${line.naturalHouse.short}.`, modifier: "snapshot-identity-tile--house snapshot-identity-tile--natural-house" })}
@@ -1052,6 +1115,8 @@ function searchRolesFor(line, group, normalizedQuery) {
   const sephirah = SEPHIROTH.find((item) => item.number === line.decan.number);
   const fields = [
     ["Celestial entity", [line.name, line.glyph, line.entityEssence]],
+    ["Myth", CELESTIAL_MYTHS[line.name] || []],
+    ["Stones", CELESTIAL_STONES[line.name] || []],
     ["Celestial key", line.entityCards.flatMap((card) => [card.name, HERMETIC_CARD_TITLES[card.index] || ""])],
     ["Zodiac sign", [line.sign.name, line.sign.glyph, line.sign.field]],
     ["Sign key", [MAJORS[line.sign.majorIndex], HERMETIC_CARD_TITLES[line.sign.majorIndex] || ""]],

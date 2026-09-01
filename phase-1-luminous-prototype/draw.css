@@ -242,6 +242,7 @@ body.draw-page::before {
 .draw-legend { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.55rem; margin: 0; padding: 0; list-style: none; }
 .draw-legend li { padding: 0.42rem 0.68rem; border: 1px solid rgba(233,185,87,0.2); border-radius: 999px; color: #d8cfca; background: rgba(0,0,0,0.28); font: 0.72rem/1.2 Arial, sans-serif; }
 .draw-legend b { color: var(--draw-gold); }
+.draw-legend__reversed-marker { display: inline-grid; place-items: center; width: 1.35em; height: 1.35em; margin-left: 0.18em; border: 1px solid rgba(243, 197, 109, 0.72); border-radius: 50%; color: #ffd77d; font: 900 0.86em/1 Arial, sans-serif; vertical-align: 0.02em; box-shadow: 0 0 9px rgba(243, 197, 109, 0.13); }
 
 .draw-spread {
   position: relative;
@@ -384,6 +385,7 @@ body.draw-page::before {
 .draw-card__number { position: absolute; top: -12px; left: -12px; display: grid; place-items: center; width: 37px; height: 37px; border: 1px solid #f3c56d; border-radius: 50%; color: #130d04; background: linear-gradient(145deg, #ffe29b, #d59431); font: 900 0.82rem/1 Arial, sans-serif; box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
 .draw-card__label { min-height: 2.6em; color: var(--draw-cream); font: 700 0.9rem/1.3 Arial, sans-serif; text-align: center; }
 .draw-card__label b { display: block; font: inherit; }
+.draw-card__reversed-marker { display: inline-grid; place-items: center; width: 1.35em; height: 1.35em; margin-left: 0.35em; border: 1px solid rgba(243, 197, 109, 0.72); border-radius: 50%; color: #ffd77d; font: 900 0.78em/1 Arial, sans-serif; vertical-align: 0.08em; box-shadow: 0 0 10px rgba(243, 197, 109, 0.14); }
 .draw-card__label small { display: block; margin-top: 0.25rem; color: var(--draw-gold); font-size: 0.67rem; letter-spacing: 0.08em; text-transform: uppercase; }
 .draw-card__label .draw-card__point { margin: 0 0 0.22rem; color: var(--draw-emerald-light); font-size: 0.65rem; }
 .draw-spread__hint { margin: 0; color: #aaa2a0 !important; font: 0.78rem/1.5 Arial, sans-serif; text-align: center; }
@@ -409,13 +411,24 @@ body.draw-page::before {
   padding: clamp(3rem, 6vw, 6.5rem) clamp(2rem, 6vw, 7rem);
   border-top: 1px solid rgba(233,185,87,0.25);
   background:
-    linear-gradient(110deg, rgba(6, 50, 42, 0.55), rgba(7, 9, 9, 0.96) 48%, rgba(67, 17, 35, 0.5)),
-    radial-gradient(circle at 15% 35%, rgba(92, 203, 177, 0.12), transparent 28rem);
+    radial-gradient(circle at var(--opal-orb-x, 16%) var(--opal-orb-y, 34%), var(--opal-glow-a, rgba(92, 203, 177, 0.14)), transparent 28rem),
+    radial-gradient(circle at var(--opal-orb-x-2, 86%) var(--opal-orb-y-2, 72%), var(--opal-glow-b, rgba(144, 45, 84, 0.11)), transparent 25rem),
+    linear-gradient(var(--opal-angle, 110deg), var(--opal-edge-a, rgba(6, 50, 42, 0.58)), rgba(7, 9, 9, 0.97) 48%, var(--opal-edge-b, rgba(67, 17, 35, 0.52)));
   animation: none !important;
   content-visibility: visible;
   contain: none;
 }
-.draw-reading-card:nth-child(even) { grid-template-columns: minmax(0, 1fr) minmax(180px, 230px); background: linear-gradient(110deg, rgba(60, 17, 34, 0.56), rgba(7, 9, 9, 0.96) 52%, rgba(5, 57, 47, 0.5)); }
+.draw-reading-card:nth-child(1) { --opal-orb-x: 12%; --opal-orb-y: 24%; --opal-glow-a: rgba(54, 203, 164, 0.16); --opal-glow-b: rgba(152, 43, 77, 0.12); --opal-edge-a: rgba(4, 61, 49, 0.6); --opal-edge-b: rgba(70, 15, 36, 0.54); }
+.draw-reading-card:nth-child(2) { --opal-angle: 104deg; --opal-orb-x: 82%; --opal-orb-y: 18%; --opal-orb-x-2: 18%; --opal-orb-y-2: 78%; --opal-glow-a: rgba(154, 52, 94, 0.14); --opal-glow-b: rgba(47, 193, 181, 0.12); --opal-edge-a: rgba(72, 16, 39, 0.58); --opal-edge-b: rgba(4, 55, 49, 0.54); }
+.draw-reading-card:nth-child(3) { --opal-angle: 116deg; --opal-orb-x: 28%; --opal-orb-y: 76%; --opal-glow-a: rgba(45, 127, 188, 0.15); --opal-glow-b: rgba(228, 174, 76, 0.1); --opal-edge-a: rgba(7, 35, 65, 0.62); --opal-edge-b: rgba(72, 44, 8, 0.48); }
+.draw-reading-card:nth-child(4) { --opal-angle: 100deg; --opal-orb-x: 76%; --opal-orb-y: 68%; --opal-orb-x-2: 12%; --opal-orb-y-2: 20%; --opal-glow-a: rgba(117, 56, 171, 0.14); --opal-glow-b: rgba(44, 193, 143, 0.11); --opal-edge-a: rgba(48, 19, 66, 0.58); --opal-edge-b: rgba(5, 61, 44, 0.5); }
+.draw-reading-card:nth-child(5) { --opal-angle: 121deg; --opal-orb-x: 45%; --opal-orb-y: 18%; --opal-glow-a: rgba(45, 107, 174, 0.15); --opal-glow-b: rgba(199, 109, 37, 0.1); --opal-edge-a: rgba(8, 34, 64, 0.6); --opal-edge-b: rgba(74, 34, 9, 0.48); }
+.draw-reading-card:nth-child(6) { --opal-angle: 108deg; --opal-orb-x: 16%; --opal-orb-y: 70%; --opal-orb-x-2: 84%; --opal-orb-y-2: 25%; --opal-glow-a: rgba(159, 42, 83, 0.15); --opal-glow-b: rgba(43, 178, 200, 0.12); --opal-edge-a: rgba(72, 14, 38, 0.59); --opal-edge-b: rgba(5, 47, 58, 0.52); }
+.draw-reading-card:nth-child(7) { --opal-angle: 114deg; --opal-orb-x: 74%; --opal-orb-y: 24%; --opal-glow-a: rgba(36, 184, 161, 0.14); --opal-glow-b: rgba(132, 50, 171, 0.11); --opal-edge-a: rgba(4, 58, 52, 0.58); --opal-edge-b: rgba(46, 17, 62, 0.52); }
+.draw-reading-card:nth-child(8) { --opal-angle: 102deg; --opal-orb-x: 24%; --opal-orb-y: 22%; --opal-orb-x-2: 80%; --opal-orb-y-2: 76%; --opal-glow-a: rgba(198, 128, 47, 0.12); --opal-glow-b: rgba(44, 178, 139, 0.12); --opal-edge-a: rgba(67, 39, 8, 0.53); --opal-edge-b: rgba(4, 57, 44, 0.52); }
+.draw-reading-card:nth-child(9) { --opal-angle: 119deg; --opal-orb-x: 58%; --opal-orb-y: 74%; --opal-glow-a: rgba(62, 82, 190, 0.15); --opal-glow-b: rgba(176, 49, 93, 0.11); --opal-edge-a: rgba(17, 26, 70, 0.58); --opal-edge-b: rgba(67, 13, 38, 0.52); }
+.draw-reading-card:nth-child(10) { --opal-angle: 106deg; --opal-orb-x: 86%; --opal-orb-y: 30%; --opal-orb-x-2: 20%; --opal-orb-y-2: 76%; --opal-glow-a: rgba(46, 200, 172, 0.15); --opal-glow-b: rgba(178, 58, 76, 0.12); --opal-edge-a: rgba(4, 56, 47, 0.59); --opal-edge-b: rgba(72, 15, 31, 0.53); }
+.draw-reading-card:nth-child(even) { grid-template-columns: minmax(0, 1fr) minmax(180px, 230px); }
 .draw-reading-card:nth-child(even) .draw-reading-card__art { grid-column: 2; grid-row: 1; }
 .draw-reading-card:nth-child(even) .draw-reading-card__copy { grid-column: 1; grid-row: 1; }
 .draw-reading-card__art { width: 100%; max-width: 210px; justify-self: center; }
@@ -464,6 +477,7 @@ body.draw-page::before {
   box-shadow: 0 14px 35px rgba(0,0,0,0.5);
   font: 0.73rem/1.45 Arial, sans-serif;
   text-align: left;
+  white-space: pre-line;
   opacity: 0;
   pointer-events: none;
   transform: translate(-50%, 5px);
