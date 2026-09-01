@@ -658,8 +658,13 @@ a {
 .nuncastra-hero__grid {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(330px, 0.75fr);
-  gap: clamp(45px, 8vw, 120px);
+  gap: clamp(38px, 6vw, 90px);
   align-items: center;
+}
+
+.nuncastra-hero__aside {
+  display: grid;
+  gap: 14px;
 }
 
 .nuncastra-title-lockup {
@@ -703,8 +708,7 @@ a {
 }
 
 .nuncastra-methods {
-  max-width: 680px;
-  margin-top: 28px;
+  min-width: 0;
 }
 
 .nuncastra-methods summary {
@@ -725,10 +729,9 @@ a {
 }
 
 .nuncastra-methods ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px 22px;
-  margin: 13px 0 0;
+  display: grid;
+  gap: 5px;
+  margin: 11px 0 0;
   padding: 0;
   color: #b9cbc5;
   font-size: 0.72rem;
@@ -761,32 +764,35 @@ a {
   line-height: 1.65;
 }
 
-.nuncastra-explore-note {
-  position: relative;
-  padding: 7px 0 5px;
+.nuncastra-guide {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: start;
+  gap: 18px;
+  padding: 18px 20px;
+  background:
+    radial-gradient(circle at 88% 12%, rgba(159, 120, 216, 0.1), transparent 42%),
+    linear-gradient(145deg, rgba(12, 28, 25, 0.84), rgba(18, 11, 19, 0.84));
+  border: 1px solid rgba(237, 195, 111, 0.28);
+  border-radius: 9px 27px 9px 27px;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.22);
 }
 
-.nuncastra-explore-note .nuncastra-shell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+.nuncastra-guide__explore {
+  margin: 0;
   color: #c7d9d3;
-  text-align: center;
+  font-size: 0.73rem;
+  line-height: 1.55;
 }
 
-.nuncastra-explore-note span {
+.nuncastra-guide__explore span {
+  margin-right: 5px;
   color: var(--gold);
   text-shadow: 0 0 14px rgba(72, 199, 212, 0.35);
 }
 
-.nuncastra-explore-note p {
-  margin: 0;
-  font-size: clamp(0.74rem, 1.2vw, 0.86rem);
-}
-
 .moment-chamber {
-  padding: clamp(24px, 3vw, 44px) 0 clamp(46px, 6vw, 82px);
+  padding: clamp(22px, 2.5vw, 34px) 0 clamp(24px, 3vw, 38px);
   background: transparent;
   border-bottom: 0;
 }
@@ -807,7 +813,7 @@ a {
 }
 
 .moment-panel {
-  padding: clamp(28px, 4vw, 48px);
+  padding: clamp(24px, 3vw, 36px);
   border-radius: 31px 8px 31px 8px;
 }
 
@@ -845,7 +851,7 @@ a {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 13px;
-  margin-top: 32px;
+  margin-top: 24px;
 }
 
 .nuncastra-form label,
@@ -1064,11 +1070,13 @@ a {
 }
 
 .nuncastra-form__status-line {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 3px 12px;
-  margin-top: 14px;
+  display: grid;
+  grid-template-columns: max-content minmax(160px, 1fr) max-content;
+  align-items: center;
+  gap: 4px 12px;
+  margin-top: 12px;
+  padding-top: 11px;
+  border-top: 1px solid rgba(237, 195, 111, 0.12);
 }
 
 .nuncastra-form__location-status {
@@ -1118,9 +1126,13 @@ a {
 }
 
 .system-explainer {
-  margin-top: 14px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(237, 195, 111, 0.12);
+  min-width: 0;
+  margin: 0;
+}
+
+.system-explainer[open] {
+  grid-column: 1 / -1;
+  margin: 5px 0 0;
 }
 
 .system-explainer summary,
@@ -1128,6 +1140,10 @@ a {
   color: var(--gold);
   font-size: 0.76rem;
   font-weight: 800;
+}
+
+.system-explainer summary {
+  white-space: nowrap;
 }
 
 .system-explainer p,
@@ -1201,7 +1217,7 @@ a {
 }
 
 .nuncastra-results {
-  padding: clamp(62px, 8vw, 110px) 0 100px;
+  padding: clamp(26px, 3vw, 42px) 0 72px;
 }
 
 .nuncastra-results__heading {
@@ -1209,7 +1225,7 @@ a {
   align-items: flex-end;
   justify-content: space-between;
   gap: 32px;
-  margin-bottom: 36px;
+  margin-bottom: 26px;
 }
 
 .nuncastra-results__heading > :first-child {
@@ -3772,6 +3788,7 @@ a {
     grid-template-columns: 1fr;
   }
 
+  .nuncastra-hero__aside,
   .nuncastra-name {
     max-width: 720px;
   }
@@ -4026,7 +4043,7 @@ a {
   }
 
   .nuncastra-hero {
-    padding: 42px 0 38px;
+    padding: 34px 0 26px;
   }
 
   .nuncastra-hero h1 {
@@ -4042,6 +4059,25 @@ a {
     padding: 18px;
   }
 
+  .nuncastra-guide {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 16px 18px;
+  }
+
+  .nuncastra-form__status-line {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .system-explainer[open] {
+    grid-column: 1;
+  }
+
+  .system-explainer summary {
+    white-space: normal;
+  }
+
   .nuncastra-hero__lead {
     margin-top: 20px;
     font-size: clamp(1.12rem, 5.5vw, 1.5rem);
@@ -4052,7 +4088,7 @@ a {
   }
 
   .moment-chamber {
-    padding: 32px 0;
+    padding: 22px 0 24px;
   }
 
   .moment-chamber__grid {
@@ -4238,7 +4274,7 @@ a {
   }
 
   .nuncastra-results {
-    padding: 42px 0 58px;
+    padding: 24px 0 52px;
   }
 
   .nuncastra-page .mobile-support-dock,
@@ -4532,6 +4568,25 @@ a {
   .tree-world-tooltip,
   .birth-dialog__help-popover {
     display: none !important;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nuncastra-viewport-tooltip {
+    position: absolute !important;
+    inset: auto;
+    z-index: 340 !important;
+    max-width: calc(100vw - 24px);
+    max-height: calc(100dvh - 24px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform: translateY(-5px) !important;
+  }
+
+  [data-viewport-tooltip-trigger]:hover > .nuncastra-viewport-tooltip,
+  [data-viewport-tooltip-trigger]:focus-visible > .nuncastra-viewport-tooltip,
+  [data-viewport-tooltip-trigger][aria-expanded="true"] > .nuncastra-viewport-tooltip {
+    transform: none !important;
   }
 }
 

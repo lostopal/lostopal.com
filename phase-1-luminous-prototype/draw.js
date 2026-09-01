@@ -3,6 +3,99 @@
 
   const CARD_BASE = "./assets/tarot/1909-rws-draw";
   const DRAW_STORAGE_KEY = "lost-opal-draw-spreads-v1";
+  const TOOLTIP_VIEWPORT_GUTTER = 12;
+
+  let tooltipSequence = 0;
+  let activeTooltipTrigger = null;
+  let tooltipPositionFrame = 0;
+
+  function tooltipElement(trigger) {
+    return trigger?.querySelector(":scope > .draw-floating-tooltip") || null;
+  }
+
+  function positionFloatingTooltip(trigger) {
+    const tooltip = tooltipElement(trigger);
+    if (!tooltip || trigger.getAttribute("aria-expanded") !== "true") return;
+
+    const visualViewport = window.visualViewport;
+    const viewportLeft = visualViewport?.offsetLeft || 0;
+    const viewportTop = visualViewport?.offsetTop || 0;
+    const viewportWidth = visualViewport?.width || window.innerWidth;
+    const viewportHeight = visualViewport?.height || window.innerHeight;
+    const triggerBounds = trigger.getBoundingClientRect();
+
+    tooltip.style.left = `${viewportLeft + TOOLTIP_VIEWPORT_GUTTER}px`;
+    tooltip.style.top = `${viewportTop + TOOLTIP_VIEWPORT_GUTTER}px`;
+
+    const tooltipBounds = tooltip.getBoundingClientRect();
+    const maximumLeft = viewportLeft + viewportWidth - tooltipBounds.width - TOOLTIP_VIEWPORT_GUTTER;
+    const centeredLeft = triggerBounds.left + ((triggerBounds.width - tooltipBounds.width) / 2);
+    const left = Math.max(
+      viewportLeft + TOOLTIP_VIEWPORT_GUTTER,
+      Math.min(centeredLeft, maximumLeft),
+    );
+
+    const gap = 10;
+    const above = triggerBounds.top - tooltipBounds.height - gap;
+    const below = triggerBounds.bottom + gap;
+    const maximumTop = viewportTop + viewportHeight - tooltipBounds.height - TOOLTIP_VIEWPORT_GUTTER;
+    const preferredTop = above >= viewportTop + TOOLTIP_VIEWPORT_GUTTER ? above : below;
+    const top = Math.max(
+      viewportTop + TOOLTIP_VIEWPORT_GUTTER,
+      Math.min(preferredTop, maximumTop),
+    );
+
+    tooltip.style.left = `${Math.round(left)}px`;
+    tooltip.style.top = `${Math.round(top)}px`;
+  }
+
+  function scheduleTooltipPosition(trigger = activeTooltipTrigger) {
+    if (!trigger) return;
+    cancelAnimationFrame(tooltipPositionFrame);
+    tooltipPositionFrame = requestAnimationFrame(() => {
+      tooltipPositionFrame = 0;
+      positionFloatingTooltip(trigger);
+    });
+  }
+
+  function closeFloatingTooltip(trigger = activeTooltipTrigger) {
+    if (!trigger) return;
+    trigger.setAttribute("aria-expanded", "false");
+    if (activeTooltipTrigger === trigger) activeTooltipTrigger = null;
+  }
+
+  function openFloatingTooltip(trigger) {
+    if (!trigger) return;
+    if (activeTooltipTrigger && activeTooltipTrigger !== trigger) closeFloatingTooltip(activeTooltipTrigger);
+    activeTooltipTrigger = trigger;
+    trigger.setAttribute("aria-expanded", "true");
+    scheduleTooltipPosition(trigger);
+  }
+
+  function prepareFloatingTooltip(trigger, tooltip) {
+    if (!trigger || !tooltip) return;
+    trigger.dataset.tooltipTrigger = "";
+    trigger.setAttribute("aria-expanded", "false");
+    tooltip.classList.add("draw-floating-tooltip");
+
+    trigger.addEventListener("pointerenter", (event) => {
+      if (event.pointerType === "mouse") openFloatingTooltip(trigger);
+    });
+    trigger.addEventListener("pointerleave", (event) => {
+      if (event.pointerType === "mouse" && document.activeElement !== trigger) closeFloatingTooltip(trigger);
+    });
+    trigger.addEventListener("focus", () => openFloatingTooltip(trigger));
+    trigger.addEventListener("blur", () => closeFloatingTooltip(trigger));
+    trigger.addEventListener("click", (event) => {
+      event.stopPropagation();
+      openFloatingTooltip(trigger);
+    });
+    trigger.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      closeFloatingTooltip(trigger);
+      trigger.blur();
+    });
+  }
 
   const MAJORS = [
     "The Fool", "The Magician", "The High Priestess", "The Empress", "The Emperor", "The Hierophant",
@@ -216,6 +309,14 @@
     Uranus: ["Ouranos", "Caelus"],
     Neptune: ["Poseidon", "Neptune", "Enki"],
     Pluto: ["Hades", "Pluto", "Ereshkigal"],
+  };
+
+  const MAJOR_MYTHOLOGY = {
+    5: ["Chiron"],
+  };
+
+  const SIGN_MYTHOLOGY = {
+    Taurus: ["Europa", "Zeus as the Bull"],
   };
 
   const PLANET_STONES = {
@@ -496,13 +597,21 @@
 
   function tile(label, value, glyph, tooltip, options = {}) {
     const description = options.verbatim ? String(tooltip || "").trim() : standaloneSentence(tooltip);
-    const accessibleDescription = description.replace(/\s*\n+\s*/g, ". ");
+    const accessibleDescription = description.replace(/\s*\n+\s*/g, " · ");
     const item = document.createElement("div");
     item.className = "draw-correspondence";
     item.tabIndex = 0;
-    item.dataset.tooltip = description;
+    item.setAttribute("role", "button");
     item.setAttribute("aria-label", `${label}: ${value}. ${accessibleDescription}`);
     item.innerHTML = `<span class="draw-correspondence__glyph" aria-hidden="true">${glyph}</span><span class="draw-correspondence__copy"><small>${label}</small><strong>${value}</strong></span>`;
+    const tooltipElement = document.createElement("span");
+    tooltipElement.className = "draw-correspondence__tooltip";
+    tooltipElement.id = `draw-correspondence-tooltip-${++tooltipSequence}`;
+    tooltipElement.setAttribute("role", "tooltip");
+    tooltipElement.textContent = description;
+    item.setAttribute("aria-describedby", tooltipElement.id);
+    item.append(tooltipElement);
+    prepareFloatingTooltip(item, tooltipElement);
     return item;
   }
 
@@ -515,7 +624,10 @@
     const voices = celestialVoices(meta);
     if (!voices.length) return [];
 
-    const mythology = [...new Set(voices.flatMap((voice) => PLANET_MYTHOLOGY[voice] || []))];
+    const correspondence = meta.major ? MAJOR_CORRESPONDENCES[meta.index] : null;
+    const mythology = meta.major
+      ? MAJOR_MYTHOLOGY[meta.index] || (correspondence?.sign ? [] : [...new Set(voices.flatMap((voice) => PLANET_MYTHOLOGY[voice] || []))])
+      : [...new Set(voices.flatMap((voice) => PLANET_MYTHOLOGY[voice] || []))];
     const stoneGroups = voices.map((voice) => PLANET_STONES[voice] || []).filter((stones) => stones.length);
     const primaryStone = stoneGroups[0]?.[0];
     const relatedStones = [...new Set([
@@ -604,10 +716,18 @@
       if (corr.element) nodes.push(tile("Element", corr.element, ELEMENTS[Object.keys(ELEMENTS).find((suit) => ELEMENTS[suit].name === corr.element)]?.glyph || "✦", `${corr.element} carries ${corr.element.toLowerCase()} through this key.`));
       if (corr.planet) {
         const firstPlanet = corr.planet.split(" · ")[0];
-        nodes.push(tile("Planet", corr.planet, GLYPHS[firstPlanet] || "✦", corr.planet.split(" · ").map((planet) => standaloneSentence(PLANET_MEANINGS[planet] || planet)).join(" ")));
+        const planetLabel = corr.sign ? "Sign Ruler" : "Planet";
+        const planetTooltip = corr.sign
+          ? `${corr.planet} traditionally rules ${corr.sign}. ${corr.planet.split(" · ").map((planet) => standaloneSentence(PLANET_MEANINGS[planet] || planet)).join(" ")}`
+          : corr.planet.split(" · ").map((planet) => standaloneSentence(PLANET_MEANINGS[planet] || planet)).join(" ");
+        nodes.push(tile(planetLabel, corr.planet, GLYPHS[firstPlanet] || "✦", planetTooltip));
       }
       if (corr.sign) {
-        nodes.push(tile("Zodiac", corr.sign, GLYPHS[corr.sign], SIGN_MEANINGS[corr.sign]));
+        const signMyths = SIGN_MYTHOLOGY[corr.sign] || [];
+        const signTooltip = signMyths.length
+          ? `${standaloneSentence(SIGN_MEANINGS[corr.sign])}\n\nMyth\n${signMyths.join(" · ")}`
+          : SIGN_MEANINGS[corr.sign];
+        nodes.push(tile("Zodiac", corr.sign, GLYPHS[corr.sign], signTooltip, { verbatim: signMyths.length > 0 }));
         nodes.push(tile("Decan", "1–3", GLYPHS[corr.sign], `${meta.name} carries all three decans of ${corr.sign}.`));
       } else {
         const planetName = corr.planet?.split(" · ")[0];
@@ -619,8 +739,12 @@
       nodes.push(tile("Element", element.name, element.glyph, element.meaning));
       if (meta.decan) {
         const [sign, planet, decan] = meta.decan;
+        const signMyths = SIGN_MYTHOLOGY[sign] || [];
+        const signTooltip = signMyths.length
+          ? `${standaloneSentence(SIGN_MEANINGS[sign])}\n\nMyth\n${signMyths.join(" · ")}`
+          : SIGN_MEANINGS[sign];
         nodes.push(tile("Planet", planet, GLYPHS[planet], PLANET_MEANINGS[planet]));
-        nodes.push(tile("Zodiac", sign, GLYPHS[sign], SIGN_MEANINGS[sign]));
+        nodes.push(tile("Zodiac", sign, GLYPHS[sign], signTooltip, { verbatim: signMyths.length > 0 }));
         nodes.push(tile("Decan", decan.replace(" Decan", ""), decan.replace(" Decan", ""), `${meta.name} is the fixed Golden Dawn card of the ${decan.toLowerCase()} of ${sign}; this ten-degree face is ruled by ${planet}.`));
       } else {
         nodes.push(tile("Court / Root", meta.rank, meta.rank === "Ace" ? "I" : "♙", `${meta.rank} expresses the ${meta.suit} current through its own stage of embodiment.`));
@@ -775,17 +899,9 @@
   });
 
   const cartomancyDefinition = document.querySelector("[data-cartomancy-definition]");
-  cartomancyDefinition?.addEventListener("click", (event) => {
-    event.stopPropagation();
-    cartomancyDefinition.setAttribute("aria-expanded", String(cartomancyDefinition.getAttribute("aria-expanded") !== "true"));
-  });
-  cartomancyDefinition?.addEventListener("keydown", (event) => {
-    if (event.key !== "Escape") return;
-    cartomancyDefinition.setAttribute("aria-expanded", "false");
-    cartomancyDefinition.blur();
-  });
+  prepareFloatingTooltip(cartomancyDefinition, cartomancyDefinition?.querySelector('[role="tooltip"]'));
   document.addEventListener("click", (event) => {
-    if (cartomancyDefinition && !cartomancyDefinition.contains(event.target)) cartomancyDefinition.setAttribute("aria-expanded", "false");
+    if (activeTooltipTrigger && !activeTooltipTrigger.contains(event.target)) closeFloatingTooltip();
   });
 
   document.querySelector("[data-reversals]")?.addEventListener("click", (event) => {
@@ -800,7 +916,10 @@
   document.querySelector("[data-dialog-close]")?.addEventListener("click", () => dialog.close());
   window.addEventListener("resize", () => {
     if (!spreadScrollFrame) spreadScrollFrame = requestAnimationFrame(updateSpreadCue);
+    scheduleTooltipPosition();
   }, { passive: true });
+  window.visualViewport?.addEventListener("resize", () => scheduleTooltipPosition(), { passive: true });
+  document.addEventListener("scroll", () => closeFloatingTooltip(), { passive: true, capture: true });
   dialog.addEventListener("click", (event) => {
     const bounds = dialog.getBoundingClientRect();
     const outside = event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom;

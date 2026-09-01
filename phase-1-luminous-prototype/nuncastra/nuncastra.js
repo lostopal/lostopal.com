@@ -26,6 +26,94 @@ const DECAN_DEGREES = 10;
 const INTRO_STORAGE_KEY = "nuncastra-intro-seen-v1";
 const DONATE_DISMISSED_STORAGE_KEY = "nuncastra-donate-dismissed-v1";
 const RECENT_PLACES_STORAGE_KEY = "nuncastra-recent-places-v1";
+const HOVER_TOOLTIP_TRIGGER_SELECTOR = "[data-identity-explainer], [data-motion-explainer], [data-tree-world-explainer]";
+const HOVER_TOOLTIP_SELECTOR = ".snapshot-section-tooltip, .snapshot-identity-tooltip, .snapshot-motion__tooltip, .tree-world-tooltip";
+const HOVER_TOOLTIP_GUTTER = 12;
+
+let activeHoverTooltipTrigger = null;
+let hoverTooltipPositionFrame = 0;
+
+function hoverTooltipFor(trigger) {
+  return trigger?.querySelector(`:scope > ${HOVER_TOOLTIP_SELECTOR}`) || null;
+}
+
+function positionHoverTooltip(trigger) {
+  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  const tooltip = hoverTooltipFor(trigger);
+  if (!tooltip) return;
+
+  trigger.dataset.viewportTooltipTrigger = "";
+  tooltip.classList.add("nuncastra-viewport-tooltip");
+
+  const visualViewport = window.visualViewport;
+  const viewportLeft = visualViewport?.offsetLeft || 0;
+  const viewportTop = visualViewport?.offsetTop || 0;
+  const viewportWidth = visualViewport?.width || window.innerWidth;
+  const viewportHeight = visualViewport?.height || window.innerHeight;
+  const triggerBounds = trigger.getBoundingClientRect();
+
+  tooltip.style.right = "auto";
+  tooltip.style.bottom = "auto";
+  tooltip.style.left = "0px";
+  tooltip.style.top = "0px";
+
+  const tooltipBounds = tooltip.getBoundingClientRect();
+  const maximumLeft = viewportLeft + viewportWidth - tooltipBounds.width - HOVER_TOOLTIP_GUTTER;
+  const centeredLeft = triggerBounds.left + ((triggerBounds.width - tooltipBounds.width) / 2);
+  const left = Math.max(
+    viewportLeft + HOVER_TOOLTIP_GUTTER,
+    Math.min(centeredLeft, maximumLeft),
+  );
+
+  const gap = 10;
+  const above = triggerBounds.top - tooltipBounds.height - gap;
+  const below = triggerBounds.bottom + gap;
+  const maximumTop = viewportTop + viewportHeight - tooltipBounds.height - HOVER_TOOLTIP_GUTTER;
+  const preferredTop = above >= viewportTop + HOVER_TOOLTIP_GUTTER ? above : below;
+  const top = Math.max(
+    viewportTop + HOVER_TOOLTIP_GUTTER,
+    Math.min(preferredTop, maximumTop),
+  );
+
+  tooltip.style.left = `${Math.round(left - triggerBounds.left)}px`;
+  tooltip.style.top = `${Math.round(top - triggerBounds.top)}px`;
+}
+
+function scheduleHoverTooltipPosition(trigger = activeHoverTooltipTrigger) {
+  if (!trigger) return;
+  cancelAnimationFrame(hoverTooltipPositionFrame);
+  hoverTooltipPositionFrame = requestAnimationFrame(() => {
+    hoverTooltipPositionFrame = 0;
+    positionHoverTooltip(trigger);
+  });
+}
+
+function activateHoverTooltip(trigger) {
+  if (!hoverTooltipFor(trigger)) return;
+  activeHoverTooltipTrigger = trigger;
+  scheduleHoverTooltipPosition(trigger);
+}
+
+document.addEventListener("pointerover", (event) => {
+  if (event.pointerType !== "mouse") return;
+  const trigger = event.target.closest(HOVER_TOOLTIP_TRIGGER_SELECTOR);
+  if (trigger) activateHoverTooltip(trigger);
+});
+document.addEventListener("pointerout", (event) => {
+  if (event.pointerType !== "mouse" || !activeHoverTooltipTrigger) return;
+  if (activeHoverTooltipTrigger.contains(event.relatedTarget)) return;
+  activeHoverTooltipTrigger = null;
+});
+document.addEventListener("focusin", (event) => {
+  const trigger = event.target.closest(HOVER_TOOLTIP_TRIGGER_SELECTOR);
+  if (trigger) activateHoverTooltip(trigger);
+});
+document.addEventListener("focusout", (event) => {
+  if (activeHoverTooltipTrigger?.contains(event.target)) activeHoverTooltipTrigger = null;
+});
+window.addEventListener("resize", () => scheduleHoverTooltipPosition(), { passive: true });
+window.visualViewport?.addEventListener("resize", () => scheduleHoverTooltipPosition(), { passive: true });
+document.addEventListener("scroll", () => scheduleHoverTooltipPosition(), { passive: true, capture: true });
 
 const ZODIAC_SYSTEMS = {
   tropical: { label: "Tropical · Default", siderealMode: null },
@@ -208,6 +296,10 @@ const CELESTIAL_MYTHS = {
   Pallas: ["Athena"],
   Juno: ["Hera"],
   Vesta: ["Hestia"],
+};
+
+const SIGN_MYTHS = {
+  Taurus: ["Europa", "Zeus as the Bull"],
 };
 
 const CELESTIAL_STONES = {
@@ -891,14 +983,14 @@ function signCardsHtml(line) {
   });
   const rulerCardName = MAJORS[line.ruler.majorIndex];
   const rulerCard = cardFigureHtml({
-    category: `Traditional Ruler · ${line.ruler.glyph} ${line.ruler.name}`,
+    category: `Ruler Card · ${line.ruler.glyph} ${line.ruler.name}`,
     name: rulerCardName,
     cardIndex: line.ruler.majorIndex,
     description: `${line.sign.name} is traditionally ruled by ${line.ruler.name}. For this reading, that planet is translated into its Tarot card, ${rulerCardName}; the card carries ${line.ruler.influence} into the way this zodiacal field conducts the line.`,
   });
   const cards = [
     { label: "Sign Key", html: signCard },
-    { label: "Ruler", html: rulerCard },
+    { label: "Ruler Card", html: rulerCard },
   ];
   return `
     <div class="snapshot-card-carousel snapshot-card-carousel--sign" data-card-carousel aria-label="${escapeHtml(line.sign.name)} sign key and traditional ruling planet card">
@@ -988,6 +1080,10 @@ function rowHtml(line) {
   const modernRulerNote = line.ruler.modern
     ? ` Modern astrology also associates ${line.sign.name} with ${line.ruler.modern.name}, adding a later lens of ${line.ruler.modern.influence}.`
     : "";
+  const signMyths = SIGN_MYTHS[line.sign.name] || [];
+  const signDescription = signMyths.length
+    ? `${line.sign.name} shapes expression through ${line.sign.field}. Myth: ${signMyths.join(" · ")}.`
+    : `${line.sign.name} shapes expression through ${line.sign.field}.`;
   return `
     <article class="snapshot-row" data-snapshot-row data-line-name="${escapeHtml(line.name)}">
       <div class="snapshot-card-column">
@@ -1012,7 +1108,7 @@ function rowHtml(line) {
             <div class="snapshot-reading__identity" aria-label="${escapeHtml(plainLine)}">
               ${identityTileHtml({ id: `${rowId}-entity-tip`, glyph: line.glyph, name: line.name, kind: "Celestial Voice", description: `${line.entityEssence}.` })}
               ${celestialAssociationTilesHtml(line, rowId)}
-              ${identityTileHtml({ id: `${rowId}-sign-tip`, glyph: line.sign.glyph, name: line.sign.name, kind: "Zodiacal Field", description: `${line.sign.name} shapes expression through ${line.sign.field}.` })}
+              ${identityTileHtml({ id: `${rowId}-sign-tip`, glyph: line.sign.glyph, name: line.sign.name, kind: "Zodiacal Field", description: signDescription })}
               ${identityTileHtml({ id: `${rowId}-decan-tip`, glyph: decanNumber, name: "Decan", kind: "Decan Action", description: `${line.decan.cardName} ${line.decan.meaning}.`, modifier: "snapshot-identity-tile--decan" })}
               ${identityTileHtml({ id: `${rowId}-natural-house-tip`, glyph: line.naturalHouse.label, name: "Natural House", kind: "Natural House", description: `${line.sign.name} belongs to the ${line.naturalHouse.label} House on the Aries-first natural wheel. This is the sign’s native terrain of ${line.naturalHouse.short}.`, modifier: "snapshot-identity-tile--house snapshot-identity-tile--natural-house" })}
               ${identityTileHtml({ id: `${rowId}-calculated-house-tip`, glyph: line.calculatedHouse.label, name: "Calculated House", kind: "Calculated House", description: `For this selected time and place, ${entityNameForProse(line.name)} falls in the ${line.calculatedHouse.label} House through ${line.calculatedHouse.short}.`, modifier: "snapshot-identity-tile--house snapshot-identity-tile--calculated-house" })}
@@ -1121,6 +1217,7 @@ function searchRolesFor(line, group, normalizedQuery) {
     ["Stones", CELESTIAL_STONES[line.name] || []],
     ["Celestial key", line.entityCards.flatMap((card) => [card.name, HERMETIC_CARD_TITLES[card.index] || ""])],
     ["Zodiac sign", [line.sign.name, line.sign.glyph, line.sign.field]],
+    ["Zodiac myth", SIGN_MYTHS[line.sign.name] || []],
     ["Sign key", [MAJORS[line.sign.majorIndex], HERMETIC_CARD_TITLES[line.sign.majorIndex] || ""]],
     ["Decan", [decanLabel(line.decanIndex), line.decan.cardName, line.decan.meaning, line.decan.suit]],
     ["Natural House", [line.naturalHouse.label, `${line.naturalHouse.label} House`, line.naturalHouse.title, line.naturalHouse.short, line.naturalHouse.meaning]],
@@ -1784,7 +1881,7 @@ async function initializeEngine() {
   })));
   state.engine = engine;
   state.engineReady = true;
-  setStatus("Astronomy engine ready. Your calculations stay in this browser.");
+  setStatus("Astronomy ready · Calculations stay in your browser.");
   return engine;
 }
 
@@ -2233,12 +2330,12 @@ function openCard(button) {
   }
   const category = button.dataset.cardCategory;
   const zodiacCategory = category.match(/^([♈♉♊♋♌♍♎♏♐♑♒♓])\s+(.+)$/u);
-  const rulerCategory = category.match(/^Traditional Ruler · ([☉☽☿♀♂♃♄])\s+(.+)$/u);
+  const rulerCategory = category.match(/^Ruler Card · ([☉☽☿♀♂♃♄])\s+(.+)$/u);
   const symbolCategory = zodiacCategory || rulerCategory;
   if (cardDialogCategorySymbol && cardDialogCategoryLabel) {
     cardDialogCategorySymbol.hidden = !symbolCategory;
     cardDialogCategorySymbol.textContent = symbolCategory ? `${symbolCategory[1]}\uFE0E` : "";
-    cardDialogCategoryLabel.textContent = zodiacCategory ? zodiacCategory[2] : rulerCategory ? `Traditional Ruler · ${rulerCategory[2]}` : category;
+    cardDialogCategoryLabel.textContent = zodiacCategory ? zodiacCategory[2] : rulerCategory ? `Ruler Card · ${rulerCategory[2]}` : category;
   } else if (cardDialogCategory) {
     cardDialogCategory.textContent = category;
   }
