@@ -32,6 +32,15 @@
   --display: "Lost Opal Display", Georgia, serif;
   --blackletter: "Nuncastra Blackletter", "UnifrakturCook", "Old English Text MT", Georgia, serif;
   --cursive: "Segoe Script", "Brush Script MT", "URW Chancery L", cursive;
+  --opal-button-a: rgba(5, 68, 55, 0.78);
+  --opal-button-b: rgba(82, 20, 48, 0.74);
+  --opal-button-flare: rgba(75, 220, 195, 0.24);
+  --opal-button-angle: 124deg;
+  --opal-button-position: center 50%;
+  --opal-button-surface:
+    radial-gradient(circle at 18% 12%, var(--opal-button-flare), transparent 48%),
+    linear-gradient(var(--opal-button-angle), var(--opal-button-a), rgba(3, 8, 10, 0.82) 49%, var(--opal-button-b)),
+    url("../assets/ui-materials/black-opal-button-material-v1-optimized.webp") var(--opal-button-position) / cover;
 }
 
 * {
@@ -351,10 +360,7 @@ a {
   color: #fff8e8;
   font-weight: 800;
   letter-spacing: 0.04em;
-  background:
-    linear-gradient(90deg, rgba(5, 7, 9, 0.12), rgba(5, 7, 9, 0.4), rgba(5, 7, 9, 0.12)),
-    url("../assets/ui-materials/black-opal-button-material-v1-optimized.webp") center / cover,
-    #0b0d10;
+  background: var(--opal-button-surface);
   border: 1px solid rgba(237, 195, 111, 0.64);
   border-radius: 999px;
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.11), 0 9px 24px rgba(0, 0, 0, 0.3), 0 0 19px rgba(60, 205, 192, 0.1);
@@ -371,6 +377,24 @@ a {
   filter: brightness(1.13) saturate(1.12);
   outline: none;
   transform: translateY(-1px);
+}
+
+.seeker-entry__invitation button:first-child,
+.print-controls button:first-of-type {
+  --opal-button-a: rgba(6, 86, 66, 0.82);
+  --opal-button-b: rgba(14, 43, 77, 0.78);
+  --opal-button-flare: rgba(82, 236, 202, 0.29);
+  --opal-button-angle: 132deg;
+  --opal-button-position: 18% 42%;
+}
+
+.seeker-entry__invitation button:last-child,
+.print-controls button:last-of-type {
+  --opal-button-a: rgba(91, 23, 48, 0.82);
+  --opal-button-b: rgba(80, 53, 11, 0.74);
+  --opal-button-flare: rgba(255, 193, 89, 0.23);
+  --opal-button-angle: 108deg;
+  --opal-button-position: 76% 58%;
 }
 
 .nuncastra-header {
@@ -990,12 +1014,26 @@ a {
   white-space: nowrap;
 }
 
-.nuncastra-form [data-use-location] {
-  grid-column: 1;
+.nuncastra-form__place-row {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(138px, auto) minmax(175px, 0.48fr);
+  gap: 13px;
+  align-items: end;
+}
+
+.nuncastra-form__place-row [data-use-location] {
+  width: auto;
+  min-width: 138px;
+  min-height: 49px;
+  padding-inline: 16px;
+  font-size: 0.72rem;
 }
 
 .nuncastra-form [data-calculate] {
-  grid-column: 2;
+  grid-column: 1 / -1;
+  justify-self: end;
+  width: min(100%, 330px);
 }
 
 .nuncastra-form__location {
@@ -1039,10 +1077,19 @@ a {
 }
 
 .nuncastra-button--quiet {
-  background:
-    linear-gradient(115deg, rgba(6, 63, 50, 0.78), rgba(38, 15, 29, 0.72)),
-    url("../assets/ui-materials/black-opal-button-material-v1-optimized.webp") center / cover,
-    #07150f;
+  --opal-button-a: rgba(5, 82, 62, 0.84);
+  --opal-button-b: rgba(44, 18, 48, 0.76);
+  --opal-button-flare: rgba(73, 225, 191, 0.27);
+  --opal-button-angle: 116deg;
+  --opal-button-position: 26% 66%;
+}
+
+.nuncastra-button--primary {
+  --opal-button-a: rgba(96, 55, 10, 0.8);
+  --opal-button-b: rgba(77, 17, 47, 0.84);
+  --opal-button-flare: rgba(255, 204, 94, 0.3);
+  --opal-button-angle: 138deg;
+  --opal-button-position: 67% 38%;
 }
 
 .nuncastra-form__note {
@@ -1240,7 +1287,7 @@ a {
   color: #e9ded4;
   font-family: var(--sans);
   font-weight: 800;
-  background: rgba(9, 28, 25, 0.88);
+  background: var(--opal-button-surface);
   border: 1px solid rgba(237, 195, 111, 0.31);
 }
 
@@ -1267,6 +1314,76 @@ a {
   padding: 7px 11px;
   border-radius: 999px;
   font-size: 0.68rem;
+}
+
+.snapshot-search-control button,
+.snapshot-quick-search button:nth-child(8n + 1),
+.snapshot-folder-tabs button:nth-child(5n + 1) {
+  --opal-button-a: rgba(4, 82, 64, 0.82);
+  --opal-button-b: rgba(14, 43, 75, 0.78);
+  --opal-button-flare: rgba(76, 229, 198, 0.27);
+  --opal-button-angle: 132deg;
+  --opal-button-position: 18% 42%;
+}
+
+.snapshot-quick-search button:nth-child(8n + 2),
+.snapshot-folder-tabs button:nth-child(5n + 2) {
+  --opal-button-a: rgba(91, 22, 48, 0.82);
+  --opal-button-b: rgba(83, 55, 10, 0.72);
+  --opal-button-flare: rgba(255, 191, 83, 0.22);
+  --opal-button-angle: 108deg;
+  --opal-button-position: 42% 57%;
+}
+
+.snapshot-quick-search button:nth-child(8n + 3),
+.snapshot-folder-tabs button:nth-child(5n + 3) {
+  --opal-button-a: rgba(37, 30, 88, 0.82);
+  --opal-button-b: rgba(5, 75, 69, 0.78);
+  --opal-button-flare: rgba(120, 162, 255, 0.23);
+  --opal-button-angle: 145deg;
+  --opal-button-position: 66% 36%;
+}
+
+.snapshot-quick-search button:nth-child(8n + 4),
+.snapshot-folder-tabs button:nth-child(5n + 4) {
+  --opal-button-a: rgba(69, 18, 73, 0.82);
+  --opal-button-b: rgba(8, 67, 52, 0.78);
+  --opal-button-flare: rgba(217, 105, 218, 0.19);
+  --opal-button-angle: 116deg;
+  --opal-button-position: 84% 62%;
+}
+
+.snapshot-quick-search button:nth-child(8n + 5),
+.snapshot-folder-tabs button:nth-child(5n + 5) {
+  --opal-button-a: rgba(12, 56, 83, 0.82);
+  --opal-button-b: rgba(80, 22, 62, 0.78);
+  --opal-button-flare: rgba(82, 205, 224, 0.24);
+  --opal-button-angle: 103deg;
+  --opal-button-position: 74% 50%;
+}
+
+.snapshot-quick-search button:nth-child(8n + 6) {
+  --opal-button-a: rgba(12, 71, 55, 0.84);
+  --opal-button-b: rgba(73, 47, 11, 0.74);
+  --opal-button-flare: rgba(84, 220, 184, 0.24);
+  --opal-button-angle: 126deg;
+  --opal-button-position: 30% 72%;
+}
+
+.snapshot-quick-search button:nth-child(8n + 7) {
+  --opal-button-a: rgba(82, 29, 18, 0.8);
+  --opal-button-b: rgba(43, 32, 89, 0.8);
+  --opal-button-flare: rgba(248, 148, 91, 0.2);
+  --opal-button-angle: 151deg;
+  --opal-button-position: 58% 32%;
+}
+
+.snapshot-quick-search button:nth-child(8n) {
+  --opal-button-a: rgba(58, 18, 68, 0.82);
+  --opal-button-b: rgba(8, 55, 71, 0.8);
+  --opal-button-flare: rgba(169, 117, 230, 0.23);
+  --opal-button-angle: 112deg;
+  --opal-button-position: 88% 68%;
 }
 
 .snapshot-quick-search button:hover,
@@ -1754,14 +1871,19 @@ a {
 }
 
 .snapshot-reading__title {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 18px;
+  display: block;
 }
 
-.snapshot-reading__title > div > p:first-child {
-  margin: 0 0 6px;
+.snapshot-reading__position {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.snapshot-reading__position > p {
+  margin: 0;
   color: var(--section-color, var(--gold));
   font-size: 0.78rem;
   font-weight: 900;
@@ -1771,24 +1893,24 @@ a {
 
 .snapshot-reading__identity {
   display: grid;
-  grid-template-columns: repeat(8, 76px);
+  grid-template-columns: repeat(8, 68px);
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .snapshot-identity-tile {
   position: relative;
   z-index: 7;
-  width: 76px;
-  height: 76px;
+  width: 68px;
+  height: 68px;
   display: grid;
   align-content: center;
   justify-items: center;
-  gap: 6px;
-  padding: 8px 5px;
+  gap: 5px;
+  padding: 7px 4px;
   color: var(--gold-pale);
   border: 1px solid rgba(237, 195, 111, 0.34);
-  border-radius: 18px;
+  border-radius: 16px;
   background: linear-gradient(145deg, rgba(8, 74, 59, 0.66), rgba(78, 19, 43, 0.42));
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.08), 0 0 18px rgba(62, 196, 182, 0.08);
   cursor: help;
@@ -1807,7 +1929,7 @@ a {
 }
 
 .snapshot-identity-tile b {
-  font: 500 1.9rem/0.95 var(--serif);
+  font: 500 1.65rem/0.95 var(--serif);
   text-shadow: 0 0 14px rgba(237, 195, 111, 0.18);
 }
 
@@ -1894,16 +2016,6 @@ a {
   color: var(--gold-pale);
   font-style: normal;
   font-weight: 850;
-}
-
-.snapshot-association-sections,
-.snapshot-association-section {
-  display: grid;
-  gap: 2px;
-}
-
-.snapshot-association-sections {
-  gap: 9px;
 }
 
 .snapshot-identity-tile:first-child .snapshot-identity-tooltip {
@@ -2073,14 +2185,31 @@ a {
 }
 
 .snapshot-reading__tabs button {
+  --opal-button-a: rgba(6, 54, 46, 0.7);
+  --opal-button-b: rgba(45, 18, 43, 0.68);
+  --opal-button-flare: rgba(67, 196, 181, 0.16);
   padding: 7px 11px;
   color: #ad9fa6;
   font-size: 0.64rem;
   font-weight: 850;
   letter-spacing: 0.06em;
-  background: transparent;
-  border: 1px solid transparent;
+  background: var(--opal-button-surface);
+  border: 1px solid rgba(237, 195, 111, 0.18);
   border-radius: 999px;
+}
+
+.snapshot-reading__tabs button:nth-child(2) {
+  --opal-button-a: rgba(66, 22, 55, 0.72);
+  --opal-button-b: rgba(31, 39, 73, 0.68);
+  --opal-button-flare: rgba(177, 102, 205, 0.17);
+  --opal-button-position: 55% 38%;
+}
+
+.snapshot-reading__tabs button:nth-child(3) {
+  --opal-button-a: rgba(70, 45, 10, 0.7);
+  --opal-button-b: rgba(7, 61, 54, 0.7);
+  --opal-button-flare: rgba(247, 184, 77, 0.16);
+  --opal-button-position: 76% 60%;
 }
 
 .snapshot-reading__tabs button[aria-selected="true"] {
@@ -3720,14 +3849,14 @@ a {
   }
 
   .nuncastra-form__temporal,
+  .nuncastra-form__place-row,
   .nuncastra-form__location,
   .nuncastra-form__zodiac {
     width: 100%;
   }
 
-  .nuncastra-form [data-use-location],
   .nuncastra-form [data-calculate] {
-    grid-column: auto;
+    grid-column: 1 / -1;
   }
 
   .snapshot-row {
@@ -3776,6 +3905,30 @@ a {
 @media (max-width: 840px) {
   .nuncastra-form {
     grid-template-columns: 1fr;
+  }
+
+  .nuncastra-form__place-row {
+    grid-template-columns: minmax(0, 1fr) minmax(132px, auto) minmax(160px, 0.46fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .nuncastra-form__place-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .nuncastra-form__location {
+    grid-column: 1 / -1;
+  }
+
+  .nuncastra-form__place-row [data-use-location] {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .nuncastra-form [data-calculate] {
+    justify-self: stretch;
+    width: 100%;
   }
 }
 
@@ -4128,7 +4281,7 @@ a {
   }
 
   .snapshot-reading__identity {
-    grid-template-columns: repeat(3, minmax(0, 76px));
+    grid-template-columns: repeat(3, minmax(0, 68px));
     justify-content: start;
   }
 
@@ -4362,12 +4515,8 @@ a {
     width: min(58vw, 220px);
   }
 
-  .snapshot-reading__title {
-    display: grid;
-  }
-
   .snapshot-motion {
-    justify-self: start;
+    justify-self: end;
   }
 
   .tree-stage {
@@ -4678,7 +4827,7 @@ a {
   .snapshot-identity-tile strong { color: #3b3028; font-size: 4.4pt; }
   .snapshot-identity-tooltip { display: none !important; }
   .snapshot-context-help { display: none; }
-  .snapshot-reading__title > div > p:first-child {
+  .snapshot-reading__position > p {
     margin-bottom: 2px;
     color: #6a3c48;
     font-size: 6pt;

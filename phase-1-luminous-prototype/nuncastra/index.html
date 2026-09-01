@@ -14,9 +14,9 @@
   <link rel="stylesheet" href="../black-opal-theme.css?v=20260804-hero-atmosphere-1">
   <link rel="stylesheet" href="../site-audit.css?v=20260804-mobile-footer-gap-1">
   <link rel="stylesheet" href="../site-future.css?v=20260813-uniform-public-shell-2">
-  <link rel="stylesheet" href="./nuncastra.css?v=20260831-myth-stones-release-22">
+  <link rel="stylesheet" href="./nuncastra.css?v=20260831-compact-tiles-25">
   <script src="../prototype.js?v=20260829-shared-runtime-1" defer></script>
-  <script type="module" src="./nuncastra.js?v=20260831-myth-stones-release-22"></script>
+  <script type="module" src="./nuncastra.js?v=20260831-compact-tiles-25"></script>
 </head>
 
 <body class="theme-black-opal site-future-page nuncastra-page" data-print-mode="ink" data-art-mode="color">
@@ -160,24 +160,26 @@
                 <input type="hidden" name="time">
               </div>
             </fieldset>
-            <div class="nuncastra-form__location" data-moment-location-field><label for="moment-location"><span>City, ZIP Code, or Latitude, Longitude</span></label>
-              <div class="nuncastra-form__place-picker">
-                <input id="moment-location" type="search" name="location" value="Chandler, Arizona 85225" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="moment-location-results" aria-describedby="moment-location-message" data-moment-location-input required>
-                <ul class="nuncastra-form__place-results" id="moment-location-results" role="listbox" data-moment-location-results hidden></ul>
+            <div class="nuncastra-form__place-row">
+              <div class="nuncastra-form__location" data-moment-location-field><label for="moment-location"><span>City, ZIP Code, or Latitude, Longitude</span></label>
+                <div class="nuncastra-form__place-picker">
+                  <input id="moment-location" type="search" name="location" value="Chandler, Arizona 85225" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="moment-location-results" aria-describedby="moment-location-message" data-moment-location-input required>
+                  <ul class="nuncastra-form__place-results" id="moment-location-results" role="listbox" data-moment-location-results hidden></ul>
+                </div>
+              </div>
+              <button class="nuncastra-button nuncastra-button--quiet" type="button" data-use-location>Use My Location</button>
+              <div class="nuncastra-form__zodiac nuncastra-form__field">
+                <div class="nuncastra-form__field-heading">
+                  <label for="moment-zodiac-system">Zodiac System</label>
+                  <button class="snapshot-context-help" type="button" data-info-explainer data-info-title="Zodiac system" aria-haspopup="dialog" aria-describedby="moment-zodiac-system-explanation" aria-label="Explain the zodiac system choices">?<span class="nuncastra-info-source" id="moment-zodiac-system-explanation">Zodiac system tells the calculator where the zodiac begins. Tropical follows the seasonal cycle, placing 0&deg; Aries at the March equinox. It is the default here; &ldquo;default&rdquo; is only the preselected setting, not a special Lost Opal version of Tropical. Sidereal uses a star-based reference and an ayanamsa. Lahiri and Fagan&ndash;Bradley use different offsets, so degrees and sometimes signs may change. Choosing a sidereal option changes the calculated sky positions; Nuncastra&rsquo;s Tarot translation remains a Western esoteric Lost Opal framework, not a complete Jyotish reading.</span></button>
+                </div>
+                <select id="moment-zodiac-system" name="zodiac" data-zodiac-system>
+                  <option value="tropical">Tropical &middot; Default</option>
+                  <option value="lahiri">Sidereal &middot; Lahiri</option>
+                  <option value="fagan">Sidereal &middot; Fagan&ndash;Bradley</option>
+                </select>
               </div>
             </div>
-            <div class="nuncastra-form__zodiac nuncastra-form__field">
-              <div class="nuncastra-form__field-heading">
-                <label for="moment-zodiac-system">Zodiac System</label>
-                <button class="snapshot-context-help" type="button" data-info-explainer data-info-title="Zodiac system" aria-haspopup="dialog" aria-describedby="moment-zodiac-system-explanation" aria-label="Explain the zodiac system choices">?<span class="nuncastra-info-source" id="moment-zodiac-system-explanation">Zodiac system tells the calculator where the zodiac begins. Tropical follows the seasonal cycle, placing 0&deg; Aries at the March equinox. It is the default here; &ldquo;default&rdquo; is only the preselected setting, not a special Lost Opal version of Tropical. Sidereal uses a star-based reference and an ayanamsa. Lahiri and Fagan&ndash;Bradley use different offsets, so degrees and sometimes signs may change. Choosing a sidereal option changes the calculated sky positions; Nuncastra&rsquo;s Tarot translation remains a Western esoteric Lost Opal framework, not a complete Jyotish reading.</span></button>
-              </div>
-              <select id="moment-zodiac-system" name="zodiac" data-zodiac-system>
-                <option value="tropical">Tropical &middot; Default</option>
-                <option value="lahiri">Sidereal &middot; Lahiri</option>
-                <option value="fagan">Sidereal &middot; Fagan&ndash;Bradley</option>
-              </select>
-            </div>
-            <button class="nuncastra-button nuncastra-button--quiet" type="button" data-use-location>Use My Location</button>
             <button class="nuncastra-button nuncastra-button--primary" type="submit" data-calculate>Cast This Moment</button>
           </form>
 

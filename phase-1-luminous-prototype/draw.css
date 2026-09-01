@@ -11,6 +11,15 @@
   --draw-oxblood: #651e35;
   --draw-radius: 34px;
   --draw-display: Georgia, "Times New Roman", serif;
+  --draw-opal-a: rgba(5, 72, 58, 0.76);
+  --draw-opal-b: rgba(83, 21, 48, 0.72);
+  --draw-opal-flare: rgba(83, 224, 197, 0.24);
+  --draw-opal-angle: 122deg;
+  --draw-opal-position: center 50%;
+  --draw-opal-button-surface:
+    radial-gradient(circle at 18% 12%, var(--draw-opal-flare), transparent 48%),
+    linear-gradient(var(--draw-opal-angle), var(--draw-opal-a), rgba(2, 7, 8, 0.82) 49%, var(--draw-opal-b)),
+    url("./assets/ui-materials/black-opal-button-material-v1-optimized.webp") var(--draw-opal-position) / cover;
 }
 
 html { scroll-behavior: auto; }
@@ -215,9 +224,7 @@ body.draw-page::before {
   border: 1px solid rgba(233, 185, 87, 0.48);
   border-radius: 999px;
   color: #fff6e6;
-  background:
-    linear-gradient(rgba(2, 7, 7, 0.68), rgba(2, 7, 7, 0.68)),
-    url("./assets/ui-materials/black-opal-button-material-v1-optimized.webp") center / cover;
+  background: var(--draw-opal-button-surface);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), 0 10px 28px rgba(0,0,0,0.28);
   cursor: pointer;
   transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
@@ -230,12 +237,69 @@ body.draw-page::before {
 .draw-controls__spreads button { text-align: left; border-radius: 20px; }
 .draw-controls__spreads button strong { display: block; font: 800 0.9rem/1.25 Arial, sans-serif; letter-spacing: 0.07em; text-transform: uppercase; }
 .draw-controls__spreads button small { display: block; margin-top: 0.4rem; color: #cbc2bd; font: 0.78rem/1.3 Arial, sans-serif; }
-.draw-controls__spreads button[aria-pressed="true"] { border-color: var(--draw-gold); background: linear-gradient(rgba(88, 38, 14, 0.33), rgba(4, 18, 15, 0.48)), url("./assets/ui-materials/black-opal-button-material-v1-optimized.webp") center / cover; box-shadow: inset 0 0 0 2px rgba(233,185,87,0.17), 0 0 24px rgba(233,185,87,0.12); }
+.draw-controls__spreads button[aria-pressed="true"] { border-color: var(--draw-gold); box-shadow: inset 0 0 0 2px rgba(233,185,87,0.17), 0 0 24px rgba(233,185,87,0.12); filter: brightness(1.13) saturate(1.14); }
 .draw-controls__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.75rem; margin-top: 1rem; }
 .draw-controls__actions button { min-width: 170px; font: 800 0.78rem/1 Arial, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
 .draw-controls__actions button span { margin-right: 0.4rem; color: var(--draw-gold); }
 .draw-control-button--primary { min-width: 210px !important; }
 .draw-status { min-height: 1.4em; margin: 1.1rem 0 0; color: var(--draw-emerald-light) !important; font: 0.85rem/1.5 Arial, sans-serif; }
+
+/* A restrained family of black-opal surfaces keeps the controls related without cloning one button seven times. */
+.draw-controls__spreads button:nth-child(1) {
+  --draw-opal-a: rgba(4, 91, 70, 0.82);
+  --draw-opal-b: rgba(15, 47, 73, 0.76);
+  --draw-opal-flare: rgba(85, 238, 205, 0.3);
+  --draw-opal-angle: 132deg;
+  --draw-opal-position: 18% 42%;
+}
+
+.draw-controls__spreads button:nth-child(2) {
+  --draw-opal-a: rgba(91, 24, 48, 0.82);
+  --draw-opal-b: rgba(88, 58, 11, 0.7);
+  --draw-opal-flare: rgba(255, 191, 83, 0.23);
+  --draw-opal-angle: 108deg;
+  --draw-opal-position: 44% 56%;
+}
+
+.draw-controls__spreads button:nth-child(3) {
+  --draw-opal-a: rgba(38, 31, 91, 0.82);
+  --draw-opal-b: rgba(5, 76, 70, 0.76);
+  --draw-opal-flare: rgba(122, 163, 255, 0.24);
+  --draw-opal-angle: 145deg;
+  --draw-opal-position: 68% 36%;
+}
+
+.draw-controls__spreads button:nth-child(4) {
+  --draw-opal-a: rgba(67, 18, 72, 0.82);
+  --draw-opal-b: rgba(8, 68, 52, 0.78);
+  --draw-opal-flare: rgba(219, 105, 218, 0.2);
+  --draw-opal-angle: 116deg;
+  --draw-opal-position: 86% 62%;
+}
+
+.draw-controls__actions button:nth-child(1) {
+  --draw-opal-a: rgba(11, 72, 57, 0.84);
+  --draw-opal-b: rgba(72, 47, 12, 0.74);
+  --draw-opal-flare: rgba(86, 223, 187, 0.25);
+  --draw-opal-position: 28% 70%;
+}
+
+.draw-controls__actions button:nth-child(2) {
+  --draw-opal-a: rgba(101, 52, 9, 0.78);
+  --draw-opal-b: rgba(74, 17, 47, 0.82);
+  --draw-opal-flare: rgba(255, 203, 92, 0.3);
+  --draw-opal-angle: 138deg;
+  --draw-opal-position: 55% 38%;
+}
+
+.draw-controls__actions button:nth-child(3),
+.draw-boundary a {
+  --draw-opal-a: rgba(15, 47, 84, 0.82);
+  --draw-opal-b: rgba(82, 22, 64, 0.78);
+  --draw-opal-flare: rgba(87, 207, 224, 0.25);
+  --draw-opal-angle: 104deg;
+  --draw-opal-position: 78% 52%;
+}
 
 .draw-spread-section { background: linear-gradient(115deg, rgba(18, 13, 9, 0.95), rgba(4, 17, 15, 0.96) 55%, rgba(25, 10, 17, 0.92)); }
 .draw-section-heading { align-items: center; }
@@ -411,24 +475,13 @@ body.draw-page::before {
   padding: clamp(3rem, 6vw, 6.5rem) clamp(2rem, 6vw, 7rem);
   border-top: 1px solid rgba(233,185,87,0.25);
   background:
-    radial-gradient(circle at var(--opal-orb-x, 16%) var(--opal-orb-y, 34%), var(--opal-glow-a, rgba(92, 203, 177, 0.14)), transparent 28rem),
-    radial-gradient(circle at var(--opal-orb-x-2, 86%) var(--opal-orb-y-2, 72%), var(--opal-glow-b, rgba(144, 45, 84, 0.11)), transparent 25rem),
-    linear-gradient(var(--opal-angle, 110deg), var(--opal-edge-a, rgba(6, 50, 42, 0.58)), rgba(7, 9, 9, 0.97) 48%, var(--opal-edge-b, rgba(67, 17, 35, 0.52)));
+    linear-gradient(110deg, rgba(6, 50, 42, 0.55), rgba(7, 9, 9, 0.96) 48%, rgba(67, 17, 35, 0.5)),
+    radial-gradient(circle at 15% 35%, rgba(92, 203, 177, 0.12), transparent 28rem);
   animation: none !important;
   content-visibility: visible;
   contain: none;
 }
-.draw-reading-card:nth-child(1) { --opal-orb-x: 12%; --opal-orb-y: 24%; --opal-glow-a: rgba(54, 203, 164, 0.16); --opal-glow-b: rgba(152, 43, 77, 0.12); --opal-edge-a: rgba(4, 61, 49, 0.6); --opal-edge-b: rgba(70, 15, 36, 0.54); }
-.draw-reading-card:nth-child(2) { --opal-angle: 104deg; --opal-orb-x: 82%; --opal-orb-y: 18%; --opal-orb-x-2: 18%; --opal-orb-y-2: 78%; --opal-glow-a: rgba(154, 52, 94, 0.14); --opal-glow-b: rgba(47, 193, 181, 0.12); --opal-edge-a: rgba(72, 16, 39, 0.58); --opal-edge-b: rgba(4, 55, 49, 0.54); }
-.draw-reading-card:nth-child(3) { --opal-angle: 116deg; --opal-orb-x: 28%; --opal-orb-y: 76%; --opal-glow-a: rgba(45, 127, 188, 0.15); --opal-glow-b: rgba(228, 174, 76, 0.1); --opal-edge-a: rgba(7, 35, 65, 0.62); --opal-edge-b: rgba(72, 44, 8, 0.48); }
-.draw-reading-card:nth-child(4) { --opal-angle: 100deg; --opal-orb-x: 76%; --opal-orb-y: 68%; --opal-orb-x-2: 12%; --opal-orb-y-2: 20%; --opal-glow-a: rgba(117, 56, 171, 0.14); --opal-glow-b: rgba(44, 193, 143, 0.11); --opal-edge-a: rgba(48, 19, 66, 0.58); --opal-edge-b: rgba(5, 61, 44, 0.5); }
-.draw-reading-card:nth-child(5) { --opal-angle: 121deg; --opal-orb-x: 45%; --opal-orb-y: 18%; --opal-glow-a: rgba(45, 107, 174, 0.15); --opal-glow-b: rgba(199, 109, 37, 0.1); --opal-edge-a: rgba(8, 34, 64, 0.6); --opal-edge-b: rgba(74, 34, 9, 0.48); }
-.draw-reading-card:nth-child(6) { --opal-angle: 108deg; --opal-orb-x: 16%; --opal-orb-y: 70%; --opal-orb-x-2: 84%; --opal-orb-y-2: 25%; --opal-glow-a: rgba(159, 42, 83, 0.15); --opal-glow-b: rgba(43, 178, 200, 0.12); --opal-edge-a: rgba(72, 14, 38, 0.59); --opal-edge-b: rgba(5, 47, 58, 0.52); }
-.draw-reading-card:nth-child(7) { --opal-angle: 114deg; --opal-orb-x: 74%; --opal-orb-y: 24%; --opal-glow-a: rgba(36, 184, 161, 0.14); --opal-glow-b: rgba(132, 50, 171, 0.11); --opal-edge-a: rgba(4, 58, 52, 0.58); --opal-edge-b: rgba(46, 17, 62, 0.52); }
-.draw-reading-card:nth-child(8) { --opal-angle: 102deg; --opal-orb-x: 24%; --opal-orb-y: 22%; --opal-orb-x-2: 80%; --opal-orb-y-2: 76%; --opal-glow-a: rgba(198, 128, 47, 0.12); --opal-glow-b: rgba(44, 178, 139, 0.12); --opal-edge-a: rgba(67, 39, 8, 0.53); --opal-edge-b: rgba(4, 57, 44, 0.52); }
-.draw-reading-card:nth-child(9) { --opal-angle: 119deg; --opal-orb-x: 58%; --opal-orb-y: 74%; --opal-glow-a: rgba(62, 82, 190, 0.15); --opal-glow-b: rgba(176, 49, 93, 0.11); --opal-edge-a: rgba(17, 26, 70, 0.58); --opal-edge-b: rgba(67, 13, 38, 0.52); }
-.draw-reading-card:nth-child(10) { --opal-angle: 106deg; --opal-orb-x: 86%; --opal-orb-y: 30%; --opal-orb-x-2: 20%; --opal-orb-y-2: 76%; --opal-glow-a: rgba(46, 200, 172, 0.15); --opal-glow-b: rgba(178, 58, 76, 0.12); --opal-edge-a: rgba(4, 56, 47, 0.59); --opal-edge-b: rgba(72, 15, 31, 0.53); }
-.draw-reading-card:nth-child(even) { grid-template-columns: minmax(0, 1fr) minmax(180px, 230px); }
+.draw-reading-card:nth-child(even) { grid-template-columns: minmax(0, 1fr) minmax(180px, 230px); background: linear-gradient(110deg, rgba(60, 17, 34, 0.56), rgba(7, 9, 9, 0.96) 52%, rgba(5, 57, 47, 0.5)); }
 .draw-reading-card:nth-child(even) .draw-reading-card__art { grid-column: 2; grid-row: 1; }
 .draw-reading-card:nth-child(even) .draw-reading-card__copy { grid-column: 1; grid-row: 1; }
 .draw-reading-card__art { width: 100%; max-width: 210px; justify-self: center; }

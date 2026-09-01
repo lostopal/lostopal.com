@@ -952,7 +952,7 @@ function celestialAssociationTilesHtml(line, rowId) {
     ? `<button class="snapshot-identity-tile snapshot-identity-tile--association" type="button" data-identity-explainer data-info-title="Stones" aria-haspopup="dialog" aria-describedby="${escapeHtml(`${rowId}-stones-tip`)}" aria-label="Stones for ${escapeHtml(entityNameForProse(line.name, true))}. Show common correspondences.">
         <b aria-hidden="true">◆</b>
         <strong>Stones</strong>
-        <span class="snapshot-identity-tooltip" id="${escapeHtml(`${rowId}-stones-tip`)}" role="tooltip"><span class="snapshot-association-sections"><span class="snapshot-association-section"><em>Primary</em><span>${escapeHtml(stones[0])}</span></span>${stones.length > 1 ? `<span class="snapshot-association-section"><em>Also Related</em><span>${escapeHtml(stones.slice(1).join(" · "))}</span></span>` : ""}</span></span>
+        <span class="snapshot-identity-tooltip" id="${escapeHtml(`${rowId}-stones-tip`)}" role="tooltip">${escapeHtml(stones.join(" · "))}</span>
       </button>`
     : "";
   return `${mythTile}${stoneTile}`;
@@ -1002,7 +1002,13 @@ function rowHtml(line) {
         <p class="snapshot-search-match" data-search-match hidden></p>
         <div class="snapshot-reading__title">
           <div>
-            <p>${escapeHtml(formatZodiacPosition(line.longitude))}</p>
+            <div class="snapshot-reading__position">
+              <p>${escapeHtml(formatZodiacPosition(line.longitude))}</p>
+              <button class="snapshot-motion ${line.motion.className}" type="button" data-motion-explainer data-info-title="${escapeHtml(`${line.motion.label} motion`)}" aria-haspopup="dialog" aria-describedby="${rowId}-motion-explanation">
+                ${escapeHtml(line.motion.label)}
+                <span class="snapshot-motion__tooltip" id="${rowId}-motion-explanation" role="tooltip">${escapeHtml(line.motion.explanation)}</span>
+              </button>
+            </div>
             <div class="snapshot-reading__identity" aria-label="${escapeHtml(plainLine)}">
               ${identityTileHtml({ id: `${rowId}-entity-tip`, glyph: line.glyph, name: line.name, kind: "Celestial Voice", description: `${line.entityEssence}.` })}
               ${celestialAssociationTilesHtml(line, rowId)}
@@ -1015,10 +1021,6 @@ function rowHtml(line) {
             <p class="snapshot-identity-hint">Tap a tile to learn more.</p>
             <p class="snapshot-reading__plain-line">${escapeHtml(plainLine)}</p>
           </div>
-          <button class="snapshot-motion ${line.motion.className}" type="button" data-motion-explainer data-info-title="${escapeHtml(`${line.motion.label} motion`)}" aria-haspopup="dialog" aria-describedby="${rowId}-motion-explanation">
-            ${escapeHtml(line.motion.label)}
-            <span class="snapshot-motion__tooltip" id="${rowId}-motion-explanation" role="tooltip">${escapeHtml(line.motion.explanation)}</span>
-          </button>
         </div>
         <div class="snapshot-reading__context">
           <p><strong>Natural House &middot; ${escapeHtml(line.naturalHouse.label)} &middot; ${escapeHtml(line.naturalHouse.title)}:</strong> ${contextHelpHtml({ id: `${rowId}-natural-house-context-tip`, label: "Explain Natural and Calculated Houses", description: houseRelationship })} ${escapeHtml(line.naturalHouse.meaning)}</p>
