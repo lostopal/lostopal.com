@@ -1203,9 +1203,8 @@ function printHeaderHtml(meta, pageNumber, totalPages) {
     </header>`;
 }
 
-function sectionHeadingHtml(group, pageIndex) {
-  const definitionId = `snapshot-group-definition-${pageIndex}`;
-  return `<header class="snapshot-section-heading"><h3><button class="snapshot-section-term" type="button" data-identity-explainer data-info-explainer data-info-title="${escapeHtml(group.title)}" data-info-description="${escapeHtml(group.definition)}" aria-haspopup="dialog" aria-describedby="${definitionId}"><span>${escapeHtml(group.title)}</span><span class="snapshot-section-help" aria-hidden="true">?</span><span class="snapshot-section-tooltip" id="${definitionId}" role="tooltip">${escapeHtml(group.definition)}</span></button></h3></header>`;
+function sectionHeadingHtml(group) {
+  return `<header class="snapshot-section-heading"><h3><button class="snapshot-section-term" type="button" data-info-explainer data-info-title="${escapeHtml(group.title)}" data-info-description="${escapeHtml(group.definition)}" aria-haspopup="dialog" aria-label="${escapeHtml(`${group.title}. Show explanation.`)}"><span>${escapeHtml(group.title)}</span><span class="snapshot-section-help" aria-hidden="true">?</span></button></h3></header>`;
 }
 
 function normalizeSearchText(value) {
@@ -1310,7 +1309,7 @@ function renderSnapshot(lines, meta) {
   const pageCount = RESULT_GROUPS.length;
   const output = RESULT_GROUPS.map((group, pageIndex) => {
     const groupLines = group.names.map((name) => lineMap.get(name)).filter(Boolean);
-    const sectionHeading = sectionHeadingHtml(group, pageIndex);
+    const sectionHeading = sectionHeadingHtml(group);
     const sizeClass = groupLines.length >= 4 ? " snapshot-print-page--four" : "";
     return `<section class="snapshot-print-page${sizeClass}" id="snapshot-group-${pageIndex}" role="tabpanel" aria-labelledby="snapshot-group-tab-${pageIndex}" data-snapshot-group-panel="${pageIndex}">${printHeaderHtml(meta, pageIndex + 1, pageCount)}${sectionHeading}${groupLines.map(rowHtml).join("")}</section>`;
   });
