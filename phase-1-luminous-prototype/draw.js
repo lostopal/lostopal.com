@@ -285,6 +285,76 @@
     Pentacles: { name: "Earth", glyph: "🜃", meaning: "body, material life, resources, craft, and embodiment" },
   };
 
+  const BOOK_ICON_HTML = `<svg class="tile-book-icon" viewBox="0 0 32 24" focusable="false" aria-hidden="true"><path d="M2.5 3.5c5.2-1.2 9.4-.3 13.5 2.6v15c-4.1-2.9-8.3-3.8-13.5-2.6zM29.5 3.5c-5.2-1.2-9.4-.3-13.5 2.6v15c4.1-2.9 8.3-3.8 13.5-2.6zM16 6.1v15"/></svg>`;
+  const TREE_ICON_HTML = `<svg class="tile-tree-icon" viewBox="0 0 32 32" focusable="false" aria-hidden="true"><path d="M16 4v7M9 11h14M9 11v7M23 11v7M9 18h14M16 11v13M9 18l7 6 7-6"/><circle cx="16" cy="4" r="2.6"/><circle cx="9" cy="11" r="2.6"/><circle cx="23" cy="11" r="2.6"/><circle cx="9" cy="18" r="2.6"/><circle cx="23" cy="18" r="2.6"/><circle cx="16" cy="24" r="2.6"/><circle cx="16" cy="29" r="2.6"/></svg>`;
+
+  const NUMBER_MEANINGS = {
+    0: ["Potential", "The open field before a fixed beginning: possibility, trust, and a step into experience without a completed map."],
+    1: ["Initiation", "A singular impulse asks to become conscious direction, self-definition, and a genuine beginning."],
+    2: ["Polarity", "Two forces seek relationship, reflection, receptivity, and an honest way to coexist without erasing difference."],
+    3: ["Expression", "The current wants to create, communicate, multiply, and give an inner pattern a visible or relational form."],
+    4: ["Foundation", "Energy seeks order, boundary, reliability, and a structure strong enough to hold what is becoming real."],
+    5: ["Change", "Friction breaks stagnation and asks for movement, experimentation, freedom, and a more adaptive center."],
+    6: ["Integration", "The current returns to choice, responsibility, harmony, relationship, and the work of bringing parts into accord."],
+    7: ["Discernment", "Experience turns inward for testing, contemplation, strategy, and knowledge that cannot be borrowed from the crowd."],
+    8: ["Power", "The current concerns embodiment, consequence, reciprocity, endurance, and the ethical handling of material force."],
+    9: ["Completion", "The current gathers wisdom, compassion, culmination, and the release required before another cycle can begin."],
+    10: ["Renewal", "Completion turns into a new cycle: experience asks to be carried forward without repeating the former pattern unconsciously."],
+    11: ["Illumination", "A master-number tension heightens intuition and asks inspiration to pass through a balanced, conscious channel."],
+    12: ["Creative Service", "Individual will and relationship combine into expression that serves a purpose larger than either force alone."],
+    13: ["Transformation", "A former structure must be changed through disciplined work so its essential value can enter a more enduring form."],
+    14: ["Measured Freedom", "Movement and experimentation ask for restraint, rhythm, and enough structure to keep freedom from becoming dispersion."],
+    15: ["Magnetic Responsibility", "Desire, relationship, and material attraction ask to be handled consciously rather than allowed to choose by compulsion."],
+    16: ["Reorientation", "A false or outgrown structure breaks open so inner truth, humility, and a more accurate foundation can emerge."],
+    17: ["Guiding Faith", "Independent purpose is refined through contemplation, hope, and the testing that turns private insight into trustworthy direction."],
+    18: ["Compassionate Power", "Material force meets collective feeling; influence must be handled without confusing projection, sacrifice, and genuine care."],
+    19: ["Self-Sovereignty", "A completed cycle returns to the individual, asking confidence, visibility, and leadership to remain answerable to the whole."],
+    20: ["Awakening Partnership", "Sensitivity and relationship become a call to conscious participation, shared responsibility, and renewed choice."],
+    21: ["Creative Fulfillment", "Expression reaches completion and asks its wisdom to be shared before the next beginning takes form."],
+  };
+
+  const TREE_SPHERES = [
+    null,
+    { number: 1, name: "Kether", title: "Crown", current: "the first concentration of limitless possibility into being" },
+    { number: 2, name: "Chokmah", title: "Wisdom", current: "unbounded force, impulse, and the first outpouring of creative energy" },
+    { number: 3, name: "Binah", title: "Understanding", current: "form, boundary, comprehension, and the great receiving intelligence" },
+    { number: 4, name: "Chesed", title: "Mercy", current: "expansion, generosity, order, and benevolent authority" },
+    { number: 5, name: "Geburah", title: "Severity", current: "strength, correction, consequence, and the courage to cut" },
+    { number: 6, name: "Tiphareth", title: "Beauty", current: "integration, sacrifice, identity, and the harmonizing solar heart" },
+    { number: 7, name: "Netzach", title: "Victory", current: "desire, attraction, feeling, endurance, and living relationship" },
+    { number: 8, name: "Hod", title: "Splendour", current: "language, pattern, analysis, symbol, and the shaping intelligence" },
+    { number: 9, name: "Yesod", title: "Foundation", current: "image, dream, memory, transmission, and the subtle foundation of form" },
+    { number: 10, name: "Malkuth", title: "Kingdom", current: "embodiment, material fact, consequence, and the world in which the current must be lived" },
+  ];
+
+  const TREE_PATHS = [
+    [11, "א", "Aleph", "Kether", "Chokmah"], [12, "ב", "Beth", "Kether", "Binah"],
+    [13, "ג", "Gimel", "Kether", "Tiphareth"], [14, "ד", "Daleth", "Chokmah", "Binah"],
+    [15, "ה", "Heh", "Chokmah", "Tiphareth"], [16, "ו", "Vav", "Chokmah", "Chesed"],
+    [17, "ז", "Zayin", "Binah", "Tiphareth"], [18, "ח", "Cheth", "Binah", "Geburah"],
+    [19, "ט", "Teth", "Chesed", "Geburah"], [20, "י", "Yod", "Chesed", "Tiphareth"],
+    [21, "כ", "Kaph", "Chesed", "Netzach"], [22, "ל", "Lamed", "Geburah", "Tiphareth"],
+    [23, "מ", "Mem", "Geburah", "Hod"], [24, "נ", "Nun", "Tiphareth", "Netzach"],
+    [25, "ס", "Samekh", "Tiphareth", "Yesod"], [26, "ע", "Ayin", "Tiphareth", "Hod"],
+    [27, "פ", "Peh", "Netzach", "Hod"], [28, "צ", "Tzaddi", "Netzach", "Yesod"],
+    [29, "ק", "Qoph", "Netzach", "Malkuth"], [30, "ר", "Resh", "Hod", "Yesod"],
+    [31, "ש", "Shin", "Hod", "Malkuth"], [32, "ת", "Tav", "Yesod", "Malkuth"],
+  ].map(([number, hebrew, letter, from, to]) => ({ number, hebrew, letter, from, to }));
+
+  const TREE_WORLDS = {
+    Wands: { name: "Atziluth", hebrew: "אֲצִילוּת", translation: "Emanation", element: "Fire" },
+    Cups: { name: "Briah", hebrew: "בְּרִיאָה", translation: "Creation", element: "Water" },
+    Swords: { name: "Yetzirah", hebrew: "יְצִירָה", translation: "Formation", element: "Air" },
+    Pentacles: { name: "Assiah", hebrew: "עֲשִׂיָּה", translation: "Action", element: "Earth" },
+  };
+
+  const COURT_TREE = {
+    Page: { number: 10, title: "Page", letter: "Final Heh", sephirah: "Malkuth", world: "Assiah" },
+    Knight: { number: 9, title: "Knight", letter: "Vav", sephirah: "Yesod", world: "Yetzirah" },
+    Queen: { number: 3, title: "Queen", letter: "Heh", sephirah: "Binah", world: "Briah" },
+    King: { number: 2, title: "King", letter: "Yod", sephirah: "Chokmah", world: "Atziluth" },
+  };
+
   const GLYPHS = {
     Sun: "☉", Moon: "☽", Mercury: "☿", Venus: "♀", Mars: "♂", Jupiter: "♃", Saturn: "♄", Uranus: "♅", Neptune: "♆", Pluto: "♇",
     Aries: "♈", Taurus: "♉", Gemini: "♊", Cancer: "♋", Leo: "♌", Virgo: "♍", Libra: "♎", Scorpio: "♏", Sagittarius: "♐", Capricorn: "♑", Aquarius: "♒", Pisces: "♓",
@@ -657,13 +727,13 @@
     const nodes = [];
 
     if (mythology.length) {
-      nodes.push(tile("Myth", mythology[0], "📖", mythology.join(" · "), { verbatim: true }));
+      nodes.push(tile("Myth", mythology[0], BOOK_ICON_HTML, mythology.join(" · "), { verbatim: true }));
     }
     if (primaryStone) {
       const stoneTooltip = relatedStones.length
         ? `Primary\n${primaryStone}\n\nAlso Related\n${relatedStones.join(" · ")}`
         : `Primary\n${primaryStone}`;
-      nodes.push(tile("Stones", primaryStone, "◆", stoneTooltip, { verbatim: true }));
+      nodes.push(tile("Crystals", primaryStone, "◆", stoneTooltip, { verbatim: true }));
     }
     return nodes;
   }
@@ -671,6 +741,131 @@
   function ordinalHouse(number) {
     if (number >= 11 && number <= 13) return `${number}th`;
     return `${number}${({ 1: "st", 2: "nd", 3: "rd" })[number % 10] || "th"}`;
+  }
+
+  function cardNumber(meta) {
+    if (meta.major) return meta.index;
+    return COURT_TREE[meta.rank]?.number || meta.rankIndex + 1;
+  }
+
+  function reductionPath(value) {
+    const path = [value];
+    let current = value;
+    while (current > 9) {
+      current = String(current).split("").reduce((sum, digit) => sum + Number(digit), 0);
+      path.push(current);
+    }
+    return path;
+  }
+
+  function numerologyDetails(meta) {
+    const number = cardNumber(meta);
+    const path = reductionPath(number);
+    const root = path.at(-1);
+    const [rootTitle, rootMeaning] = NUMBER_MEANINGS[root] || ["Root Current", "The reduced current beneath the card number."];
+    const context = meta.major
+      ? `${meta.name} begins with Tarot Key ${number}.`
+      : COURT_TREE[meta.rank]
+        ? `${meta.name} carries court number ${number} in the Lost Opal court sequence.`
+        : `${meta.name} begins with the ${ordinalHouse(number)} rank of ${meta.suit}.`;
+    const sequence = path.map((value) => {
+      const [title, meaning] = NUMBER_MEANINGS[value] || ["Compound Current", "This number is encountered as a distinct step before the card reduces again."];
+      return {
+        value,
+        title,
+        meaning,
+        cardName: value >= 0 && value < MAJORS.length ? MAJORS[value] : "",
+        cardMeaning: value >= 0 && value < MAJOR_MEANINGS.length ? MAJOR_MEANINGS[value] : "",
+      };
+    });
+    return { number, path, root, rootTitle, rootMeaning, context, sequence };
+  }
+
+  function treeDetails(meta) {
+    if (meta.major) {
+      const path = TREE_PATHS[meta.index];
+      return {
+        quick: `Path ${path.number}`,
+        glyph: path.hebrew,
+        html: `<div class="draw-tree-summary"><span class="draw-tree-summary__glyph" lang="he" dir="rtl">${path.hebrew}</span><div><strong>${meta.name} · Path ${path.number}</strong><p>${path.letter} (${path.hebrew}) joins ${path.from} and ${path.to}.</p></div></div>`,
+      };
+    }
+
+    const number = cardNumber(meta);
+    const world = TREE_WORLDS[meta.suit];
+    const sphere = TREE_SPHERES[number];
+    const court = COURT_TREE[meta.rank];
+    const courtCopy = court
+      ? `${meta.name} is placed at ${court.number} · ${court.sephirah} in the Lost Opal court sequence. ${court.title} carries ${court.letter} through ${court.world}.`
+      : `${meta.name} belongs to ${sphere.number} · ${sphere.name} (${sphere.title}).`;
+    return {
+      quick: `${sphere.number} · ${sphere.name}`,
+      glyph: TREE_ICON_HTML,
+      html: `<div class="draw-tree-summary"><span class="draw-tree-summary__glyph">${TREE_ICON_HTML}</span><div><strong>${sphere.number} · ${sphere.name} · ${sphere.title}</strong><p>${courtCopy}</p><p>${world.name} (${world.hebrew} · ${world.translation}) carries the ${meta.suit} current through ${world.element}. ${sphere.name} holds ${sphere.current}.</p></div></div>`,
+    };
+  }
+
+  function activatePerspective(section, tab, moveFocus = false) {
+    const view = tab.dataset.drawPerspective;
+    for (const button of section.querySelectorAll("[data-draw-perspective]")) {
+      const selected = button === tab;
+      button.setAttribute("aria-selected", String(selected));
+      button.tabIndex = selected ? 0 : -1;
+    }
+    for (const panel of section.querySelectorAll("[data-draw-panel]")) {
+      panel.hidden = panel.dataset.drawPanel !== view;
+    }
+    if (moveFocus) tab.focus();
+  }
+
+  function perspectiveSection(meta, groundText, idBase) {
+    const numerology = numerologyDetails(meta);
+    const tree = treeDetails(meta);
+    const section = document.createElement("section");
+    section.className = "draw-perspectives";
+    section.setAttribute("aria-label", `Reading, numerology, and Tree of Life perspectives for ${meta.name}`);
+    const tenNote = numerology.path.includes(10)
+      ? `<p class="draw-numerology-note"><strong>About Ten:</strong> Ten reduces by addition: 1 + 0 = 1. Zero remains the distinct current of The Fool; Ten is not treated as Zero here.</p>`
+      : "";
+    const sequence = numerology.sequence.map((step) => `
+      <li>
+        <div class="draw-numerology-step"><strong><span>${step.value}</span>${step.title}</strong><p>${step.meaning}</p></div>
+        ${step.cardName ? `<div class="draw-numerology-card"><span aria-hidden="true">↳</span><div><small>Related Tarot Key ${step.value}</small><strong>${step.cardName}</strong><p>${step.cardMeaning}</p></div></div>` : ""}
+      </li>`).join("");
+    section.innerHTML = `
+      <div class="draw-perspectives__tabs" role="tablist" aria-label="Perspectives for ${meta.name}">
+        <button type="button" role="tab" aria-selected="true" aria-controls="${idBase}-reading" id="${idBase}-reading-tab" data-draw-perspective="reading" tabindex="0">Reading</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="${idBase}-numerology" id="${idBase}-numerology-tab" data-draw-perspective="numerology" tabindex="-1">Numerology <small>${numerology.root} · ${numerology.rootTitle}</small></button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="${idBase}-tree" id="${idBase}-tree-tab" data-draw-perspective="tree" tabindex="-1">Tree of Life <small>${tree.quick}</small></button>
+      </div>
+      <div class="draw-perspective-panel" id="${idBase}-reading" role="tabpanel" aria-labelledby="${idBase}-reading-tab" data-draw-panel="reading">
+        <p class="draw-reading-card__ground"><strong>Ground it:</strong> ${groundText}</p>
+      </div>
+      <div class="draw-perspective-panel draw-numerology-panel" id="${idBase}-numerology" role="tabpanel" aria-labelledby="${idBase}-numerology-tab" data-draw-panel="numerology" hidden>
+        <p class="draw-numerology-result"><strong>Reduced current</strong><span>${numerology.root} · ${numerology.rootTitle}</span>${numerology.rootMeaning}</p>
+        <p><strong>Starting number:</strong> ${numerology.context}</p>
+        <p><strong>Reduction:</strong> ${numerology.path.join(" → ")}</p>
+        ${tenNote}
+        <div class="draw-numerology-sequence"><strong>Number and related-card trail</strong><p>Each number is read first as a numerological current; the Tarot key carrying that number follows beneath it.</p><ol>${sequence}</ol></div>
+      </div>
+      <div class="draw-perspective-panel draw-tree-panel" id="${idBase}-tree" role="tabpanel" aria-labelledby="${idBase}-tree-tab" data-draw-panel="tree" hidden>${tree.html}</div>`;
+    section.addEventListener("click", (event) => {
+      const tab = event.target.closest("[data-draw-perspective]");
+      if (tab) activatePerspective(section, tab);
+    });
+    section.addEventListener("keydown", (event) => {
+      const current = event.target.closest("[data-draw-perspective]");
+      if (!current || !["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      const tabs = [...section.querySelectorAll("[data-draw-perspective]")];
+      const currentIndex = tabs.indexOf(current);
+      const nextIndex = event.key === "Home" ? 0
+        : event.key === "End" ? tabs.length - 1
+        : event.key === "ArrowRight" ? (currentIndex + 1) % tabs.length
+        : (currentIndex - 1 + tabs.length) % tabs.length;
+      event.preventDefault();
+      activatePerspective(section, tabs[nextIndex], true);
+    });
+    return section;
   }
 
   function ruledSigns(planetText = "") {
@@ -733,7 +928,10 @@
     if (meta.major) {
       const corr = MAJOR_CORRESPONDENCES[meta.index];
       nodes.push(tile("Tarot Key", meta.key, meta.key, `Key ${meta.key} of the Major Arcana.`));
-      if (corr.element) nodes.push(tile("Element", corr.element, ELEMENTS[Object.keys(ELEMENTS).find((suit) => ELEMENTS[suit].name === corr.element)]?.glyph || "✦", `${corr.element} carries ${corr.element.toLowerCase()} through this key.`));
+      if (corr.element) {
+        const element = Object.values(ELEMENTS).find((candidate) => candidate.name === corr.element);
+        nodes.push(tile("Element", corr.element, element?.glyph || "✦", element?.meaning || corr.element));
+      }
       if (corr.planet) {
         const firstPlanet = corr.planet.split(" · ")[0];
         const planetLabel = corr.sign ? "Sign Ruler" : "Planet";
@@ -837,10 +1035,7 @@
     correspondenceHint.className = "draw-correspondences__hint";
     correspondenceHint.textContent = "Tap a tile to learn more.";
     copy.append(correspondenceHint);
-    const ground = document.createElement("p");
-    ground.className = "draw-reading-card__ground";
-    ground.innerHTML = `<strong>Ground it:</strong> ${meta.ground}`;
-    copy.append(ground);
+    copy.append(perspectiveSection(meta, meta.ground, `${article.id}-perspective`));
 
     article.append(art, copy);
     return article;
@@ -856,9 +1051,9 @@
     dialog.querySelector("[data-dialog-name]").textContent = meta.name;
     dialog.querySelector("[data-dialog-hermetic]").textContent = meta.hermetic;
     dialog.querySelector("[data-dialog-meaning]").textContent = `${card.reversed ? "Reversed meaning" : "Meaning"}: ${card.reversed ? meta.reversedMeaning : meta.meaning}`;
-    dialog.querySelector("[data-dialog-ground]").textContent = `Ground it: ${meta.ground}`;
     const corr = dialog.querySelector("[data-dialog-correspondences]");
     corr.replaceChildren(...correspondenceNodes(meta));
+    dialog.querySelector("[data-dialog-perspectives]").replaceChildren(perspectiveSection(meta, meta.ground, "draw-dialog-perspective"));
     if (!dialog.open) dialog.showModal();
     dialog.scrollTop = 0;
   }

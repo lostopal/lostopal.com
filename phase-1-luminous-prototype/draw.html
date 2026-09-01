@@ -7,7 +7,7 @@
   <meta name="googlebot" content="noindex, nofollow, noarchive">
   <meta name="theme-color" content="#07120f">
   <title>Lost Opal Tarot™ — Draw</title>
-  <meta name="description" content="Choose a Tarot spread and walk through every card with Lost Opal meanings and Hermetic correspondences.">
+  <meta name="description" content="Choose a Tarot spread and walk through every card with reflective guidance and Hermetic correspondences.">
   <meta property="og:title" content="Lost Opal Tarot™ — Draw">
   <meta property="og:description" content="Draw one card, three cards, an ELM layout, or a Celtic Cross, then explore each card in depth.">
   <meta property="og:type" content="website">
@@ -21,11 +21,11 @@
   <link rel="stylesheet" href="./styles.css?v=20260813-study-map-1">
   <link rel="stylesheet" href="./luminous.css?v=20260831-planet-sheet-1">
   <link rel="stylesheet" href="./black-opal-theme.css?v=20260804-seven-doors-2">
-  <link rel="stylesheet" href="./site-audit.css?v=20260813-identity-caps-1">
+  <link rel="stylesheet" href="./site-audit.css?v=20260901-shared-symbol-icons-6">
   <link rel="stylesheet" href="./site-future.css?v=20260813-uniform-public-shell-2">
-  <link rel="stylesheet" href="./draw.css?v=20260831-background-reveal-10">
-  <script src="./prototype.js?v=20260829-shared-runtime-1" defer></script>
-  <script src="./draw.js?v=20260831-major-myths-14" defer></script>
+  <link rel="stylesheet" href="./draw.css?v=20260901-card-perspectives-11">
+  <script src="./prototype.js?v=20260901-crystal-labels-4" defer></script>
+  <script src="./draw.js?v=20260901-card-perspectives-18" defer></script>
 </head>
 
 <body class="theme-black-opal site-future-page draw-page" id="top">
@@ -48,7 +48,7 @@
         <a class="nav-link" href="./ethics/">Ethics</a>
         <div class="nav-group">
           <button class="nav-trigger" type="button" aria-expanded="false" aria-controls="learn-menu">Learn <span class="nav-trigger__mark" aria-hidden="true"></span></button>
-          <div class="nav-menu" id="learn-menu" hidden><p class="nav-menu__label">Learn</p><a href="./#tools">Practices &amp; Tools</a><a href="./learn/reading-styles/">Reading Styles</a><a href="./#symbolic-cosmos">Planets &amp; Symbols</a><a href="./crystals/">Stones &amp; Crystal Work</a><a class="prototype-route" href="#coming-soon" data-coming-soon-title="Card Meanings">Card Meanings</a><a class="prototype-route" href="#coming-soon" data-coming-soon-title="Tree of Life">Tree of Life</a><a href="./astrology/">Astrology</a></div>
+          <div class="nav-menu" id="learn-menu" hidden><p class="nav-menu__label">Learn</p><a href="./#tools">Practices &amp; Tools</a><a href="./learn/reading-styles/">Reading Styles</a><a href="./#symbolic-cosmos">Planets &amp; Symbols</a><a href="./crystals/">Crystals</a><a class="prototype-route" href="#coming-soon" data-coming-soon-title="Card Meanings">Card Meanings</a><a class="prototype-route" href="#coming-soon" data-coming-soon-title="Tree of Life">Tree of Life</a><a href="./astrology/">Astrology</a></div>
         </div>
         <a class="nav-link prototype-route" href="#coming-soon" data-coming-soon-title="The Library">Library</a>
         <a class="nav-link" href="https://ko-fi.com/lostopaltarot/shop" target="_blank" rel="noopener noreferrer">Shop</a>
@@ -68,7 +68,7 @@
       <a class="mobile-home" href="./#top" aria-label="Home" title="Home"><span class="home-medallion" aria-hidden="true"><i class="home-icon"></i></span></a>
       <details><summary>Readings <span aria-hidden="true">+</span></summary><div class="mobile-nav__subnav"><a href="./#readings">Ways to Work With Me</a><a href="./#what-to-expect">How I Read</a><a href="./contact/#contact-form">Booking &amp; Inquiries</a></div></details>
       <a href="./ethics/">Ethics</a>
-      <details><summary>Learn <span aria-hidden="true">+</span></summary><div class="mobile-nav__subnav"><a href="./#tools">Practices &amp; Tools</a><a href="./learn/reading-styles/">Reading Styles</a><a href="./#symbolic-cosmos">Planets &amp; Symbols</a><a href="./crystals/">Stones &amp; Crystals</a><a href="./astrology/">Astrology</a></div></details>
+      <details><summary>Learn <span aria-hidden="true">+</span></summary><div class="mobile-nav__subnav"><a href="./#tools">Practices &amp; Tools</a><a href="./learn/reading-styles/">Reading Styles</a><a href="./#symbolic-cosmos">Planets &amp; Symbols</a><a href="./crystals/">Crystals</a><a href="./astrology/">Astrology</a></div></details>
       <a class="prototype-route" href="#coming-soon" data-coming-soon-title="The Library">Library</a><a href="https://ko-fi.com/lostopaltarot/shop" target="_blank" rel="noopener noreferrer">Shop</a><a href="./#about">About</a><a href="./contact/">Contact</a>
     </nav>
     <a class="mobile-drawer__donation" href="./contact/#contact-form">Request a Reading</a>
@@ -84,7 +84,7 @@
         <p class="draw-kicker">A Lost Opal Tarot Tool</p>
         <h1 id="draw-title"><button class="draw-defined-title" type="button" aria-expanded="false" aria-describedby="cartomancy-definition" data-cartomancy-definition>Cartomancy<span id="cartomancy-definition" role="tooltip">Cartomancy is the practice of reading cards as a symbolic language for reflection, insight, and guidance.</span></button></h1>
         <p>Choose a spread, let the cards meet you, and then walk through their story one voice at a time.</p>
-        <div class="draw-hero__notes" aria-label="About this tool"><span>Private in Your Browser</span><span>Lost Opal Meanings</span><span>1909 RWS Artwork</span></div>
+        <div class="draw-hero__notes" aria-label="About this tool"><span>Private in Your Browser</span><span>1909 RWS Artwork</span></div>
       </div>
     </section>
 
@@ -148,7 +148,7 @@
       <p data-dialog-meaning></p>
       <div class="draw-correspondences draw-correspondences--dialog" data-dialog-correspondences></div>
       <p class="draw-correspondences__hint">Tap a tile to learn more.</p>
-      <p class="draw-card-dialog__ground" data-dialog-ground></p>
+      <div data-dialog-perspectives></div>
     </div>
   </dialog>
 

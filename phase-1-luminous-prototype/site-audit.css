@@ -903,9 +903,13 @@ body.theme-black-opal main {
   background-color: #090c0f;
   background-image:
     linear-gradient(90deg, rgba(4, 8, 10, 0.1), rgba(4, 8, 10, 0.34) 52%, rgba(4, 8, 10, 0.06)),
+    radial-gradient(circle at 82% 45%, rgba(34, 118, 180, 0.52), transparent 25%),
+    radial-gradient(circle at 66% 58%, rgba(12, 126, 94, 0.42), transparent 28%),
+    radial-gradient(circle at 91% 55%, rgba(211, 124, 44, 0.5), transparent 23%),
     url("./assets/ui-materials/black-opal-donation-material-v1-optimized.webp");
   background-position: center 55%;
   background-size: cover;
+  background-repeat: no-repeat;
   border: 1px solid rgba(211, 180, 107, 0.76);
   border-radius: 15px;
   box-shadow:
@@ -973,6 +977,34 @@ body.theme-black-opal main {
 
 .theme-black-opal .mobile-support-dock__compact {
   text-decoration: none;
+}
+
+/* Emoji books choose their own blue artwork and ignore the tile palette. This
+   small open-book mark remains crisp while inheriting Lost Opal gold. */
+.tile-book-icon,
+.tile-tree-icon {
+  width: 1.65rem;
+  height: 1.45rem;
+  display: block;
+  overflow: visible;
+  color: inherit;
+  filter: drop-shadow(0 0 7px rgba(237, 195, 111, 0.2));
+}
+
+.tile-book-icon path,
+.tile-tree-icon path,
+.tile-tree-icon circle {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.65;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.tile-tree-icon {
+  width: 1.55rem;
+  height: 1.55rem;
 }
 
 /* Major chapters get a visible threshold. This one disappeared while the

@@ -3196,9 +3196,13 @@ a {
   background-color: #090c0f;
   background-image:
     linear-gradient(90deg, rgba(4, 8, 10, 0.08), rgba(4, 8, 10, 0.34) 52%, rgba(4, 8, 10, 0.06)),
+    radial-gradient(circle at 78% 44%, rgba(34, 118, 180, 0.5), transparent 28%),
+    radial-gradient(circle at 55% 62%, rgba(12, 126, 94, 0.4), transparent 31%),
+    radial-gradient(circle at 92% 58%, rgba(211, 124, 44, 0.48), transparent 25%),
     url("../assets/ui-materials/black-opal-donation-material-v1-optimized.webp");
   background-position: 68% 55%;
   background-size: cover;
+  background-repeat: no-repeat;
   border: 1px solid rgba(244, 207, 128, 0.78);
   border-radius: 999px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 8px 22px rgba(0, 0, 0, 0.42), 0 0 18px rgba(77, 189, 190, 0.12);
@@ -3705,8 +3709,12 @@ a {
   background-color: #090c0f;
   background-image:
     linear-gradient(90deg, rgba(4, 8, 10, 0.02), rgba(4, 8, 10, 0.18) 52%, rgba(4, 8, 10, 0.02)),
+    radial-gradient(circle at 78% 44%, rgba(34, 118, 180, 0.5), transparent 28%),
+    radial-gradient(circle at 55% 62%, rgba(12, 126, 94, 0.4), transparent 31%),
+    radial-gradient(circle at 92% 58%, rgba(211, 124, 44, 0.48), transparent 25%),
     url("../assets/ui-materials/black-opal-donation-material-v1-optimized.webp");
   background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .nuncastra-page .mobile-support-dock__panel {

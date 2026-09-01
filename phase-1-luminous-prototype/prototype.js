@@ -184,7 +184,7 @@ function normalizeSharedNavigation() {
       "booking & inquiries": "Booking & Inquiries",
       "practices & tools": "Practices & Tools",
       "planets & symbols": "Planets & Symbols",
-      "stones & crystal work": "Stones & Crystal Work",
+      "crystals": "Crystals",
       "lost opal astrology™": "Astrology"
     };
     if (titleCaseLabels[normalizedText]) item.textContent = titleCaseLabels[normalizedText];
@@ -851,7 +851,7 @@ if (practiceTablist) {
   const comingSoonDialog = document.createElement("dialog");
   const plannedDestinations = new Map([
     ["/astrology/", "Astrology"],
-    ["/crystals/", "Stones & Crystal Work"],
+    ["/crystals/", "Crystals"],
     ["/learn/reading-styles/", "Reading Styles"]
   ]);
 

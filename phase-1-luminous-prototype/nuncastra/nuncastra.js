@@ -103,6 +103,8 @@ const HERMETIC_CARD_TITLES = [
   ...HERMETIC_MINOR_TITLES.Pentacles,
 ];
 
+const BOOK_ICON_HTML = `<svg class="tile-book-icon" viewBox="0 0 32 24" focusable="false" aria-hidden="true"><path d="M2.5 3.5c5.2-1.2 9.4-.3 13.5 2.6v15c-4.1-2.9-8.3-3.8-13.5-2.6zM29.5 3.5c-5.2-1.2-9.4-.3-13.5 2.6v15c4.1-2.9 8.3-3.8 13.5-2.6zM16 6.1v15"/></svg>`;
+
 const MAJOR_KEY_MEANINGS = [
   "The beginning before a fixed form: openness, possibility, trust, and the courage to enter experience.",
   "Directed will, skill, agency, and the power to bring an unseen possibility into deliberate form.",
@@ -949,14 +951,14 @@ function celestialAssociationTilesHtml(line) {
   const stones = CELESTIAL_STONES[line.name] || [];
   const mythTile = myths.length
     ? `<button class="snapshot-identity-tile snapshot-identity-tile--association" type="button" data-info-explainer data-info-title="Myth" data-info-description="${escapeHtml(myths.join(" · "))}" aria-haspopup="dialog" aria-label="Myth for ${escapeHtml(entityNameForProse(line.name, true))}. Show names.">
-        <b aria-hidden="true">📖</b>
+        <b aria-hidden="true">${BOOK_ICON_HTML}</b>
         <strong>Myth</strong>
       </button>`
     : "";
   const stoneTile = stones.length
-    ? `<button class="snapshot-identity-tile snapshot-identity-tile--association" type="button" data-info-explainer data-info-title="Stones" data-info-description="${escapeHtml(stones.join(" · "))}" aria-haspopup="dialog" aria-label="Stones for ${escapeHtml(entityNameForProse(line.name, true))}. Show common correspondences.">
+    ? `<button class="snapshot-identity-tile snapshot-identity-tile--association" type="button" data-info-explainer data-info-title="Crystals" data-info-description="${escapeHtml(stones.join(" · "))}" aria-haspopup="dialog" aria-label="Crystals for ${escapeHtml(entityNameForProse(line.name, true))}. Show common correspondences.">
         <b aria-hidden="true">◆</b>
-        <strong>Stones</strong>
+        <strong>Crystals</strong>
       </button>`
     : "";
   return `${mythTile}${stoneTile}`;
@@ -1124,7 +1126,7 @@ function searchRolesFor(line, group, normalizedQuery) {
   const fields = [
     ["Celestial entity", [line.name, line.glyph, line.entityEssence]],
     ["Myth", CELESTIAL_MYTHS[line.name] || []],
-    ["Stones", CELESTIAL_STONES[line.name] || []],
+    ["Crystals", CELESTIAL_STONES[line.name] || []],
     ["Celestial key", line.entityCards.flatMap((card) => [card.name, HERMETIC_CARD_TITLES[card.index] || ""])],
     ["Zodiac sign", [line.sign.name, line.sign.glyph, line.sign.field]],
     ["Zodiac myth", SIGN_MYTHS[line.sign.name] || []],
