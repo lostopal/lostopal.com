@@ -661,7 +661,7 @@ const WORLD_DATA = {
 
 const SUIT_START = { Wands: 22, Cups: 36, Swords: 50, Pentacles: 64 };
 const formatterCache = new Map();
-const state = { deviceLocation: null, confirmedPlace: null, engine: null, engineReady: false, busy: false, lines: [], activeTreeLine: null, personalContext: null, generation: 0, activeGroup: 0, searchQuery: "" };
+const state = { deviceLocation: null, confirmedPlace: null, engine: null, engineReady: false, busy: false, lines: [], activeTreeLine: null, personalContext: null, generation: 0, activeGroup: 0, searchQuery: "", printTitle: "" };
 const hasDocument = typeof document !== "undefined";
 
 const form = hasDocument ? document.querySelector("[data-snapshot-form]") : null;
@@ -1205,7 +1205,7 @@ function printHeaderHtml(meta, pageNumber, totalPages) {
 
 function sectionHeadingHtml(group, pageIndex) {
   const definitionId = `snapshot-group-definition-${pageIndex}`;
-  return `<header class="snapshot-section-heading"><h3><button class="snapshot-section-term" type="button" data-identity-explainer data-info-title="${escapeHtml(group.title)}" aria-haspopup="dialog" aria-describedby="${definitionId}"><span>${escapeHtml(group.title)}</span><span class="snapshot-section-help" aria-hidden="true">?</span><span class="snapshot-section-tooltip" id="${definitionId}" role="tooltip">${escapeHtml(group.definition)}</span></button></h3></header>`;
+  return `<header class="snapshot-section-heading"><h3><button class="snapshot-section-term" type="button" data-identity-explainer data-info-explainer data-info-title="${escapeHtml(group.title)}" data-info-description="${escapeHtml(group.definition)}" aria-haspopup="dialog" aria-describedby="${definitionId}"><span>${escapeHtml(group.title)}</span><span class="snapshot-section-help" aria-hidden="true">?</span><span class="snapshot-section-tooltip" id="${definitionId}" role="tooltip">${escapeHtml(group.definition)}</span></button></h3></header>`;
 }
 
 function normalizeSearchText(value) {
@@ -1905,6 +1905,17 @@ function formatMoment(date, timeZone) {
   }).format(date);
 }
 
+export function printTitleForMoment(dateValue, timeValue) {
+  const dateMatch = String(dateValue || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  const timeMatch = String(timeValue || "").match(/^(\d{2}):(\d{2})$/);
+  if (!dateMatch || !timeMatch) return "Lost Opal - Nuncast";
+
+  const hour24 = Number(timeMatch[1]);
+  const hour12 = hour24 % 12 || 12;
+  const period = hour24 >= 12 ? "PM" : "AM";
+  return `Lost Opal - Nuncast - ${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]} ${hour12}-${timeMatch[2]} ${period}`;
+}
+
 async function initializeEngine() {
   const engine = new SwissEphemeris();
   await engine.init();
@@ -2058,6 +2069,7 @@ async function handleSubmit(event) {
       ? ` · Birth-moment Nuncast · ${state.personalContext.timeMeta} · ${state.personalContext.placeMeta}`
       : "";
     const meta = `${formatMoment(utcDate, timeZone)} · ${placeSummary} · ${system.label} · True Lunar Node${personalSummary}`;
+    state.printTitle = printTitleForMoment(selectedDate, selectedTime);
     renderSnapshot(lines, meta);
     setStatus(`${state.personalContext ? "Birth-moment Nuncast" : "Nuncast"} complete: ${lines.length} Tarot lines calculated locally for ${place.label}.`);
     results.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
@@ -2402,12 +2414,17 @@ function infoTitleFor(trigger) {
 
 function openInfoDialogFor(trigger) {
   if (!infoDialog || !infoDialogTitle || !infoDialogBody) return false;
-  const source = infoSourceFor(trigger);
-  if (!source) return false;
+  const directDescription = trigger.dataset.infoDescription?.trim() || "";
+  const source = directDescription ? null : infoSourceFor(trigger);
+  if (!source && !directDescription) return false;
 
   infoDialogTitle.textContent = infoTitleFor(trigger);
   const fragment = document.createDocumentFragment();
-  if (source.matches(".birth-dialog__help-popover")) {
+  if (directDescription) {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = directDescription;
+    fragment.append(paragraph);
+  } else if (source.matches(".birth-dialog__help-popover")) {
     [...source.childNodes].forEach((node) => fragment.append(node.cloneNode(true)));
   } else {
     const paragraph = document.createElement("p");
@@ -2428,6 +2445,7 @@ function startOver() {
   state.lines = [];
   state.activeTreeLine = null;
   state.personalContext = null;
+  state.printTitle = "";
   setBusy(false);
   closeDialog(birthDialog);
   closeDialog(treeDialog);
@@ -2537,7 +2555,16 @@ if (hasDocument) {
     printButton.disabled = false;
     printButton.textContent = originalLabel;
     await new Promise((resolve) => window.requestAnimationFrame(resolve));
-    window.print();
+    const originalTitle = document.title;
+    document.title = state.printTitle || printTitleForMoment(
+      form.elements.namedItem("date")?.value,
+      form.elements.namedItem("time")?.value
+    );
+    try {
+      window.print();
+    } finally {
+      document.title = originalTitle;
+    }
   });
   printModeSelect.addEventListener("change", applyPrintPreferences);
   artModeSelect.addEventListener("change", applyPrintPreferences);
@@ -2602,7 +2629,7 @@ if (hasDocument) {
       openInfoDialogFor(motionButton);
       return;
     }
-    const identityButton = event.target.closest("[data-identity-explainer]");
+    const identityButton = event.target.closest("[data-identity-explainer]:not([data-info-explainer])");
     if (identityButton) {
       openInfoDialogFor(identityButton);
       return;

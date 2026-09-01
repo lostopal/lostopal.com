@@ -225,6 +225,29 @@ ensureSharedAtmosphere();
 normalizeSharedNavigation();
 
 const termTipButtons = Array.from(document.querySelectorAll("[data-term-tip]"));
+const TERM_TIP_VIEWPORT_GUTTER = 12;
+
+function positionTermTip(button) {
+  const definitionId = button.getAttribute("aria-describedby");
+  const tooltip = definitionId ? document.getElementById(definitionId) : null;
+  if (!tooltip) return;
+
+  const buttonBounds = button.getBoundingClientRect();
+  const tooltipWidth = tooltip.offsetWidth;
+  const buttonCenter = buttonBounds.left + (buttonBounds.width / 2);
+  const naturalLeft = buttonCenter - (tooltipWidth / 2);
+  const naturalRight = buttonCenter + (tooltipWidth / 2);
+  const viewportRight = window.innerWidth - TERM_TIP_VIEWPORT_GUTTER;
+  let shift = 0;
+
+  if (naturalLeft < TERM_TIP_VIEWPORT_GUTTER) {
+    shift = TERM_TIP_VIEWPORT_GUTTER - naturalLeft;
+  } else if (naturalRight > viewportRight) {
+    shift = viewportRight - naturalRight;
+  }
+
+  tooltip.style.setProperty("--term-tip-shift-x", `${Math.round(shift)}px`);
+}
 
 function closeTermTips(exceptButton = null) {
   termTipButtons.forEach((button) => {
@@ -235,12 +258,21 @@ function closeTermTips(exceptButton = null) {
 }
 
 termTipButtons.forEach((button) => {
+  button.addEventListener("pointerenter", () => positionTermTip(button));
+  button.addEventListener("focus", () => positionTermTip(button));
   button.addEventListener("click", (event) => {
     event.stopPropagation();
     const willOpen = button.getAttribute("aria-expanded") !== "true";
     closeTermTips(willOpen ? button : null);
     button.setAttribute("aria-expanded", String(willOpen));
     button.closest(".term-explainer")?.classList.toggle("is-open", willOpen);
+    if (willOpen) requestAnimationFrame(() => positionTermTip(button));
+  });
+});
+
+window.addEventListener("resize", () => {
+  termTipButtons.forEach((button) => {
+    if (button.getAttribute("aria-expanded") === "true") positionTermTip(button);
   });
 });
 
